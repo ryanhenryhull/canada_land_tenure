@@ -156,6 +156,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+__pycache__/
+*.pyc
 
 # Spyder project settings
 .spyderproject
@@ -226,4 +228,27 @@ __marimo__/
 
 
 # data 
-data/
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# outputs
+outputs/cogs/*
+outputs/pmtiles/*
+!outputs/cogs/.gitkeep
+!outputs/pmtiles/.gitkeep
+
+
+
+
+# claude recommends ignoring credentials for privacy
+# *.json
+# !stac/**/*.json
+.env
+gcs-key*.json
+service-account*.json
+
+.DS_Store
+*.swp
+
