@@ -232,12 +232,14 @@ data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/raw/sources.md
 
 # outputs
 outputs/cogs/*
 outputs/pmtiles/*
 !outputs/cogs/.gitkeep
 !outputs/pmtiles/.gitkeep
+
 
 
 

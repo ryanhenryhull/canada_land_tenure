@@ -1,16 +1,26 @@
 # Ryan Hull
 # Quantitative Biodiversity Lab, McGill University
 # Turn geotiffs to COGs
+
+
+
+
 import rasterio
 from pathlib import Path
 from rio_cogeo.cogeo import cog_translate
 from rio_cogeo.profiles import cog_profiles
+
+
+
 
 PROCESSED_DIR = Path("data/raw") # this already contains only tifs/tiffs.
 OUT_DIR = Path("outputs/cogs")
 RASTER_EXTENSIONS = (".tiff", ".tif")
 RESAMPLING = "nearest"
 DST_PROFILE = cog_profiles.get("deflate")
+
+
+
 
 # 1. Transform to cog
 """ This will transform one tif or tiff into a COG"""
@@ -28,6 +38,8 @@ def make_cog(src_path: Path, dst_path: Path):
     print(f"COG written: {dst_path}")
 
 
+
+
 # Perform transformation
 """ Loop through all processed tif/tiffs to create the COGs """
 def main():
@@ -37,6 +49,7 @@ def main():
         return
     for source in sources:
         make_cog(src, OUT_DIR / f"{src.stem}.tif")
+
 
 
 if __name__ == "__main__":

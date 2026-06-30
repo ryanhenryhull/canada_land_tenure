@@ -8,8 +8,10 @@
 import subprocess
 from pathlib import Path
 
-RAW_DIR = Path("data/raw")
-PROCESSED_DIR = ("data/processed")
+SCRIPTS_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPTS_DIR.parent
+RAW_DIR = PROJECT_ROOT/"data"/"raw" 
+PROCESSED_DIR = PROJECT_ROOT/"data"/"processed"
 TARGET_CRS = "EPSG:4326"
 
 
@@ -59,11 +61,11 @@ def process_cpcad_delisted():
 
 
 # 2. Native lands 
-def process_native_lands():
-    """Indigenous/Native lands, currently in a .shp"""
-    src = RAW_DIR / "native_lands" / "native_lands.shp"
-    dst = PROCESSED_DIR / "native_lands.geojson"
-    vector_to_geojson(src, dst)
+#def process_native_lands():
+#    """Indigenous/Native lands, currently in a .shp"""
+#    src = RAW_DIR / "native_lands" / "native_lands.shp"
+#    dst = PROCESSED_DIR / "native_lands.geojson"
+#    vector_to_geojson(src, dst)
 
 
 
@@ -71,6 +73,7 @@ def process_native_lands():
 def main():
     process_cpcad()
     process_cpcad_delisted()
+    # the rest, do later.
 
 if __name__ == "__main__":
     main()
