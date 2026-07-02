@@ -61,19 +61,19 @@ def process_cpcad_delisted():
 
 
 # 2. Native lands 
-#def process_native_lands():
-#    """Indigenous/Native lands, currently in a .shp"""
-#    src = RAW_DIR / "native_lands" / "native_lands.shp"
-#    dst = PROCESSED_DIR / "native_lands.geojson"
-#    vector_to_geojson(src, dst)
+def process_native_lands():
+    """Indigenous/Native lands, currently in a .shp"""
+    src = RAW_DIR / "AL_TA_CA_SHP_eng" / "AL_TA_CA_2_185_eng.shp"
+    dst = PROCESSED_DIR / "aboriginal_lands_canada_legislative_boundaries.geojson"
+    vector_to_geojson(src, dst)
 
 
 
 
 def main():
-    process_cpcad()
-    process_cpcad_delisted()
-    # the rest, do later.
+    # process_cpcad() # already done
+    # process_cpcad_delisted() # already done
+    process_native_lands()
 
 if __name__ == "__main__":
     main()
