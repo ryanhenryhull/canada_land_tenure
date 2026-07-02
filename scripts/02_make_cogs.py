@@ -12,12 +12,14 @@ from rio_cogeo.profiles import cog_profiles
 
 
 
-
-PROCESSED_DIR = Path("data/raw") # this already contains only tifs/tiffs.
-OUT_DIR = Path("outputs/cogs")
+SCRIPTS_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPTS_DIR.parent
+PROCESSED_DIR = PROJECT_ROOT/"data"/"processed" # this already contains only tifs/tiffs.
+OUT_DIR = PROJECT_ROOT/"outputs"/"cogs"
 RASTER_EXTENSIONS = (".tiff", ".tif")
 RESAMPLING = "nearest"
 DST_PROFILE = cog_profiles.get("deflate")
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 
@@ -48,7 +50,7 @@ def main():
         print("no tifs/tiffs found")
         return
     for source in sources:
-        make_cog(src, OUT_DIR / f"{src.stem}.tif")
+        make_cog(source, OUT_DIR / f"{source.stem}.tif")
 
 
 
