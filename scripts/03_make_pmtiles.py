@@ -32,9 +32,11 @@ def geojson_to_pmtiles(src: Path, dst: Path, layer_name: str):
             "tippecanoe",
             "-o", str(dst),
             "-l", layer_name,
-            "-zg",
-            "--drop-densest-as-needed",
+            "-z", "10",              # explicit max zoom instead of -zg
+            "-Z", "0",                # explicit min zoom
+            "--coalesce-densest-as-needed",   # merges instead of dropping
             "--extend-zooms-if-still-dropping",
+            "--simplification=10",    # more aggressive line simplification
             "-f",
             str(src),
         ],
@@ -49,7 +51,7 @@ def main():
 
     check_tippecanoe()
 
-    sources = list(PROCESSED_DIR.glob("*.geojson"))
+    sources = list(PROCESSED_DIR.glob("aboriginal_lands_canada_legislative_boundaries.geojson")) # write out specific filename if you want to only process that file.
     if not sources:
         print(f"No GeoJSON files found in {PROCESSED_DIR}")
         return
