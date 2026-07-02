@@ -46,12 +46,11 @@ def geojson_to_pmtiles(src: Path, dst: Path, layer_name: str):
 
 
 
-
 def main():
 
     check_tippecanoe()
 
-    sources = list(PROCESSED_DIR.glob("aboriginal_lands_canada_legislative_boundaries.geojson")) # write out specific filename if you want to only process that file.
+    sources = list(PROCESSED_DIR.glob("ProtectedConservedAreaDelisted_2025.geojson")) # write out specific filename if you want to only process that file.
     if not sources:
         print(f"No GeoJSON files found in {PROCESSED_DIR}")
         return
@@ -59,7 +58,6 @@ def main():
     for src in sources:
         dst = OUT_DIR / f"{src.stem}.pmtiles"
         geojson_to_pmtiles(src, dst, layer_name=src.stem)
-
 
 if __name__ == "__main__":
     main()
