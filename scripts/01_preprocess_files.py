@@ -67,13 +67,18 @@ def process_native_lands():
     dst = PROCESSED_DIR / "aboriginal_lands_canada_legislative_boundaries.geojson"
     vector_to_geojson(src, dst)
 
-
-
+# 3. BC Parcel Fabric of titled and crown land parcels across. 
+def process_bc_parcel_fabric():
+    """currently in a .gdb"""
+    src=RAW_DIR / "pmbc_parcel_fabric_poly_svw.gdb" # Layer: PMBC_PARCEL_FABRIC_POLY_SVW (Multi Polygon)
+    dst=PROCESSED_DIR/"BC_Parcel_Fabric_Poly.geojson"
+    vector_to_geojson(src,dst)
 
 def main():
     # process_cpcad() # already done
     # process_cpcad_delisted() # already done
-    process_native_lands()
+    # process_native_lands()
+    process_bc_parcel_fabric()
 
 if __name__ == "__main__":
     main()

@@ -12,3 +12,6 @@ Download [here](https://open.canada.ca/data/en/dataset/522b07b9-78e2-4819-b736-a
 ## Forest management layer
 Visualizaion [here](https://storymaps.arcgis.com/stories/52b71ae81a4e4ccba5771a42c2a32b25)
 Download [here](https://open.canada.ca/data/en/dataset/d8fa9a38-c4df-442a-8319-9bbcbdc29060) (2020 gridded raster version)
+
+## BC Parcel Fabric layer
+Download [here](https://catalogue.data.gov.bc.ca/dataset/4cf233c2-f020-4f7a-9b87-1923252fbc24) (from 2016 but kept up to date)
