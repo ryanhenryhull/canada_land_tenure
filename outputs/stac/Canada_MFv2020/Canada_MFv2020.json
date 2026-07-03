@@ -1,0 +1,66 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "Canada_MFv2020",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -19254793.173149038,
+          4070118.8821290676
+        ],
+        [
+          -19254793.173149038,
+          19567879.241005123
+        ],
+        [
+          -1408887.3053523675,
+          19567879.241005123
+        ],
+        [
+          -1408887.3053523675,
+          4070118.8821290676
+        ],
+        [
+          -19254793.173149038,
+          4070118.8821290676
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -19254793.173149038,
+    4070118.8821290676,
+    -1408887.3053523675,
+    19567879.241005123
+  ],
+  "properties": {
+    "datetime": "2026-07-03T18:52:50.354842Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Canada Land Tenure"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Canada Land Tenure"
+    }
+  ],
+  "assets": {
+    "cog": {
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/cogs/Canada_MFv2020.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "Cloud-Optimized GeoTIFF",
+      "roles": [
+        "data"
+      ]
+    }
+  }
+}
