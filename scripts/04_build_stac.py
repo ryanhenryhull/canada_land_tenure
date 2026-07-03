@@ -4,6 +4,10 @@
 # Cloudfare R2 Public Development URL:
 # https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev
 
+
+# Ryan Hull
+# Quantitative Biodiversity Lab, McGill University
+
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -39,7 +43,7 @@ def get_cog_bbox_and_footprint(cog_path: Path):
     return bbox, footprint
 
 
-def build_item(cog_path: Path) -> pystac.Item:
+def build_cog_item(cog_path: Path) -> pystac.Item:
     item_id = cog_path.stem
     bbox, footprint = get_cog_bbox_and_footprint(cog_path)
 
@@ -51,7 +55,6 @@ def build_item(cog_path: Path) -> pystac.Item:
         properties={},
     )
 
-    # COG asset
     item.add_asset(
         "cog",
         pystac.Asset(
@@ -62,20 +65,55 @@ def build_item(cog_path: Path) -> pystac.Item:
         ),
     )
 
-    # Matching PMTiles asset, if one exists with the same stem
-    pmtiles_path = PMTILES_DIR / f"{item_id}.pmtiles"
-    if pmtiles_path.exists():
+    return item
+
+
+def build_pmtiles_items() -> list[pystac.Item]:
+    items = []
+    pmtiles_files = sorted(PMTILES_DIR.rglob("*.pmtiles"))
+
+    if not pmtiles_files:
+        print(f"No PMTiles found under {PMTILES_DIR}")
+
+    for pmtiles_path in pmtiles_files:
+        item_id = pmtiles_path.stem
+        rel_path = pmtiles_path.relative_to(PMTILES_DIR).as_posix()
+
+        # Placeholder bbox (Canada-wide). Replace with actual per-file
+        # extent via the `pmtiles` library's header reader if precise
+        # spatial bounds are needed for search/filtering.
+        bbox = [-141.0, 41.7, -52.6, 83.1]
+        footprint = {
+            "type": "Polygon",
+            "coordinates": [[
+                [bbox[0], bbox[1]],
+                [bbox[0], bbox[3]],
+                [bbox[2], bbox[3]],
+                [bbox[2], bbox[1]],
+                [bbox[0], bbox[1]],
+            ]],
+        }
+
+        item = pystac.Item(
+            id=item_id,
+            geometry=footprint,
+            bbox=bbox,
+            datetime=datetime.now(timezone.utc),
+            properties={},
+        )
         item.add_asset(
             "pmtiles",
             pystac.Asset(
-                href=f"{R2_BASE_URL}/pmtiles/{pmtiles_path.name}",
+                href=f"{R2_BASE_URL}/pmtiles/{rel_path}",
                 media_type="application/vnd.pmtiles",
                 roles=["data", "visual"],
                 title="PMTiles vector tiles",
             ),
         )
+        items.append(item)
+        print(f"Added PMTiles item: {item.id}")
 
-    return item
+    return items
 
 
 def build_catalog() -> pystac.Catalog:
@@ -90,9 +128,12 @@ def build_catalog() -> pystac.Catalog:
         print(f"No COGs found in {COG_DIR}")
 
     for cog_file in cog_files:
-        item = build_item(cog_file)
+        item = build_cog_item(cog_file)
         catalog.add_item(item)
-        print(f"Added item: {item.id}")
+        print(f"Added COG item: {item.id}")
+
+    for pmtiles_item in build_pmtiles_items():
+        catalog.add_item(pmtiles_item)
 
     return catalog
 
