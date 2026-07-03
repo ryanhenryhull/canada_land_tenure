@@ -1,0 +1,67 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "ProtectedConservedAreaDelisted_2025",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -141.0,
+          41.7
+        ],
+        [
+          -141.0,
+          83.1
+        ],
+        [
+          -52.6,
+          83.1
+        ],
+        [
+          -52.6,
+          41.7
+        ],
+        [
+          -141.0,
+          41.7
+        ]
+      ]
+    ]
+  },
+  "bbox": [
+    -141.0,
+    41.7,
+    -52.6,
+    83.1
+  ],
+  "properties": {
+    "datetime": "2026-07-03T19:04:16.142119Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Canada Land Tenure"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Canada Land Tenure"
+    }
+  ],
+  "assets": {
+    "pmtiles": {
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/ProtectedConservedAreaDelisted_2025.pmtiles",
+      "type": "application/vnd.pmtiles",
+      "title": "PMTiles vector tiles",
+      "roles": [
+        "data",
+        "visual"
+      ]
+    }
+  }
+}
