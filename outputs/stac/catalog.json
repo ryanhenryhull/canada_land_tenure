@@ -2,7 +2,7 @@
   "type": "Catalog",
   "id": "canada-land-tenure",
   "stac_version": "1.1.0",
-  "description": "Canada-wide land tenure COGs and PMTiles for Blitz the Gap",
+  "description": "Canada-wide land tenure COGs and PMTiles for the Ten Useful Layers for Conservation project.",
   "links": [
     {
       "rel": "root",
