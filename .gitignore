@@ -254,3 +254,9 @@ service-account*.json
 .DS_Store
 *.swp
 
+
+
+
+
+# node stuff
+node_modules/*
