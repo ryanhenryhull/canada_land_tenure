@@ -1,0 +1,6 @@
+{
+  "name": "STAC Map Viewer",
+  "description": "Interactive map-first STAC viewer for COGs and PMTiles stored on Cloudflare R2 using MapLibre GL JS.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
