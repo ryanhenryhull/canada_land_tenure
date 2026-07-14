@@ -1,5 +1,6 @@
 import { GeospatialLayer } from "../types";
 import { parseStacNode, resolveUrl } from "./stacParser";
+import { getPmtilesVectorLayers } from "./pmtilesMetadata";
 
 // Robust recursive STAC discovery function
 export async function recursivelyDiscoverLayers(
@@ -25,7 +26,12 @@ export async function recursivelyDiscoverLayers(
       
       // Look for assets in this node
       if (node.assets) {
-        Object.entries(node.assets).forEach(([key, asset]) => {
+
+
+        // Object.entries(node.assets).forEach(([key, asset]) => { // this fails with new helper
+        for (const [key, asset] of Object.entries(node.assets)) {
+
+            
           if (!asset || !asset.href) return;
           const href = resolveUrl(normalizedUrl, asset.href);
           
@@ -83,19 +89,28 @@ export async function recursivelyDiscoverLayers(
                 opacity: 0.9,
                 bounds: node.geometry ? getBboxFromGeometry(node.geometry) : undefined,
                 description: asset.description || node.description || "PMTiles Vector Archive",
-                pmtilesSettings: { // Ryan note: something needs to populate this below!! let's try
+
+                // old version that did not use new helper function, getpmtiles...
+                /*pmtilesSettings: { // Ryan note: something needs to populate this below!! let's try
                   vectorLayers: [{
                       id: key,
                       sourceLayer: "aboriginal_lands_canada_legislative_boundaries", // changed to sourceLayer from sourcelayer.
                       type: "fill",
                       color: "#3388ff"
                   }]
+                } */
+
+                // new smart version:
+                pmtilesSettings: {
+                    vectorLayers: await getPmtilesVectorLayers(href)
                 }
+
               } as any);
               if (onProgress) onProgress([...discovered]);
             }
           }
-        });
+        //});
+        }
       }
 
       // Traverse children/items concurrently/asynchronously to avoid blocking
