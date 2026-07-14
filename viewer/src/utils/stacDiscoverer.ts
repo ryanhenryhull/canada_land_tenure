@@ -86,7 +86,7 @@ export async function recursivelyDiscoverLayers(
                 pmtilesSettings: { // Ryan note: something needs to populate this below!! let's try
                   vectorLayers: [{
                       id: key,
-                      sourcelayer: "aboriginal_lands_canada_legislative_boundaries",
+                      sourceLayer: "aboriginal_lands_canada_legislative_boundaries", // changed to sourceLayer from sourcelayer.
                       type: "fill",
                       color: "#3388ff"
                   }]
