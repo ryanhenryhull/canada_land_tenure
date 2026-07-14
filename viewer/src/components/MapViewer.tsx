@@ -225,12 +225,18 @@ export default function MapViewer({
       placeholderCanvas.width = 1;
       placeholderCanvas.height = 1;
 
-      map.addSource(sourceId, {
-        type: "canvas",
-        canvas: placeholderCanvas,
-        animate: false,
-        coordinates: [[0, 0], [0, 0], [0, 0], [0, 0]]
-      });
+        map.addSource(sourceId, {
+          type: "canvas",
+          canvas: placeholderCanvas,
+          animate: false,
+          // Valid, non-degenerate placeholder (world bounds) — NOT [[0,0],[0,0],[0,0],[0,0]]
+          coordinates: [
+            [-180, 85],
+            [180, 85],
+            [180, -85],
+            [-180, -85],
+          ],
+        }); 
 
       map.addLayer({
         id: layerId,
@@ -238,6 +244,9 @@ export default function MapViewer({
         source: sourceId,
         paint: {
           "raster-opacity": layer.opacity
+        },
+        layout: {
+            visibility: "none" // hidden until updateCogLayer sets real coordinates (Ryan 14jul)
         }
       });
     }
@@ -310,6 +319,9 @@ export default function MapViewer({
       [e, s], // Bottom-Right
       [w, s]  // Bottom-Left
     ]);
+    if (layer.visible) {
+       map.setLayoutProperty(`layer-${layer.id}`, "visibility", "visible");
+    }
   };
 
   // PMTiles Vector Layer Synchronization

@@ -10,6 +10,7 @@
 
 from pathlib import Path
 from datetime import datetime, timezone
+from rasterio.warp import transform_bounds
 
 import pystac
 import rasterio
@@ -28,19 +29,25 @@ PMTILES_DIR = OUTPUTS_DIR / "pmtiles"
 
 def get_cog_bbox_and_footprint(cog_path: Path):
     with rasterio.open(cog_path) as src:
-        bounds = src.bounds
-        bbox = [bounds.left, bounds.bottom, bounds.right, bounds.top]
+        # Reproject bounds to WGS84 (EPSG:4326) — STAC spec requires
+        # geometry/bbox to always be in WGS84, regardless of the asset's
+        # native CRS (this COG is EPSG:3857 Web Mercator).
+        west, south, east, north = transform_bounds(
+            src.crs, "EPSG:4326", *src.bounds
+        )
+        bbox = [west, south, east, north]
         footprint = {
             "type": "Polygon",
             "coordinates": [[
-                [bounds.left, bounds.bottom],
-                [bounds.left, bounds.top],
-                [bounds.right, bounds.top],
-                [bounds.right, bounds.bottom],
-                [bounds.left, bounds.bottom],
+                [west, south],
+                [west, north],
+                [east, north],
+                [east, south],
+                [west, south],
             ]],
         }
     return bbox, footprint
+
 
 
 def build_cog_item(cog_path: Path) -> pystac.Item:
