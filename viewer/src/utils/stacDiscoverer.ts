@@ -27,12 +27,28 @@ export async function recursivelyDiscoverLayers(
       // Look for assets in this node
       if (node.assets) {
 
+        // for troubleshooting:
+        console.log("STAC ASSETS FOUND:", {
+          node: node.id,
+          assets: Object.keys(node.assets)
+        });
+
 
         // Object.entries(node.assets).forEach(([key, asset]) => { // this fails with new helper
         for (const [key, asset] of Object.entries(node.assets)) {
 
             
           if (!asset || !asset.href) return;
+
+
+          // for troubleshooting
+          console.log("CHECKING ASSET:", {
+            key,
+            href: asset.href,
+            type: asset.type
+          });
+
+
           const href = resolveUrl(normalizedUrl, asset.href);
           
           const lowerHref = href.toLowerCase();
@@ -57,7 +73,24 @@ export async function recursivelyDiscoverLayers(
                             lowerKey.includes("pmtiles");
 
           if (isTiff) {
+            
             const layerId = `stac-cog-${node.id}-${key}`;
+
+
+
+
+            // simply for troubleshooting:
+            console.log("FOUND COG:", {
+                  id: layerId,
+                  href,
+                  assetType: asset.type,
+                  assetKey: key
+            });
+
+
+
+
+
             if (!discovered.some(l => l.id === layerId)) {
               discovered.push({
                 id: layerId,
