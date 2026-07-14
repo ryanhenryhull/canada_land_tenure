@@ -83,8 +83,13 @@ export async function recursivelyDiscoverLayers(
                 opacity: 0.9,
                 bounds: node.geometry ? getBboxFromGeometry(node.geometry) : undefined,
                 description: asset.description || node.description || "PMTiles Vector Archive",
-                pmtilesSettings: {
-                  vectorLayers: []
+                pmtilesSettings: { // Ryan note: something needs to populate this below!! let's try
+                  vectorLayers: [{
+                      id: key,
+                      sourcelayer: "aboriginal_lands_canada_legislative_boundaries",
+                      type: "fill",
+                      color: "#3388ff"
+                  }]
                 }
               } as any);
               if (onProgress) onProgress([...discovered]);

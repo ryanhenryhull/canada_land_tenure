@@ -324,8 +324,8 @@ export default function MapViewer({
       });
     }
 
-    layer.pmtilesSettings?.vectorLayers?.forEach((vStyle) => {
-      const layerId = `layer-${layer.id}-${vStyle.id}`;
+    layer.pmtilesSettings?.vectorLayers?.forEach((vStyle) => { // Ryan note - it's inside this loop that map layers are added.
+      const layerId = `layer-${layer.id}-${vStyle.id}`;        // see stacDiscoverer.ts
 
       if (!map.getLayer(layerId)) {
         if (vStyle.type === "fill") {
