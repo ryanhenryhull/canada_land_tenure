@@ -11,14 +11,25 @@ export async function fetchStacUrl(url: string): Promise<any> {
   return await res.json();
 }
 
+// Ryan notes: changed this function to prevent incorrect html/json r2 fetching
 // Convert absolute or relative href to fully qualified URL based on base URL
-export function resolveUrl(baseUrl: string, relativeUrl: string): string {
+//export function resolveUrl(baseUrl: string, relativeUrl: string): string {
+//  try {
+//    return new URL(relativeUrl, baseUrl).toString();
+//  } catch (e) {
+//    return relativeUrl;
+//  }
+//}
+
+export function resolveUrl(base: string, href: string): string {
   try {
-    return new URL(relativeUrl, baseUrl).toString();
-  } catch (e) {
-    return relativeUrl;
+    return new URL(href, base).toString();
+  } catch {
+    console.warn("Bad STAC href:", href, "base:", base);
+    return href;
   }
 }
+
 
 export interface ParsedStacNode {
   id: string;

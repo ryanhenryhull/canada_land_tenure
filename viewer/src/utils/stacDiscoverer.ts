@@ -115,7 +115,8 @@ export async function recursivelyDiscoverLayers(
         );
       }
     } catch (e) {
-      console.error(`Error traversing STAC node at ${normalizedUrl}:`, e);
+         console.error(`Error traversing STAC node at ${normalizedUrl}:`, e);
+         console.error("This URL failed:", normalizedUrl);
     }
   }
 
