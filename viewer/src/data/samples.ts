@@ -62,6 +62,21 @@ export const SAMPLE_LAYERS: GeospatialLayer[] = [
     }
   },
   {
+    id: "forest-management-cog",
+    name: "Forest Cover & Management Classification (Categorical COG)",
+    type: "cog",
+    url: "https://raw.githubusercontent.com/cogeotiff/cog-spec/master/spec/gdal_datasources/ca.tif",
+    visible: true,
+    opacity: 0.9,
+    bounds: [-120.528, 38.312, -120.443, 38.384],
+    cogSettings: {
+      bands: [1],
+      minVal: 0,
+      maxVal: 9,
+      colormapName: "forest_management"
+    }
+  },
+  {
     id: "sentinel-green-band",
     name: "Sentinel-2 NIR Band COG (Vegetation contrast)",
     type: "cog",

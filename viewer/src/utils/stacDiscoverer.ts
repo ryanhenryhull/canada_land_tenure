@@ -1,6 +1,5 @@
 import { GeospatialLayer } from "../types";
 import { parseStacNode, resolveUrl } from "./stacParser";
-import { getPmtilesVectorLayers } from "./pmtilesMetadata";
 
 // Robust recursive STAC discovery function
 export async function recursivelyDiscoverLayers(
@@ -26,29 +25,8 @@ export async function recursivelyDiscoverLayers(
       
       // Look for assets in this node
       if (node.assets) {
-
-        // for troubleshooting:
-        console.log("STAC ASSETS FOUND:", {
-          node: node.id,
-          assets: Object.keys(node.assets)
-        });
-
-
-        // Object.entries(node.assets).forEach(([key, asset]) => { // this fails with new helper
-        for (const [key, asset] of Object.entries(node.assets)) {
-
-            
+        Object.entries(node.assets).forEach(([key, asset]) => {
           if (!asset || !asset.href) return;
-
-
-          // for troubleshooting
-          console.log("CHECKING ASSET:", {
-            key,
-            href: asset.href,
-            type: asset.type
-          });
-
-
           const href = resolveUrl(normalizedUrl, asset.href);
           
           const lowerHref = href.toLowerCase();
@@ -73,25 +51,10 @@ export async function recursivelyDiscoverLayers(
                             lowerKey.includes("pmtiles");
 
           if (isTiff) {
-            
             const layerId = `stac-cog-${node.id}-${key}`;
-
-
-
-
-            // simply for troubleshooting:
-            console.log("FOUND COG:", {
-                  id: layerId,
-                  href,
-                  assetType: asset.type,
-                  assetKey: key
-            });
-
-
-
-
-
             if (!discovered.some(l => l.id === layerId)) {
+              const isForestManagement = lowerHref.includes("canada_mf") || lowerHref.includes("forest_management") || node.id.toLowerCase().includes("canada_mf");
+              
               discovered.push({
                 id: layerId,
                 name: asset.title || `${node.title || node.id} - ${key}`,
@@ -103,9 +66,16 @@ export async function recursivelyDiscoverLayers(
                 description: asset.description || node.description || `Format: ${asset.type || "GeoTIFF"}`,
                 cogSettings: {
                   bands: [1],
-                  minVal: 0,
-                  maxVal: 255,
-                  colormapName: "viridis"
+                  minVal: isForestManagement ? 11 : 0,
+                  maxVal: isForestManagement ? 100 : 255,
+                  colormapName: isForestManagement ? "forest_management" : "viridis",
+                  bandMapping: {
+                    red: 1,
+                    green: 2,
+                    blue: 3,
+                    nir: 4,
+                    swir: 5
+                  }
                 }
               } as any);
               if (onProgress) onProgress([...discovered]);
@@ -122,28 +92,14 @@ export async function recursivelyDiscoverLayers(
                 opacity: 0.9,
                 bounds: node.geometry ? getBboxFromGeometry(node.geometry) : undefined,
                 description: asset.description || node.description || "PMTiles Vector Archive",
-
-                // old version that did not use new helper function, getpmtiles...
-                /*pmtilesSettings: { // Ryan note: something needs to populate this below!! let's try
-                  vectorLayers: [{
-                      id: key,
-                      sourceLayer: "aboriginal_lands_canada_legislative_boundaries", // changed to sourceLayer from sourcelayer.
-                      type: "fill",
-                      color: "#3388ff"
-                  }]
-                } */
-
-                // new smart version:
                 pmtilesSettings: {
-                    vectorLayers: await getPmtilesVectorLayers(href)
+                  vectorLayers: []
                 }
-
               } as any);
               if (onProgress) onProgress([...discovered]);
             }
           }
-        //});
-        }
+        });
       }
 
       // Traverse children/items concurrently/asynchronously to avoid blocking

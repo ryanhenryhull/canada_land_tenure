@@ -4,6 +4,8 @@ import * as pmtiles from "pmtiles";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { GeospatialLayer } from "../types";
 import { ClientCog } from "../utils/cogLoader";
+import { MapboxOverlay } from "@deck.gl/mapbox";
+import { BitmapLayer } from "@deck.gl/layers";
 
 // Register PMTiles protocol globally
 if (typeof window !== "undefined") {
@@ -35,6 +37,15 @@ export default function MapViewer({
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const popupRef = useRef<maplibregl.Popup | null>(null);
 
+  const deckOverlayRef = useRef<MapboxOverlay | null>(null);
+  const renderedCogsRef = useRef<Map<string, {
+    canvas: HTMLCanvasElement;
+    bounds: [number, number, number, number];
+    opacity: number;
+    viewportKey?: string;
+    settingsKey?: string;
+  }>>(new Map());
+
   // Keep layers ref updated for use inside callbacks
   useEffect(() => {
     layersRef.current = layers;
@@ -60,6 +71,13 @@ export default function MapViewer({
     // Add navigation controls
     map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "top-right");
     map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+
+    // Initialize deck.gl overlay
+    const overlay = new MapboxOverlay({
+      layers: []
+    });
+    map.addControl(overlay as any);
+    deckOverlayRef.current = overlay;
 
     map.on("style.load", () => {
       setIsStyleLoaded(true);
@@ -125,6 +143,14 @@ export default function MapViewer({
     map.on("moveend", handleMoveEnd);
 
     return () => {
+      if (deckOverlayRef.current) {
+        try {
+          map.removeControl(deckOverlayRef.current as any);
+        } catch (e) {
+          console.warn("Could not remove deck overlay control", e);
+        }
+        deckOverlayRef.current = null;
+      }
       map.remove();
       mapRef.current = null;
     };
@@ -169,6 +195,19 @@ export default function MapViewer({
         }
       });
     }
+
+    // Clean up any removed COG layers from deck
+    let deckUpdated = false;
+    renderedCogsRef.current.forEach((val, id) => {
+      const stillExists = layers.some(l => l.id === id);
+      if (!stillExists) {
+        renderedCogsRef.current.delete(id);
+        deckUpdated = true;
+      }
+    });
+    if (deckUpdated) {
+      updateDeckLayers();
+    }
   }, [layers, isStyleLoaded]);
 
   // Handle on-map popup for the selected feature
@@ -212,55 +251,42 @@ export default function MapViewer({
     }
   }, [selectedFeature]);
 
+  const updateDeckLayers = () => {
+    const overlay = deckOverlayRef.current;
+    if (!overlay) return;
+
+    const deckLayers: any[] = [];
+
+    layersRef.current.forEach(layer => {
+      if (layer.type === "cog" && layer.visible) {
+        const rendered = renderedCogsRef.current.get(layer.id);
+        if (rendered && rendered.canvas) {
+          deckLayers.push(
+            new BitmapLayer({
+              id: `deck-cog-${layer.id}`,
+              image: rendered.canvas,
+              bounds: rendered.bounds,
+              opacity: layer.opacity,
+              updateTriggers: {
+                image: [rendered.canvas]
+              }
+            })
+          );
+        }
+      }
+    });
+
+    overlay.setProps({ layers: deckLayers });
+  };
+
   // COG Layer Synchronization
   const syncCogLayer = async (map: maplibregl.Map, layer: GeospatialLayer) => {
-    const sourceId = `source-${layer.id}`;
-    const layerId = `layer-${layer.id}`;
-
-    const visibility = layer.visible ? "visible" : "none";
-
-    if (!map.getSource(sourceId)) {
-      // Add source with placeholder canvas
-      const placeholderCanvas = document.createElement("canvas");
-      placeholderCanvas.width = 1;
-      placeholderCanvas.height = 1;
-
-        map.addSource(sourceId, {
-          type: "canvas",
-          canvas: placeholderCanvas,
-          animate: false,
-          // Valid, non-degenerate placeholder (world bounds) — NOT [[0,0],[0,0],[0,0],[0,0]]
-          coordinates: [
-            [-180, 85],
-            [180, 85],
-            [180, -85],
-            [-180, -85],
-          ],
-        }); 
-
-      map.addLayer({
-        id: layerId,
-        type: "raster",
-        source: sourceId,
-        paint: {
-          "raster-opacity": layer.opacity
-        },
-        layout: {
-            visibility: "none" // hidden until updateCogLayer sets real coordinates (Ryan 14jul)
-        }
-      });
+    if (!layer.visible) {
+      renderedCogsRef.current.delete(layer.id);
+      updateDeckLayers();
+      return;
     }
-
-    // Toggle layer visibility
-    if (map.getLayer(layerId)) {
-      map.setLayoutProperty(layerId, "visibility", visibility);
-      map.setPaintProperty(layerId, "raster-opacity", layer.opacity);
-    }
-
-    // Render viewport if visible
-    if (layer.visible) {
-      await updateCogLayer(map, layer);
-    }
+    await updateCogLayer(map, layer);
   };
 
   // Render/Update the COG viewport client-side
@@ -268,7 +294,9 @@ export default function MapViewer({
     let clientCog = cogCache.get(layer.id);
     if (!clientCog) {
       try {
-        clientCog = await ClientCog.create(layer.url);
+        const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
+        const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
+        clientCog = await ClientCog.create(proxiedUrl);
         cogCache.set(layer.id, clientCog);
       } catch (err) {
         console.error(`Failed to initialize COG client for layer ${layer.id}:`, err);
@@ -284,44 +312,49 @@ export default function MapViewer({
       bounds.getNorth()
     ];
 
+    // Create unique cache keys for viewport (rounded for precision stability) and cogSettings
+    const viewportKey = viewport.map(c => c.toFixed(5)).join(",");
+    const settingsKey = JSON.stringify({
+      colormapName: layer.cogSettings?.colormapName,
+      minVal: layer.cogSettings?.minVal,
+      maxVal: layer.cogSettings?.maxVal,
+      bands: layer.cogSettings?.bands,
+      activeForestIndexId: layer.cogSettings?.activeForestIndexId,
+      bandMapping: layer.cogSettings?.bandMapping
+    });
+
+    const rendered = renderedCogsRef.current.get(layer.id);
+    if (rendered && rendered.viewportKey === viewportKey && rendered.settingsKey === settingsKey) {
+      // Avoid re-rendering if only opacity or layer state changed, and apply instantly
+      if (rendered.opacity !== layer.opacity) {
+        rendered.opacity = layer.opacity;
+        updateDeckLayers();
+      }
+      return;
+    }
+
     const result = await clientCog.renderViewport(viewport, {
       colormapName: layer.cogSettings?.colormapName,
       minVal: layer.cogSettings?.minVal,
       maxVal: layer.cogSettings?.maxVal,
-      bands: layer.cogSettings?.bands
+      bands: layer.cogSettings?.bands,
+      activeForestIndexId: layer.cogSettings?.activeForestIndexId,
+      bandMapping: layer.cogSettings?.bandMapping
     });
 
-    const sourceId = `source-${layer.id}`;
-    const canvasSource = map.getSource(sourceId) as maplibregl.CanvasSource;
-
-    if (!canvasSource) return;
-
     if (!result) {
-      // Hide the raster source if outside COG coverage
-      canvasSource.setCoordinates([[0, 0], [0, 0], [0, 0], [0, 0]]);
-      return;
+      renderedCogsRef.current.delete(layer.id);
+    } else {
+      renderedCogsRef.current.set(layer.id, {
+        canvas: result.canvas,
+        bounds: result.bounds,
+        opacity: layer.opacity,
+        viewportKey,
+        settingsKey
+      });
     }
 
-    // Update canvas source resolution, pixels, and corners
-    const canvasEl = canvasSource.getCanvas();
-    canvasEl.width = result.canvas.width;
-    canvasEl.height = result.canvas.height;
-    const ctx = canvasEl.getContext("2d");
-    if (ctx) {
-      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-      ctx.drawImage(result.canvas, 0, 0);
-    }
-
-    const [w, s, e, n] = result.bounds;
-    canvasSource.setCoordinates([
-      [w, n], // Top-Left
-      [e, n], // Top-Right
-      [e, s], // Bottom-Right
-      [w, s]  // Bottom-Left
-    ]);
-    if (layer.visible) {
-       map.setLayoutProperty(`layer-${layer.id}`, "visibility", "visible");
-    }
+    updateDeckLayers();
   };
 
   // PMTiles Vector Layer Synchronization
@@ -330,14 +363,16 @@ export default function MapViewer({
     const visibility = layer.visible ? "visible" : "none";
 
     if (!map.getSource(sourceId)) {
+      const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
+      const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
       map.addSource(sourceId, {
         type: "vector",
-        url: `pmtiles://${layer.url}`
+        url: `pmtiles://${proxiedUrl}`
       });
     }
 
-    layer.pmtilesSettings?.vectorLayers?.forEach((vStyle) => { // Ryan note - it's inside this loop that map layers are added.
-      const layerId = `layer-${layer.id}-${vStyle.id}`;        // see stacDiscoverer.ts
+    layer.pmtilesSettings?.vectorLayers?.forEach((vStyle) => {
+      const layerId = `layer-${layer.id}-${vStyle.id}`;
 
       if (!map.getLayer(layerId)) {
         if (vStyle.type === "fill") {

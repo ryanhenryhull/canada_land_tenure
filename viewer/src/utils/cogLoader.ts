@@ -1,5 +1,7 @@
 import { fromUrl, GeoTIFF, GeoTIFFImage } from "geotiff";
 import proj4 from "proj4";
+import { computeIndexValue } from "./cog_indexes/forest_management";
+import { getForestColor } from "./cog_indexes/forest_management_colormap";
 
 // Dynamic Proj4 projection generator for common coordinate systems (UTM, Web Mercator, WGS84)
 export function getProj4String(epsgCode: number): string | null {
@@ -72,6 +74,8 @@ export class ClientCog {
   tiff!: GeoTIFF;
   metadata!: CogMetadata;
   private epsgProjName!: string;
+  images: GeoTIFFImage[] = [];
+  imageWidths: number[] = [];
 
   private constructor() {}
 
@@ -79,7 +83,15 @@ export class ClientCog {
     const cog = new ClientCog();
     cog.tiff = await fromUrl(url);
     const count = await cog.tiff.getImageCount();
-    const primaryImage = await cog.tiff.getImage(0);
+    
+    // Cache all images and widths upfront
+    for (let i = 0; i < count; i++) {
+      const img = await cog.tiff.getImage(i);
+      cog.images.push(img);
+      cog.imageWidths.push(img.getWidth());
+    }
+
+    const primaryImage = cog.images[0];
 
     // Read geokeys to determine the projection
     const geoKeys = primaryImage.getGeoKeys();
@@ -157,6 +169,14 @@ export class ClientCog {
       minVal?: number;
       maxVal?: number;
       bands?: number[];
+      activeForestIndexId?: string;
+      bandMapping?: {
+        red: number;
+        green: number;
+        blue: number;
+        nir: number;
+        swir: number;
+      };
     } = {}
   ): Promise<{ canvas: HTMLCanvasElement; bounds: [number, number, number, number] } | null> {
     const { wgs84Bounds, nativeBounds, width: fullWidth, height: fullHeight, noDataValue, bandsCount } = this.metadata;
@@ -205,13 +225,12 @@ export class ClientCog {
     }
 
     // 4. Select the best overview image index
-    const imageCount = await this.tiff.getImageCount();
     let bestImageIndex = 0;
     const targetSize = 512; // Render target size to balance resolution and speed
 
-    for (let i = 0; i < imageCount; i++) {
-      const img = await this.tiff.getImage(i);
-      const scale = img.getWidth() / fullWidth;
+    for (let i = 0; i < this.imageWidths.length; i++) {
+      const w = this.imageWidths[i];
+      const scale = w / fullWidth;
       const overviewWindowWidth = pixelWindowWidth * scale;
       if (overviewWindowWidth >= targetSize) {
         bestImageIndex = i;
@@ -220,7 +239,7 @@ export class ClientCog {
       }
     }
 
-    const renderImage = await this.tiff.getImage(bestImageIndex);
+    const renderImage = this.images[bestImageIndex];
     const scale = renderImage.getWidth() / fullWidth;
 
     // 5. Compute window coordinates for the selected overview level
@@ -273,10 +292,46 @@ export class ClientCog {
       rBand = rasterArr[Math.min(bands[0] - 1, rasterArr.length - 1)];
       gBand = bands[1] !== undefined ? rasterArr[Math.min(bands[1] - 1, rasterArr.length - 1)] : rBand;
       bBand = bands[2] !== undefined ? rasterArr[Math.min(bands[2] - 1, rasterArr.length - 1)] : rBand;
-    } else {
-      // Interleaved chunky pixels
-      const singleArr = rasters as any;
-      // We will slice/extract bands inside the loop for Chunky configurations
+    }
+
+    const activeForestIndexId = options.activeForestIndexId;
+    const bandMapping = options.bandMapping || { red: 1, green: 2, blue: 3, nir: 4, swir: 5 };
+
+    // Helper function to get band value for a pixel
+    const getBandVal = (bandNum: number, pixelIdx: number): number => {
+      if (isPlanar) {
+        const arrIdx = Math.min(Math.max(0, bandNum - 1), (rasters as any[]).length - 1);
+        return (rasters as any[])[arrIdx][pixelIdx];
+      } else {
+        const arrIdx = Math.min(Math.max(0, bandNum - 1), bandsCount - 1);
+        return (rasters as any)[pixelIdx * bandsCount + arrIdx];
+      }
+    };
+
+    // Helper to check if a pixel contains nodata/NaN values
+    const isPixelNoData = (pixelIdx: number): boolean => {
+      if (noDataValue === null) return false;
+      if (activeForestIndexId) {
+        // For indexes, check Red and NIR
+        const valR = getBandVal(bandMapping.red, pixelIdx);
+        const valNIR = getBandVal(bandMapping.nir, pixelIdx);
+        return valR === noDataValue || isNaN(valR) || valNIR === noDataValue || isNaN(valNIR);
+      } else {
+        const valR = getBandVal(bands[0], pixelIdx);
+        return valR === noDataValue || isNaN(valR);
+      }
+    };
+
+    // Compute active forest index values if specified
+    const valuesArray = new Float32Array(wWidth * wHeight);
+    if (activeForestIndexId) {
+      for (let i = 0; i < valuesArray.length; i++) {
+        if (isPixelNoData(i)) {
+          valuesArray[i] = NaN;
+        } else {
+          valuesArray[i] = computeIndexValue(activeForestIndexId, i, (b) => getBandVal(b, i), bandMapping);
+        }
+      }
     }
 
     // Min/Max statistics for scaling
@@ -288,31 +343,40 @@ export class ClientCog {
       let min = Infinity;
       let max = -Infinity;
 
-      if (isPlanar) {
-        const checkArray = rBand;
-        for (let j = 0; j < checkArray.length; j++) {
-          const val = checkArray[j];
-          if (noDataValue !== null && val === noDataValue) continue;
+      if (activeForestIndexId) {
+        for (let j = 0; j < valuesArray.length; j++) {
+          const val = valuesArray[j];
           if (isNaN(val)) continue;
           if (val < min) min = val;
           if (val > max) max = val;
         }
       } else {
-        const checkArray = rasters as any;
-        for (let j = 0; j < checkArray.length; j += bandsCount) {
-          const val = checkArray[j];
-          if (noDataValue !== null && val === noDataValue) continue;
-          if (isNaN(val)) continue;
-          if (val < min) min = val;
-          if (val > max) max = val;
+        if (isPlanar) {
+          const checkArray = rBand;
+          for (let j = 0; j < checkArray.length; j++) {
+            const val = checkArray[j];
+            if (noDataValue !== null && val === noDataValue) continue;
+            if (isNaN(val)) continue;
+            if (val < min) min = val;
+            if (val > max) max = val;
+          }
+        } else {
+          const checkArray = rasters as any;
+          for (let j = 0; j < checkArray.length; j += bandsCount) {
+            const val = checkArray[j];
+            if (noDataValue !== null && val === noDataValue) continue;
+            if (isNaN(val)) continue;
+            if (val < min) min = val;
+            if (val > max) max = val;
+          }
         }
       }
 
       if (min === Infinity) {
         min = 0;
-        max = 255;
+        max = 1;
       } else if (min === max) {
-        max = min + 1;
+        max = min + 0.1;
       }
 
       minVal = minVal !== undefined ? minVal : min;
@@ -331,23 +395,18 @@ export class ClientCog {
         let r = 0, g = 0, b = 0, a = 255;
         let isNoData = false;
 
-        if (isPlanar) {
-          const valR = rBand[pixelIdx];
-          const valG = gBand ? gBand[pixelIdx] : valR;
-          const valB = bBand ? bBand[pixelIdx] : valR;
-
-          // Check nodata
-          if (noDataValue !== null && (valR === noDataValue || isNaN(valR))) {
+        if (activeForestIndexId) {
+          const val = valuesArray[pixelIdx];
+          if (isNaN(val)) {
             isNoData = true;
           } else {
-            if (bands.length >= 3) {
-              // RGB scale to [0-255]
-              r = Math.round(Math.max(0, Math.min(255, ((valR - minVal) / range) * 255)));
-              g = Math.round(Math.max(0, Math.min(255, ((valG - minVal) / range) * 255)));
-              b = Math.round(Math.max(0, Math.min(255, ((valB - minVal) / range) * 255)));
+            if (options.colormapName === "forest_management") {
+              const rgb = getForestColor(val);
+              r = rgb[0];
+              g = rgb[1];
+              b = rgb[2];
             } else {
-              // Single band: Apply colormap
-              const norm = Math.max(0, Math.min(1, (valR - minVal) / range));
+              const norm = Math.max(0, Math.min(1, (val - minVal) / range));
               const rgb = colormap(norm);
               r = rgb[0];
               g = rgb[1];
@@ -355,27 +414,62 @@ export class ClientCog {
             }
           }
         } else {
-          // Chunky configuration
-          const chunkyArr = rasters as any;
-          const srcIdx = pixelIdx * bandsCount;
-          const valR = chunkyArr[srcIdx + Math.min(bands[0] - 1, bandsCount - 1)];
+          if (isPlanar) {
+            const valR = rBand[pixelIdx];
+            const valG = gBand ? gBand[pixelIdx] : valR;
+            const valB = bBand ? bBand[pixelIdx] : valR;
 
-          if (noDataValue !== null && (valR === noDataValue || isNaN(valR))) {
-            isNoData = true;
-          } else {
-            if (bands.length >= 3) {
-              const valG = chunkyArr[srcIdx + Math.min((bands[1] || 2) - 1, bandsCount - 1)];
-              const valB = chunkyArr[srcIdx + Math.min((bands[2] || 3) - 1, bandsCount - 1)];
-
-              r = Math.round(Math.max(0, Math.min(255, ((valR - minVal) / range) * 255)));
-              g = Math.round(Math.max(0, Math.min(255, ((valG - minVal) / range) * 255)));
-              b = Math.round(Math.max(0, Math.min(255, ((valB - minVal) / range) * 255)));
+            if (noDataValue !== null && (valR === noDataValue || isNaN(valR))) {
+              isNoData = true;
+            } else if (options.colormapName === "forest_management" && Math.round(valR) === 0) {
+              isNoData = true;
             } else {
-              const norm = Math.max(0, Math.min(1, (valR - minVal) / range));
-              const rgb = colormap(norm);
-              r = rgb[0];
-              g = rgb[1];
-              b = rgb[2];
+              if (options.colormapName === "forest_management") {
+                const rgb = getForestColor(valR);
+                r = rgb[0];
+                g = rgb[1];
+                b = rgb[2];
+              } else if (bands.length >= 3) {
+                r = Math.round(Math.max(0, Math.min(255, ((valR - minVal) / range) * 255)));
+                g = Math.round(Math.max(0, Math.min(255, ((valG - minVal) / range) * 255)));
+                b = Math.round(Math.max(0, Math.min(255, ((valB - minVal) / range) * 255)));
+              } else {
+                const norm = Math.max(0, Math.min(1, (valR - minVal) / range));
+                const rgb = colormap(norm);
+                r = rgb[0];
+                g = rgb[1];
+                b = rgb[2];
+              }
+            }
+          } else {
+            const chunkyArr = rasters as any;
+            const srcIdx = pixelIdx * bandsCount;
+            const valR = chunkyArr[srcIdx + Math.min(bands[0] - 1, bandsCount - 1)];
+
+            if (noDataValue !== null && (valR === noDataValue || isNaN(valR))) {
+              isNoData = true;
+            } else if (options.colormapName === "forest_management" && Math.round(valR) === 0) {
+              isNoData = true;
+            } else {
+              if (options.colormapName === "forest_management") {
+                const rgb = getForestColor(valR);
+                r = rgb[0];
+                g = rgb[1];
+                b = rgb[2];
+              } else if (bands.length >= 3) {
+                const valG = chunkyArr[srcIdx + Math.min((bands[1] || 2) - 1, bandsCount - 1)];
+                const valB = chunkyArr[srcIdx + Math.min((bands[2] || 3) - 1, bandsCount - 1)];
+
+                r = Math.round(Math.max(0, Math.min(255, ((valR - minVal) / range) * 255)));
+                g = Math.round(Math.max(0, Math.min(255, ((valG - minVal) / range) * 255)));
+                b = Math.round(Math.max(0, Math.min(255, ((valB - minVal) / range) * 255)));
+              } else {
+                const norm = Math.max(0, Math.min(1, (valR - minVal) / range));
+                const rgb = colormap(norm);
+                r = rgb[0];
+                g = rgb[1];
+                b = rgb[2];
+              }
             }
           }
         }
@@ -384,7 +478,7 @@ export class ClientCog {
           data[dataIdx] = 0;
           data[dataIdx + 1] = 0;
           data[dataIdx + 2] = 0;
-          data[dataIdx + 3] = 0; // Transparent
+          data[dataIdx + 3] = 0;
         } else {
           data[dataIdx] = r;
           data[dataIdx + 1] = g;

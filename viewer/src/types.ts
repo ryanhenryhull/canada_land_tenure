@@ -15,6 +15,14 @@ export interface GeospatialLayer {
     minVal: number;
     maxVal: number;
     colormapName?: string;
+    activeForestIndexId?: string; // If set, calculate and display this forest index instead
+    bandMapping?: {
+      red: number;
+      green: number;
+      blue: number;
+      nir: number;
+      swir: number;
+    };
   };
   // PMTiles/Vector specific settings
   pmtilesSettings?: {

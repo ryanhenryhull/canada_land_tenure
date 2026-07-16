@@ -1,7 +1,10 @@
 import { StacCatalogNode, StacCollection, StacItem, StacAsset } from "../types";
 
 export async function fetchStacUrl(url: string): Promise<any> {
-  const res = await fetch(url);
+  const isExternal = url.startsWith("http") && !url.includes(window.location.host);
+  const fetchUrl = isExternal ? `/api/proxy?url=${encodeURIComponent(url)}` : url;
+
+  const res = await fetch(fetchUrl);
   if (!res.ok) {
     throw new Error(`Failed to fetch STAC metadata: ${res.status} ${res.statusText}`);
   }

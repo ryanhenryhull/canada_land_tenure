@@ -4,6 +4,8 @@ import { GeospatialLayer } from "../types";
 import { ClientCog } from "../utils/cogLoader";
 import * as pmtiles from "pmtiles";
 import maplibregl from "maplibre-gl";
+import { FOREST_INDEXES } from "../utils/cog_indexes/forest_management";
+import { FOREST_CATEGORIES } from "../utils/cog_indexes/forest_management_index";
 
 interface SidebarProps {
   layers: GeospatialLayer[];
@@ -26,7 +28,9 @@ export default function Sidebar({
     if (!layer.visible && layer.type === "pmtiles" && (!layer.pmtilesSettings?.vectorLayers || layer.pmtilesSettings.vectorLayers.length === 0)) {
       setLoadingMetadataId(layer.id);
       try {
-        const p = new pmtiles.PMTiles(layer.url);
+        const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
+        const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
+        const p = new pmtiles.PMTiles(proxiedUrl);
         const metadata = await p.getMetadata() as any;
         const vectorLayers = metadata?.vector_layers || [];
         
@@ -92,7 +96,9 @@ export default function Sidebar({
 
     // Try dynamic bounds discovery if it is a COG
     if (layer.type === "cog") {
-      ClientCog.create(layer.url).then(clientCog => {
+      const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
+      const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
+      ClientCog.create(proxiedUrl).then(clientCog => {
         const b = clientCog.metadata.wgs84Bounds;
         setLayers(prev => prev.map(l => l.id === layer.id ? { ...l, bounds: b } : l));
         mapInstance.fitBounds(b, { padding: 60, duration: 1500 });
@@ -131,6 +137,60 @@ export default function Sidebar({
       }
       return l;
     }));
+  };
+
+  const renderLegend = (layer: GeospatialLayer) => {
+    if (!layer.visible) return null;
+
+    if (layer.type === "cog" && layer.cogSettings) {
+      const activeIndexId = layer.cogSettings.activeForestIndexId;
+      const activeIndex = FOREST_INDEXES.find(idx => idx.id === activeIndexId);
+
+      return (
+        <div className="px-3 pb-3 pt-1.5 border-t border-slate-850/50 bg-slate-950/20 space-y-2 animate-fadeIn">
+          <div className="flex justify-between items-center text-[10px]">
+            <span className="font-semibold text-slate-300">
+              {activeIndex ? `${activeIndex.name} (Forest Management)` : "Forest Management Legend"}
+            </span>
+          </div>
+          <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
+            {FOREST_CATEGORIES.map(cat => (
+              <div key={cat.value} className="flex items-start space-x-2 text-[10px] text-slate-400 leading-tight animate-fadeIn">
+                <span 
+                  className="w-2.5 h-2.5 rounded-sm flex-shrink-0 mt-0.5 border border-white/10" 
+                  style={{ backgroundColor: cat.color }} 
+                />
+                <div className="flex flex-col">
+                  <span className="font-medium text-slate-300">{cat.value}: {cat.name}</span>
+                  <span className="text-[9px] text-slate-500">{cat.description}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (layer.type === "pmtiles" && layer.pmtilesSettings?.vectorLayers) {
+      const subLayers = layer.pmtilesSettings.vectorLayers;
+      if (subLayers.length === 0) return null;
+
+      return (
+        <div className="px-3 pb-3 pt-1 border-t border-slate-850/50 bg-slate-950/20 space-y-1.5">
+          <span className="text-[10px] font-semibold text-slate-300 block">Vector Layers</span>
+          <div className="grid grid-cols-2 gap-1.5 max-h-24 overflow-y-auto pr-1 animate-fadeIn">
+            {subLayers.map(vl => (
+              <div key={vl.id} className="flex items-center space-x-1.5 text-[9px] text-slate-400 truncate">
+                <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: vl.color }} />
+                <span className="truncate" title={vl.sourceLayer}>{vl.sourceLayer}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -188,8 +248,8 @@ export default function Sidebar({
                     key={layer.id} 
                     className={`border rounded-xl transition-all ${
                       layer.visible 
-                        ? "border-blue-500/40 bg-slate-950/60" 
-                        : "border-slate-850/80 bg-slate-950/20 hover:bg-slate-950/40"
+                        ? "border-white/80 bg-slate-950/60 shadow-[0_0_8px_rgba(255,255,255,0.05)]" 
+                        : "border-blue-950 bg-slate-950/20 hover:bg-slate-950/40"
                     }`}
                   >
                     {/* Layer Item Row */}
@@ -239,28 +299,30 @@ export default function Sidebar({
                       </div>
                     </div>
 
-                    {/* Opacity Control - Only visible when layer is active */}
-                    {layer.visible && (
-                      <div className="px-3 pb-3 pt-0.5 border-t border-slate-850 bg-slate-950/30 space-y-1">
-                        <div className="flex justify-between text-[9px] font-medium text-slate-400">
-                          <span>Opacity</span>
-                          <span>{Math.round(layer.opacity * 100)}%</span>
-                        </div>
-                        <input 
-                          type="range"
-                          min="0"
-                          max="1"
-                          step="0.05"
-                          value={layer.opacity}
-                          onChange={(e) => handleOpacityChange(layer.id, parseFloat(e.target.value))}
-                          className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                        />
-                      </div>
-                    )}
+                    {/* Integrated Legend Panel - Only visible when layer is active */}
+                    {layer.visible && renderLegend(layer)}
 
                     {/* Small Info Box */}
                     {isInfoActive && (
-                      <div className="p-3 bg-slate-950 border-t border-slate-850 space-y-3 rounded-b-xl text-slate-300 text-[11px]">
+                      <div className="p-3 bg-slate-950 border-t border-slate-850 space-y-3 rounded-b-xl text-slate-300 text-[11px] animate-fadeIn">
+                        
+                        {/* 1. Layer Opacity Slider (Moved here as requested) */}
+                        <div className="space-y-1 pb-2 border-b border-slate-900">
+                          <div className="flex justify-between text-[9px] font-bold text-slate-500 tracking-wider uppercase">
+                            <span>Layer Opacity</span>
+                            <span className="text-blue-400">{Math.round(layer.opacity * 100)}%</span>
+                          </div>
+                          <input 
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={layer.opacity}
+                            onChange={(e) => handleOpacityChange(layer.id, parseFloat(e.target.value))}
+                            className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                          />
+                        </div>
+
                         <div className="space-y-1">
                           <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Description</span>
                           <p className="text-slate-400 leading-relaxed font-sans max-h-24 overflow-y-auto pr-1">
@@ -289,6 +351,29 @@ export default function Sidebar({
                           <div className="space-y-2 pt-2 border-t border-slate-900">
                             <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Raster Settings</span>
                             
+                            {/* Forest Index Selector */}
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-slate-400 font-medium">Forest Index</span>
+                              <select 
+                                value={layer.cogSettings.activeForestIndexId || ""}
+                                onChange={(e) => {
+                                  const idxId = e.target.value || undefined;
+                                  const indexDef = FOREST_INDEXES.find(f => f.id === idxId);
+                                  handleCogSettingChange(layer.id, {
+                                    activeForestIndexId: idxId,
+                                    minVal: indexDef ? indexDef.defaultMin : 0,
+                                    maxVal: indexDef ? indexDef.defaultMax : 255,
+                                  });
+                                }}
+                                className="text-xs border border-slate-800 rounded px-1.5 py-1 bg-slate-900 text-slate-300 focus:outline-none focus:border-blue-500"
+                              >
+                                <option value="">None (Standard Bands)</option>
+                                {FOREST_INDEXES.map(f => (
+                                  <option key={f.id} value={f.id}>{f.name}</option>
+                                ))}
+                              </select>
+                            </div>
+
                             <div className="flex items-center justify-between gap-2">
                               <span className="text-slate-400 font-medium">Colormap</span>
                               <select 
@@ -296,11 +381,12 @@ export default function Sidebar({
                                 onChange={(e) => handleCogSettingChange(layer.id, { colormapName: e.target.value })}
                                 className="text-xs border border-slate-800 rounded px-1.5 py-1 bg-slate-900 text-slate-300 focus:outline-none focus:border-blue-500"
                               >
-                                <option value="viridis">Viridis</option>
-                                <option value="terrain">Terrain</option>
-                                <option value="magma">Magma</option>
-                                <option value="elevation">Elevation</option>
-                                <option value="greyscale">Greyscale</option>
+                                <option value="forest_management">Forest Management</option>
+                                <option value="viridis">Viridis (Continuous)</option>
+                                <option value="terrain">Terrain (Continuous)</option>
+                                <option value="magma">Magma (Continuous)</option>
+                                <option value="elevation">Elevation (Continuous)</option>
+                                <option value="greyscale">Greyscale (Continuous)</option>
                               </select>
                             </div>
 
@@ -311,10 +397,11 @@ export default function Sidebar({
                               </div>
                               <input 
                                 type="range"
-                                min="0"
-                                max="1000"
+                                min={layer.cogSettings.activeForestIndexId ? -1 : 0}
+                                max={layer.cogSettings.activeForestIndexId ? 1 : 1000}
+                                step={layer.cogSettings.activeForestIndexId ? 0.05 : 1}
                                 value={layer.cogSettings.minVal}
-                                onChange={(e) => handleCogSettingChange(layer.id, { minVal: parseInt(e.target.value) })}
+                                onChange={(e) => handleCogSettingChange(layer.id, { minVal: parseFloat(e.target.value) })}
                                 className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
                               />
                             </div>
@@ -326,13 +413,87 @@ export default function Sidebar({
                               </div>
                               <input 
                                 type="range"
-                                min="100"
-                                max="5000"
+                                min={layer.cogSettings.activeForestIndexId ? -1 : 100}
+                                max={layer.cogSettings.activeForestIndexId ? 1 : 5000}
+                                step={layer.cogSettings.activeForestIndexId ? 0.05 : 5}
                                 value={layer.cogSettings.maxVal}
-                                onChange={(e) => handleCogSettingChange(layer.id, { maxVal: parseInt(e.target.value) })}
+                                onChange={(e) => handleCogSettingChange(layer.id, { maxVal: parseFloat(e.target.value) })}
                                 className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
                               />
                             </div>
+
+                            {/* Collapsible Band Mapping Config */}
+                            {layer.cogSettings.activeForestIndexId && (
+                              <div className="bg-slate-950/40 p-2 rounded border border-slate-900 space-y-2 mt-2">
+                                <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Band Mapping (1-Based)</span>
+                                <div className="grid grid-cols-2 gap-2 text-[10px]">
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="text-slate-400">Red Band</span>
+                                    <input 
+                                      type="number"
+                                      min="1"
+                                      max="20"
+                                      value={layer.cogSettings.bandMapping?.red || 1}
+                                      onChange={(e) => {
+                                        const red = parseInt(e.target.value) || 1;
+                                        handleCogSettingChange(layer.id, {
+                                          bandMapping: { ...layer.cogSettings!.bandMapping!, red }
+                                        });
+                                      }}
+                                      className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
+                                    />
+                                  </div>
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="text-slate-400">NIR Band</span>
+                                    <input 
+                                      type="number"
+                                      min="1"
+                                      max="20"
+                                      value={layer.cogSettings.bandMapping?.nir || 4}
+                                      onChange={(e) => {
+                                        const nir = parseInt(e.target.value) || 4;
+                                        handleCogSettingChange(layer.id, {
+                                          bandMapping: { ...layer.cogSettings!.bandMapping!, nir }
+                                        });
+                                      }}
+                                      className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
+                                    />
+                                  </div>
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="text-slate-400">Blue Band</span>
+                                    <input 
+                                      type="number"
+                                      min="1"
+                                      max="20"
+                                      value={layer.cogSettings.bandMapping?.blue || 3}
+                                      onChange={(e) => {
+                                        const blue = parseInt(e.target.value) || 3;
+                                        handleCogSettingChange(layer.id, {
+                                          bandMapping: { ...layer.cogSettings!.bandMapping!, blue }
+                                        });
+                                      }}
+                                      className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
+                                    />
+                                  </div>
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="text-slate-400">SWIR Band</span>
+                                    <input 
+                                      type="number"
+                                      min="1"
+                                      max="20"
+                                      value={layer.cogSettings.bandMapping?.swir || 5}
+                                      onChange={(e) => {
+                                        const swir = parseInt(e.target.value) || 5;
+                                        handleCogSettingChange(layer.id, {
+                                          bandMapping: { ...layer.cogSettings!.bandMapping!, swir }
+                                        });
+                                      }}
+                                      className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
 
