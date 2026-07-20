@@ -8,62 +8,62 @@ export interface ForestCategory {
 export const FOREST_CATEGORIES: ForestCategory[] = [
   {
     value: 11,
-    name: "Federal Crown Forest",
-    description: "Federal public forest land managed by federal departments (national parks, defence, etc.).",
-    color: "#6366f1" // Indigo
+    name: "Long-term Tenure",
+    description: "Lands with long term volume- or area-based Crown timber dispositions",
+    color: "#709c90" 
   },
   {
     value: 12,
-    name: "Provincial Crown Forest",
-    description: "Provincial public forest land managed by provinces, representing the majority of commercial timber licences.",
-    color: "#16a34a" // Vibrant Forest Green
+    name: "Short-term Tenure",
+    description: "Lands with short term volume- or area-based Crown timber dispositions",
+    color: "#aecfb9" 
   },
   {
     value: 13,
-    name: "Municipal Crown Forest",
-    description: "Local public forest lands managed by municipal or regional governments.",
-    color: "#10b981" // Emerald
+    name: "Other",
+    description: "Lands with no current Crown timber dispositions",
+    color: "#ebead0" 
   },
   {
     value: 20,
-    name: "Territorial Crown Forest",
-    description: "Territorial public forest lands managed by Yukon, Northwest Territories, or Nunavut.",
-    color: "#06b6d4" // Cyan
+    name: "Protected",
+    description: "Lands legal protection status (IUCN MFIA, IB, II, III, IV, V or VI equivalent)",
+    color: "#abbd38" 
   },
   {
     value: 31,
-    name: "Private - Industrial Forest",
-    description: "Private forest lands owned and managed by industrial corporations or large companies.",
-    color: "#ea580c" // Orange
+    name: "Federal Reserve",
+    description: "Lands held in reserve by the Federal government for military or other purposes",
+    color: "#6166c6" 
   },
   {
     value: 32,
-    name: "Private - Non-Industrial",
-    description: "Private woodlots, farm woodlots, and small forest properties owned by individuals/families.",
-    color: "#eab308" // Golden Yellow
+    name: "Indian Reserve",
+    description: "Lands held in reserve by the Federal government under the Indian Act",
+    color: "#86510f" 
   },
   {
     value: 33,
-    name: "Private - Municipal / Other",
-    description: "Private land owned or leased by municipalities, communities, or co-operatives.",
-    color: "#fbbf24" // Amber/Gold
+    name: "Restricted",
+    description: "Lands reserved or designated restricted use by provincial or territorial government",
+    color: "#d2e14a" 
   },
   {
     value: 40,
-    name: "Aboriginal / Indigenous Forest",
-    description: "Indigenous lands, reserves, treaty areas, or lands managed directly by First Nations.",
-    color: "#d946ef" // Fuchsia
+    name: "Treaty/Settlement",
+    description: "Aboriginal Lands",
+    color: "#c07a08" 
   },
   {
     value: 50,
-    name: "Other / Unknown Forest",
-    description: "Other public forests, or lands with unresolved, unknown, or unclassified tenure profiles.",
-    color: "#64748b" // Slate Grey
+    name: "Private",
+    description: "Privately-owned lands",
+    color: "#46605a" 
   },
   {
     value: 100,
-    name: "Non-Forest / Water",
-    description: "Water bodies, wetlands, urban areas, alpine zones, or non-forested agricultural terrain.",
-    color: "#1e293b" // Deep slate/almost black
+    name: "Water",
+    description: "Water",
+    color: "#ffffff" 
   }
 ];
