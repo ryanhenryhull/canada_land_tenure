@@ -6,6 +6,7 @@ import { GeospatialLayer } from "../types";
 import { ClientCog } from "../utils/cogLoader";
 import { MapboxOverlay } from "@deck.gl/mapbox";
 import { BitmapLayer } from "@deck.gl/layers";
+import { GL } from '@luma.gl/constants';
 
 // Register PMTiles protocol globally
 if (typeof window !== "undefined") {
@@ -261,17 +262,21 @@ export default function MapViewer({
       if (layer.type === "cog" && layer.visible) {
         const rendered = renderedCogsRef.current.get(layer.id);
         if (rendered && rendered.canvas) {
-          deckLayers.push(
-            new BitmapLayer({
-              id: `deck-cog-${layer.id}`,
-              image: rendered.canvas,
-              bounds: rendered.bounds,
-              opacity: layer.opacity,
-              updateTriggers: {
-                image: [rendered.canvas]
-              }
-            })
-          );
+            deckLayers.push(
+              new BitmapLayer({
+                id: `deck-cog-${layer.id}`,
+                image: rendered.canvas,
+                bounds: rendered.bounds,
+                opacity: layer.opacity,
+                textureParameters: {
+                  [GL.TEXTURE_MAG_FILTER]: GL.NEAREST,
+                  [GL.TEXTURE_MIN_FILTER]: GL.NEAREST,
+                },
+                updateTriggers: {
+                  image: [rendered.canvas]
+                }
+              })
+            );
         }
       }
     });
