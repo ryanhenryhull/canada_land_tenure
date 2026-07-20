@@ -6,7 +6,6 @@ import { GeospatialLayer } from "../types";
 import { ClientCog } from "../utils/cogLoader";
 import { MapboxOverlay } from "@deck.gl/mapbox";
 import { BitmapLayer } from "@deck.gl/layers";
-import { GL } from '@luma.gl/constants';
 
 // Register PMTiles protocol globally
 if (typeof window !== "undefined") {
@@ -269,8 +268,8 @@ export default function MapViewer({
                 bounds: rendered.bounds,
                 opacity: layer.opacity,
                 textureParameters: {
-                  [GL.TEXTURE_MAG_FILTER]: GL.NEAREST,
-                  [GL.TEXTURE_MIN_FILTER]: GL.NEAREST,
+                  0x2800: 0x2600, // TEXTURE_MAG_FILTER: NEAREST
+                  0x2801: 0x2600, // TEXTURE_MIN_FILTER: NEAREST
                 },
                 updateTriggers: {
                   image: [rendered.canvas]
