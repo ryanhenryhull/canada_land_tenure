@@ -1,26 +1,7 @@
 import { StacCatalogNode, StacCollection, StacItem, StacAsset } from "../types";
+import { fetchStacUrl } from "./fetchStacUrl";
 
-export async function fetchStacUrl(url: string): Promise<any> {
-  const isExternal = url.startsWith("http") && !url.includes(window.location.host);
-  const fetchUrl = isExternal ? `/api/proxy?url=${encodeURIComponent(url)}` : url;
-
-  const res = await fetch(fetchUrl);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch STAC metadata: ${res.status} ${res.statusText}`);
-  }
-  return await res.json();
-}
-
-// Ryan notes: changed this function to prevent incorrect html/json r2 fetching
 // Convert absolute or relative href to fully qualified URL based on base URL
-//export function resolveUrl(baseUrl: string, relativeUrl: string): string {
-//  try {
-//    return new URL(relativeUrl, baseUrl).toString();
-//  } catch (e) {
-//    return relativeUrl;
-//  }
-//}
-
 export function resolveUrl(base: string, href: string): string {
   try {
     return new URL(href, base).toString();
@@ -29,7 +10,6 @@ export function resolveUrl(base: string, href: string): string {
     return href;
   }
 }
-
 
 export interface ParsedStacNode {
   id: string;
@@ -50,14 +30,11 @@ export interface ParsedStacNode {
 
 export async function parseStacNode(url: string): Promise<ParsedStacNode> {
   const data = await fetchStacUrl(url);
-  
   const type = data.type === 'Feature' ? 'item' : (data.extent ? 'collection' : 'catalog');
   const id = data.id || 'root';
   const title = data.title || data.id || 'STAC Node';
   const description = data.description || '';
-
   const children: Array<{ rel: string; href: string; title: string; type?: string }> = [];
-
   if (Array.isArray(data.links)) {
     data.links.forEach((link: any) => {
       if (['child', 'item', 'collection'].includes(link.rel)) {
@@ -70,7 +47,6 @@ export async function parseStacNode(url: string): Promise<ParsedStacNode> {
       }
     });
   }
-
   return {
     id,
     type,

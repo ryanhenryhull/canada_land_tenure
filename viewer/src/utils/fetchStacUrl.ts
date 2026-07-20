@@ -1,19 +1,24 @@
 export async function fetchStacUrl(url: string) {
-  const res = await fetch(url);
+  // Force absolute URL fetch, bypassing dev-server routing
+  const res = await fetch(url, {
+    method: "GET",
+    mode: "cors",
+    redirect: "follow",
+    cache: "no-cache",
+    headers: {
+      "Accept": "application/json",
+    }
+  });
 
   const text = await res.text();
 
-  // If the response starts with "<", it's HTML, not JSON
+  // Detect HTML fallback
   if (text.trim().startsWith("<")) {
+    console.error("HTML received instead of JSON from:", url);
+    console.error("Response snippet:", text.slice(0, 200));
     throw new Error(`Received HTML instead of JSON from ${url}`);
   }
 
-  try {
-    return JSON.parse(text);
-  } catch (err) {
-    console.error("JSON parse error at:", url);
-    console.error("Response was:", text.slice(0, 200));
-    throw err;
-  }
+  return JSON.parse(text);
 }
 

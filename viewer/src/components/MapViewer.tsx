@@ -294,9 +294,7 @@ export default function MapViewer({
     let clientCog = cogCache.get(layer.id);
     if (!clientCog) {
       try {
-        const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
-        const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
-        clientCog = await ClientCog.create(proxiedUrl);
+        clientCog = await ClientCog.create(layer.url);
         cogCache.set(layer.id, clientCog);
       } catch (err) {
         console.error(`Failed to initialize COG client for layer ${layer.id}:`, err);
@@ -363,11 +361,9 @@ export default function MapViewer({
     const visibility = layer.visible ? "visible" : "none";
 
     if (!map.getSource(sourceId)) {
-      const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
-      const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
       map.addSource(sourceId, {
         type: "vector",
-        url: `pmtiles://${proxiedUrl}`
+        url: `pmtiles://${layer.url}`
       });
     }
 

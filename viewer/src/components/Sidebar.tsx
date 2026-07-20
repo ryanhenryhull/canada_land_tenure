@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Layers, ChevronLeft, Info, Eye, ExternalLink } from "lucide-react";
 import { GeospatialLayer } from "../types";
 import { ClientCog } from "../utils/cogLoader";
-import * as pmtiles from "pmtiles";
 import maplibregl from "maplibre-gl";
 import { FOREST_INDEXES } from "../utils/cog_indexes/forest_management";
 import { FOREST_CATEGORIES } from "../utils/cog_indexes/forest_management_index";
+import { getPmtilesVectorLayers } from "../utils/pmtilesMetadata";
+
 
 interface SidebarProps {
   layers: GeospatialLayer[];
@@ -28,24 +29,8 @@ export default function Sidebar({
     if (!layer.visible && layer.type === "pmtiles" && (!layer.pmtilesSettings?.vectorLayers || layer.pmtilesSettings.vectorLayers.length === 0)) {
       setLoadingMetadataId(layer.id);
       try {
-        const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
-        const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
-        const p = new pmtiles.PMTiles(proxiedUrl);
-        const metadata = await p.getMetadata() as any;
-        const vectorLayers = metadata?.vector_layers || [];
-        
-        const styleLayers = vectorLayers.map((vl: any, idx: number) => {
-          const colors = ["#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#14b8a6"];
-          const type = vl.id.includes("water") || vl.id.includes("river") ? "fill" : 
-                       (vl.id.includes("building") || vl.id.includes("land") ? "fill" : "line");
-          return {
-            id: vl.id,
-            type,
-            sourceLayer: vl.id,
-            color: colors[idx % colors.length]
-          };
-        });
-
+        const styleLayers = await getPmtilesVectorLayers(layer.url);
+  
         setLayers(prev => prev.map(l => {
           if (l.id === layer.id) {
             return {
@@ -58,7 +43,7 @@ export default function Sidebar({
           }
           return l;
         }));
-
+  
         // Zoom to bounds automatically
         if (layer.bounds) {
           zoomToLayer(layer);
@@ -77,14 +62,13 @@ export default function Sidebar({
         }
         return l;
       }));
-
+  
       // Zoom to layer bounds if activating and bounds exist
       if (!layer.visible && layer.bounds) {
         zoomToLayer(layer);
       }
     }
   };
-
   // Zoom to layer bounds on the map
   const zoomToLayer = (layer: GeospatialLayer) => {
     if (!mapInstance) return;
@@ -96,9 +80,7 @@ export default function Sidebar({
 
     // Try dynamic bounds discovery if it is a COG
     if (layer.type === "cog") {
-      const isExternal = layer.url.startsWith("http") && !layer.url.includes(window.location.host);
-      const proxiedUrl = isExternal ? `${window.location.origin}/api/proxy?url=${encodeURIComponent(layer.url)}` : layer.url;
-      ClientCog.create(proxiedUrl).then(clientCog => {
+      ClientCog.create(layer.url).then(clientCog => {
         const b = clientCog.metadata.wgs84Bounds;
         setLayers(prev => prev.map(l => l.id === layer.id ? { ...l, bounds: b } : l));
         mapInstance.fitBounds(b, { padding: 60, duration: 1500 });
