@@ -258,7 +258,7 @@ export default function Sidebar({
                             {layer.name}
                           </span>
                           <span className="text-[9px] text-slate-500 font-mono block truncate">
-                            {layer.type.toUpperCase()} • {layer.url.split("/").pop()}
+                            {layer.type.toUpperCase()} {/*• {layer.url.split("/").pop()} */}
                           </span>
                         </div>
                       </div>

@@ -48,7 +48,9 @@ def get_cog_bbox_and_footprint(cog_path: Path):
         }
     return bbox, footprint
 
-
+# Ryan note: if we wanna have different titles than the filenames, I'll have to make a lookup table and work it in here.
+def humanize_title(item_id: str) -> str:
+    return item_id.replace("_", " ").replace("-", " ").strip()
 
 def build_cog_item(cog_path: Path) -> pystac.Item:
     item_id = cog_path.stem
@@ -59,7 +61,8 @@ def build_cog_item(cog_path: Path) -> pystac.Item:
         geometry=footprint,
         bbox=bbox,
         datetime=datetime.now(timezone.utc),
-        properties={},
+        properties={
+            "title": humanize_title(item_id)},
     )
 
     item.add_asset(
@@ -106,7 +109,8 @@ def build_pmtiles_items() -> list[pystac.Item]:
             geometry=footprint,
             bbox=bbox,
             datetime=datetime.now(timezone.utc),
-            properties={},
+            properties={
+                "title": humanize_title(item_id)},
         )
         item.add_asset(
             "pmtiles",

@@ -57,13 +57,14 @@ export async function recursivelyDiscoverLayers(
               
               discovered.push({
                 id: layerId,
-                name: asset.title || `${node.title || node.id} - ${key}`,
+                // Ryan: below is where the naming of sidebar elements is controlled.
+                name: node.title || node.id,
                 type: "cog",
                 url: href,
                 visible: false,
                 opacity: 0.8,
                 bounds: node.geometry ? getBboxFromGeometry(node.geometry) : undefined,
-                description: asset.description || node.description || `Format: ${asset.type || "GeoTIFF"}`,
+                description: asset.title || asset.description || node.description || `Format: ${asset.type || "GeoTIFF"}`,
                 cogSettings: {
                   bands: [1],
                   minVal: isForestManagement ? 11 : 0,
