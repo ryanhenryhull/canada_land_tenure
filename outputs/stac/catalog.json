@@ -17,6 +17,11 @@
     },
     {
       "rel": "item",
+      "href": "./BC_Parcel_Fabric_Poly/BC_Parcel_Fabric_Poly.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./ProtectedConservedAreaDelisted_2025/ProtectedConservedAreaDelisted_2025.json",
       "type": "application/geo+json"
     },
@@ -28,6 +33,36 @@
     {
       "rel": "item",
       "href": "./aboriginal_lands_canada_legislative_boundaries/aboriginal_lands_canada_legislative_boundaries.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./federal_real_property_a/federal_real_property_a.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./federal_real_property_p/federal_real_property_p.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./manitoba_community_agreements/manitoba_community_agreements.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./manitoba_first_nation_non_treaty_land_entitlement_agreements/manitoba_first_nation_non_treaty_land_entitlement_agreements.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./manitoba_first_nation_permit_fee_simple_lands/manitoba_first_nation_permit_fee_simple_lands.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./manitoba_treaty_land_entitlement_sites/manitoba_treaty_land_entitlement_sites.json",
       "type": "application/geo+json"
     }
   ],

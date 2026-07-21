@@ -49,38 +49,63 @@ def raster_to_tiff(src: Path, dst: Path, resample: str = "near"):
 
 def process_cpcad():
     """ CPCAD protected areas dataset comes in a .gdb"""
-    src = RAW_DIR / "cpcad" / "ProtectedConservedArea_2025.gdb"
-    dst = PROCESSED_DIR / "ProtectedConservedArea_2025.geojson"
+    src = RAW_DIR / "canada"/ "cpcad" / "ProtectedConservedArea_2025.gdb"
+    dst = PROCESSED_DIR / "canada"/ "ProtectedConservedArea_2025.geojson"
     vector_to_geojson(src, dst, layer="ProtectedConservedArea_2025")
 
 def process_cpcad_delisted():
     """ CPCAD delisted protected areas dataset from .gdb"""
-    src = RAW_DIR / "cpcad" / "ProtectedConservedArea_2025.gdb"
-    dst = PROCESSED_DIR / "ProtectedConservedAreaDelisted_2025.geojson"
+    src = RAW_DIR / "canada"/ "cpcad" / "ProtectedConservedArea_2025.gdb"
+    dst = PROCESSED_DIR / "canada"/ "ProtectedConservedAreaDelisted_2025.geojson"
     vector_to_geojson(src, dst, layer="ProtectedConservedAreaDelisted_2025")
 
 
 # 2. Native lands 
 def process_native_lands():
     """Indigenous/Native lands, currently in a .shp"""
-    src = RAW_DIR / "AL_TA_CA_SHP_eng" / "AL_TA_CA_2_185_eng.shp"
-    dst = PROCESSED_DIR / "aboriginal_lands_canada_legislative_boundaries.geojson"
+    src = RAW_DIR / "canada"/ "AL_TA_CA_SHP_eng" / "AL_TA_CA_2_185_eng.shp"
+    dst = PROCESSED_DIR / "canada"/ "aboriginal_lands_canada_legislative_boundaries.geojson"
     vector_to_geojson(src, dst)
 
-# 3. BC Parcel Fabric of titled and crown land parcels across. 
-def process_bc_parcel_fabric():
+# 3. BC Parcel Fabric of titled and crown land parcels. This thing is massive.
+def process_bc_parcel_fabric(): 
     """currently in a .gdb"""
-    src=RAW_DIR / "pmbc_parcel_fabric_poly_svw.gdb" # Layer: PMBC_PARCEL_FABRIC_POLY_SVW (Multi Polygon)
-    dst=PROCESSED_DIR/"BC_Parcel_Fabric_Poly.geojson"
+    src=RAW_DIR / "british_columbia" / "pmbc_parcel_fabric_poly_svw.gdb" # Layer: PMBC_PARCEL_FABRIC_POLY_SVW (Multi Polygon)
+    dst=PROCESSED_DIR/ "british_columbia" / "BC_Parcel_Fabric_Poly.geojson"
+    vector_to_geojson(src,dst)
+
+# 4. Federal Real Property
+def process_federal_real_property():
+    """ currently in a .shp"""
+    src1=RAW_DIR/ "canada"/ "federal_real_property"/"Property_FGP_20260720135946_799_a.shp"
+    src2=RAW_DIR/ "canada"/ "federal_real_property"/"Property_FGP_20260720135946_799_p.shp"
+    dst1=PROCESSED_DIR/ "canada"/ "federal_real_property_a.geojson"
+    dst2=PROCESSED_DIR/ "canada"/ "federal_real_property_p.geojson"
+    vector_to_geojson(src1,dst1)
+    vector_to_geojson(src2,dst2)
+
+# 5. Alberta Metis Settlement
+def process_alberta_metis_settlement():
+    """currently in a .shp"""
+    src=RAW_DIR/"alberta"/"alberta_metis_settlement"/"Municipal metis settlement public - Métis Settlement.shp"
+    dst=PROCESSED_DIR/"alberta"/"alberta_metis_settlement.geojson"
+    vector_to_geojson(src,dst)
+
+# 6. Saskatchewan crown easements
+def process_saskatchewan_crown_easements():
+    """currently in a .shp"""
+    src=RAW_DIR/"saskatchewan"/"saskatchewan_crown_conservation_easements"/"Planning - Crown Conservation Easements.shp"
+    dst=PROCESSED_DIR/"saskatchewan"/"saskatchewan_crown_conservation_easements.geojson"
     vector_to_geojson(src,dst)
 
 def main():
     # process_cpcad() # already done
     # process_cpcad_delisted() # already done
     # process_native_lands()
-    process_bc_parcel_fabric()
+    # process_bc_parcel_fabric()
+    # process_federal_real_property()
+    # process_alberta_metis_settlement()
+    # process_saskatchewan_crown_easements()
 
 if __name__ == "__main__":
     main()
-
-

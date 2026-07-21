@@ -1,3 +1,9 @@
+# Data Sources
+Note raw/ contains only those not already in .geojson or .tif formats
+
+
+
+
 # Canada-wide datasets
 
 ## CPCAD Protected areas:
@@ -17,6 +23,15 @@ Download [here](https://www.tbs-sct.gc.ca/dfrp-rbif/opendata-eng.aspx)
 
 
 
+
+# British Columbia
+
+## BC Parcel Fabric layer
+Download [here](https://catalogue.data.gov.bc.ca/dataset/4cf233c2-f020-4f7a-9b87-1923252fbc24) (from 2016 but kept up to date)
+
+
+
+
 # Alberta
 
 ## DND Military Base and Air Weapons Range 
@@ -25,11 +40,28 @@ ESRI REST extracted to shp using https://geodatadownloader.com/maps/create
 
 ## Metis Settlement
 Download [here](https://open.canada.ca/data/en/dataset/0a469551-8e68-41b8-8a00-20d708d5d3a2)
-ESRI REST extracted to shp using https://geodatadownloader.com/maps/create
 
 
 
-# British Columbia
 
-## BC Parcel Fabric layer
-Download [here](https://catalogue.data.gov.bc.ca/dataset/4cf233c2-f020-4f7a-9b87-1923252fbc24) (from 2016 but kept up to date)
+# Saskatchewan
+
+## crown conservation easements 
+Download [here](https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/19)
+
+
+
+
+# Manitoba
+
+## Treaty Land Entitlement Sites in Manitoba
+Download [here](https://geoportal.gov.mb.ca/datasets/manitoba::treaty-land-entitlement-sites-in-manitoba/about)
+
+## First Nation Non Treaty Land Entitlement in Manitoba
+Download [here](https://geoportal.gov.mb.ca/datasets/manitoba::first-nation-non-tle-agreements-mb/about)
+
+## First Nation Permit Fee Simple Lands in Manitoba
+Download [here](https://geoportal.gov.mb.ca/datasets/manitoba::first-nation-permit-fee-simple-lands-in-manitoba/about)
+
+## Community Agreements
+Download [here](https://geoportal.gov.mb.ca/datasets/manitoba::community-agreements-in-manitoba/about)

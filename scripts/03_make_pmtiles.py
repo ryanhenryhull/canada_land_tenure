@@ -44,19 +44,26 @@ def geojson_to_pmtiles(src: Path, dst: Path, layer_name: str):
     )
     print(f"PMTiles written: {dst}")
 
-
-
 def main():
-
     check_tippecanoe()
 
-    sources = list(PROCESSED_DIR.glob("ProtectedConservedAreaDelisted_2025.geojson")) # write out specific filename if you want to only process that file.
-    if not sources:
-        print(f"No GeoJSON files found in {PROCESSED_DIR}")
+    # Collect specific files. name the ones you wanna process.
+    sources = [
+        PROCESSED_DIR / "manitoba"/ "manitoba_community_agreements.geojson",
+        PROCESSED_DIR / "manitoba"/ "manitoba_first_nation_non_TLE_agreements.geojson",
+        PROCESSED_DIR / "manitoba"/ "manitoba_first_nation_permit_fee_simple_lands.geojson",
+        PROCESSED_DIR / "manitoba"/ "manitoba_treaty_land_entitlement_sites.geojson",
+    ]
+
+    # Check for missing files
+    missing = [src for src in sources if not src.exists()]
+    if missing:
+        print("Missing:", missing)
         return
 
+    # Process existing files
     for src in sources:
-        dst = OUT_DIR / f"{src.stem}.pmtiles"
+        dst = OUT_DIR / f"{src.stem}.pmtiles" # edit this line to change out dir.
         geojson_to_pmtiles(src, dst, layer_name=src.stem)
 
 if __name__ == "__main__":

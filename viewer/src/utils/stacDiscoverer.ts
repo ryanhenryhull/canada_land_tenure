@@ -86,7 +86,7 @@ export async function recursivelyDiscoverLayers(
             if (!discovered.some(l => l.id === layerId)) {
               discovered.push({
                 id: layerId,
-                name: asset.title || `${node.title || node.id} - ${key}`,
+                name: node.title || node.id, // Ryan: changed to allow proper naming
                 type: "pmtiles",
                 url: href,
                 visible: false,

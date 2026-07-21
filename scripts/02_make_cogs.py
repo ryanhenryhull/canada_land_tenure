@@ -42,7 +42,7 @@ def make_cog(src_path: Path, dst_path: Path):
 
 
 
-# Perform transformation
+# Perform transformation. Note currently this does not place the files in their dedicated country or province folder.
 """ Loop through all processed tif/tiffs to create the COGs """
 def main():
     sources = [file for file in PROCESSED_DIR.glob("**/*") if file.suffix.lower() in RASTER_EXTENSIONS]

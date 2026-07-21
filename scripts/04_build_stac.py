@@ -4,7 +4,6 @@
 # Cloudfare R2 Public Development URL:
 # https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev
 
-
 # Ryan Hull
 # Quantitative Biodiversity Lab, McGill University
 
