@@ -2,7 +2,7 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "manitoba_first_nation_non_treaty_land_entitlement_agreements",
+  "id": "manitoba_first_nation_non_TLE_agreements",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -37,8 +37,8 @@
     83.1
   ],
   "properties": {
-    "title": "manitoba first nation non treaty land entitlement agreements",
-    "datetime": "2026-07-21T19:59:21.422866Z"
+    "title": "manitoba first nation non TLE agreements",
+    "datetime": "2026-07-22T17:04:52.309071Z"
   },
   "links": [
     {
@@ -56,7 +56,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/manitoba_first_nation_non_treaty_land_entitlement_agreements.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/manitoba_first_nation_non_TLE_agreements.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [

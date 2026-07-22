@@ -37,6 +37,11 @@
     },
     {
       "rel": "item",
+      "href": "./alberta_metis_settlement/alberta_metis_settlement.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./federal_real_property_a/federal_real_property_a.json",
       "type": "application/geo+json"
     },
@@ -52,7 +57,7 @@
     },
     {
       "rel": "item",
-      "href": "./manitoba_first_nation_non_treaty_land_entitlement_agreements/manitoba_first_nation_non_treaty_land_entitlement_agreements.json",
+      "href": "./manitoba_first_nation_non_TLE_agreements/manitoba_first_nation_non_TLE_agreements.json",
       "type": "application/geo+json"
     },
     {
@@ -63,6 +68,21 @@
     {
       "rel": "item",
       "href": "./manitoba_treaty_land_entitlement_sites/manitoba_treaty_land_entitlement_sites.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./saskatchewan_conservation_easements/saskatchewan_conservation_easements.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./saskatchewan_crown_conservation_easements/saskatchewan_crown_conservation_easements.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./saskatchewan_protected_conserved_network/saskatchewan_protected_conserved_network.json",
       "type": "application/geo+json"
     }
   ],

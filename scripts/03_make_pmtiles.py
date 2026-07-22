@@ -53,9 +53,7 @@ def main():
 
     # Collect specific files. name the ones you wanna process.
     sources = [
-        PROCESSED_DIR / "saskatchewan"/ "saskatchewan_conservation_easements.geojson",
-        PROCESSED_DIR / "saskatchewan"/ "saskatchewan_crown_conservation_easements.geojson",
-        PROCESSED_DIR / "saskatchewan"/ "saskatchewan_protected_and_conserved_area_network.geojson",
+        PROCESSED_DIR / "alberta"/ "alberta_metis_settlement.geojson",
     ]
 
     # Check for missing files

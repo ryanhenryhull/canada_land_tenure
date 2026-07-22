@@ -46,10 +46,14 @@ Download [here](https://open.canada.ca/data/en/dataset/0a469551-8e68-41b8-8a00-2
 
 # Saskatchewan
 
+## conservation easements
+Download [here](https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/4)
+
 ## crown conservation easements 
 Download [here](https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/19)
 
-
+## Protected and Conserved Areas Network
+Download [here](https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/20)
 
 
 # Manitoba

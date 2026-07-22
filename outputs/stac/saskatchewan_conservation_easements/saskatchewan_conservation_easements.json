@@ -2,7 +2,7 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "BC_Parcel_Fabric_Poly",
+  "id": "saskatchewan_conservation_easements",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -37,8 +37,8 @@
     83.1
   ],
   "properties": {
-    "title": "BC Parcel Fabric Poly",
-    "datetime": "2026-07-22T17:04:52.303101Z"
+    "title": "saskatchewan conservation easements",
+    "datetime": "2026-07-22T17:04:52.311550Z"
   },
   "links": [
     {
@@ -56,7 +56,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/BC_Parcel_Fabric_Poly.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/saskatchewan_conservation_easements.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [
