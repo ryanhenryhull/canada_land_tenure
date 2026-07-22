@@ -15,8 +15,10 @@ PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 OUT_DIR = PROJECT_ROOT / "outputs" / "pmtiles"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-
-
+# ---- CONFIG: edit these two lines to control speed vs. detail ----
+MAX_ZOOM = 10              # low = fast preview, 10 = full detail
+ALLOW_ZOOM_EXTEND = False  # this =True can cause longashell processing .
+# --------------------------------------------------------------------
 
 def check_tippecanoe():
     if shutil.which("tippecanoe") is None:
@@ -27,32 +29,33 @@ def check_tippecanoe():
 
 
 def geojson_to_pmtiles(src: Path, dst: Path, layer_name: str):
-    subprocess.run(
-        [
-            "tippecanoe",
-            "-o", str(dst),
-            "-l", layer_name,
-            "-z", "10",              # explicit max zoom instead of -zg
-            "-Z", "0",                # explicit min zoom
-            "--coalesce-densest-as-needed",   # merges instead of dropping
-            "--extend-zooms-if-still-dropping",
-            "--simplification=10",    # more aggressive line simplification
-            "-f",
-            str(src),
-        ],
-        check=True,
-    )
-    print(f"PMTiles written: {dst}")
+    cmd = [
+        "tippecanoe",
+        "-o", str(dst),
+        "-l", layer_name,
+        "-z", str(MAX_ZOOM),
+        "-Z", "0",
+        "--coalesce-densest-as-needed",
+        "--simplification=10",
+        "-f",
+        str(src),
+    ]
+    if ALLOW_ZOOM_EXTEND:
+        cmd.append("--extend-zooms-if-still-dropping")
+
+    subprocess.run(cmd, check=True)
+    print(f"PMTiles written: {dst} (max zoom {MAX_ZOOM}, extend={ALLOW_ZOOM_EXTEND})")
+
+
 
 def main():
     check_tippecanoe()
 
     # Collect specific files. name the ones you wanna process.
     sources = [
-        PROCESSED_DIR / "manitoba"/ "manitoba_community_agreements.geojson",
-        PROCESSED_DIR / "manitoba"/ "manitoba_first_nation_non_TLE_agreements.geojson",
-        PROCESSED_DIR / "manitoba"/ "manitoba_first_nation_permit_fee_simple_lands.geojson",
-        PROCESSED_DIR / "manitoba"/ "manitoba_treaty_land_entitlement_sites.geojson",
+        PROCESSED_DIR / "saskatchewan"/ "saskatchewan_conservation_easements.geojson",
+        PROCESSED_DIR / "saskatchewan"/ "saskatchewan_crown_conservation_easements..geojson",
+        PROCESSED_DIR / "saskatchewan"/ "saskatchewan_protected_and_conserved_area_network.geojson",
     ]
 
     # Check for missing files
