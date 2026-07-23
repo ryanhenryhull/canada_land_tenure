@@ -162,7 +162,7 @@ def build_pmtiles_items() -> list[pystac.Item]:
             bbox=bbox,
             datetime=datetime.now(timezone.utc),
             properties={
-                "title": humanize_title(item_id)
+                "title": humanize_title(item_id),
                 "region": humanize_region(region_slug),
                 },
         )
