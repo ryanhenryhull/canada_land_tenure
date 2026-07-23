@@ -81,9 +81,13 @@ def get_cog_bbox_and_footprint(cog_path: Path):
 def humanize_title(item_id: str) -> str:
     return item_id.replace("_", " ").replace("-", " ").strip()
 
+
 def build_cog_item(cog_path: Path) -> pystac.Item:
     item_id = cog_path.stem
     bbox, footprint = get_cog_bbox_and_footprint(cog_path)
+
+    region_slug = get_region_slug(cog_path, COG_DIR)
+    rel_path = cog_path.relative_to(COG_DIR).as_posix()
 
     item = pystac.Item(
         id=item_id,
@@ -93,13 +97,13 @@ def build_cog_item(cog_path: Path) -> pystac.Item:
         properties={
             "title": humanize_title(item_id),
             "region": humanize_region(region_slug),
-            }
+        }
     )
 
     item.add_asset(
         "cog",
         pystac.Asset(
-            href=f"{R2_BASE_URL}/cogs/{cog_path.name}",
+            href=f"{R2_BASE_URL}/cogs/{rel_path}",
             media_type=pystac.MediaType.COG,
             roles=["data"],
             title="Cloud-Optimized GeoTIFF",
@@ -107,6 +111,8 @@ def build_cog_item(cog_path: Path) -> pystac.Item:
     )
 
     return item
+
+
 
 def build_cog_items() -> list[pystac.Item]:
     items = []
@@ -156,7 +162,9 @@ def build_pmtiles_items() -> list[pystac.Item]:
             bbox=bbox,
             datetime=datetime.now(timezone.utc),
             properties={
-                "title": humanize_title(item_id)},
+                "title": humanize_title(item_id)
+                "region": humanize_region(region_slug),
+                },
         )
         item.add_asset(
             "pmtiles",
