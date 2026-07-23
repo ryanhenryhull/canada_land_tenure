@@ -2,7 +2,7 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "manitoba_first_nation_non_TLE_agreements",
+  "id": "WildlifeRefuge - Wildlife Refuges",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -37,9 +37,9 @@
     83.1
   ],
   "properties": {
-    "title": "manitoba first nation non TLE agreements",
-    "region": "Manitoba",
-    "datetime": "2026-07-23T20:58:04.843208Z"
+    "title": "WildlifeRefuge   Wildlife Refuges",
+    "region": "New Brunswick",
+    "datetime": "2026-07-23T20:58:04.845354Z"
   },
   "links": [
     {
@@ -57,7 +57,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/manitoba/manitoba_first_nation_non_TLE_agreements.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/new_brunswick/WildlifeRefuge - Wildlife Refuges.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [

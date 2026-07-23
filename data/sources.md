@@ -143,3 +143,4 @@ See also pdfs.
 # Not yet processed or pmtiled:
 New Brunswick protected waters still in myriad shp
 Alberta military stuff still in myriad shp
+use multi geojson to pmtile

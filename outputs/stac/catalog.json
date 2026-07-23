@@ -72,6 +72,46 @@
     },
     {
       "rel": "item",
+      "href": "./Crown Lands/Crown Lands.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Nature_Legacy_Protected_Areas/Nature_Legacy_Protected_Areas.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Protected_Natural_Areas/Protected_Natural_Areas.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./WildlifeRefuge - Wildlife Refuges/WildlifeRefuge - Wildlife Refuges.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Provincial_Protected_Areas/Provincial_Protected_Areas.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Crown_Land_20260723/Crown_Land_20260723.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./ns_protected_area_system/ns_protected_area_system.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./protected_areas/protected_areas.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./saskatchewan_conservation_easements/saskatchewan_conservation_easements.json",
       "type": "application/geo+json"
     },
