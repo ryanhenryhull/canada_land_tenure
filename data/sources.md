@@ -101,6 +101,45 @@ Download [here](https://gis-erd-der.gnb.ca/server/rest/services/OpenData/Wildlif
 
 
 
+# Newfoundland & Labrador
+
+## Provincial protected areas
+Download & visualize [here](https://geohub-gnl.hub.arcgis.com/datasets/GNL::provincial-protected-areas/explore?location=48.408845%2C-53.724060%2C9)
 
 
 
+# Nova Scotia
+
+## Crown lands
+Download [here](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Crown-Land/3nka-59nz/about_data)
+Updated recently, Jul 2026
+
+## Nova Scotia Protected Area System
+About and download: [here](https://nsgi.novascotia.ca/gdd/)
+License info (see full license at link above):
+"all reproductions of the SNS Digital Data shall include the notice provided in section 4.1 and shall carry the caveat contained in section 6.1 hereof".
+"4.1 You shall include and maintain on all reproductions of the SNS Digital Data, produced pursuant to section 3 above, the following notice: Reproduced and distributed with the permission of the Department of Service Nova Scotia."
+
+
+
+
+
+# Québec
+
+## Crown land leases (baux des droits fonciers)
+Description: Le produit de la couche des droits fonciers (baux) contient le centroïde ou, dans certains cas, le contour des baux de location octroyé par le gouvernement du Québec, ou octroyé par les MRC et villes signataires d’une entente de délégation de la gestion foncière et de la gestion de l’exploitation du sable et du gravier sur les terres du domaine de l’État.
+Info and download [here](https://www.donneesquebec.ca/recherche/dataset/couche-des-droits-fonciers-baux)
+Seemingly up to date, edited July 2026
+See PDF description
+
+
+## Registre des aires protégées et des AMCE au Québec - Protected Areas and OECMs
+Updated march 2026, likely more recent than cpcad
+Info and download [here](https://www.donneesquebec.ca/recherche/dataset/aires-protegees-au-quebec)
+See also pdfs.
+
+# Ontario
+
+# Not yet processed or pmtiled:
+New Brunswick protected waters still in myriad shp
+Alberta military stuff still in myriad shp

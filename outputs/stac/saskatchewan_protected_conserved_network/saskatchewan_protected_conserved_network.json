@@ -37,8 +37,9 @@
     83.1
   ],
   "properties": {
-    "title": "saskatchewan protected and conserved area network",
-    "datetime": "2026-07-22T17:04:52.314224Z"
+    "title": "saskatchewan protected conserved network",
+    "region": "Saskatchewan",
+    "datetime": "2026-07-23T15:40:02.344096Z"
   },
   "links": [
     {
@@ -56,7 +57,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/saskatchewan_protected_conserved_network.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/saskatchewan/saskatchewan_protected_conserved_network.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [

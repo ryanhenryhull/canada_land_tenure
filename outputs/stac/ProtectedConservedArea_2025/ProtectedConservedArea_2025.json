@@ -38,7 +38,8 @@
   ],
   "properties": {
     "title": "ProtectedConservedArea 2025",
-    "datetime": "2026-07-22T17:04:52.304869Z"
+    "region": "Canada",
+    "datetime": "2026-07-23T15:40:02.341759Z"
   },
   "links": [
     {
@@ -56,7 +57,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/ProtectedConservedArea_2025.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/canada/ProtectedConservedArea_2025.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [

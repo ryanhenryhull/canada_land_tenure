@@ -17,6 +17,11 @@
     },
     {
       "rel": "item",
+      "href": "./alberta_metis_settlement/alberta_metis_settlement.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./BC_Parcel_Fabric_Poly/BC_Parcel_Fabric_Poly.json",
       "type": "application/geo+json"
     },
@@ -33,11 +38,6 @@
     {
       "rel": "item",
       "href": "./aboriginal_lands_canada_legislative_boundaries/aboriginal_lands_canada_legislative_boundaries.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./alberta_metis_settlement/alberta_metis_settlement.json",
       "type": "application/geo+json"
     },
     {

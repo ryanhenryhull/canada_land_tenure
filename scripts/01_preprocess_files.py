@@ -98,6 +98,13 @@ def process_saskatchewan_crown_easements():
     dst=PROCESSED_DIR/"saskatchewan"/"saskatchewan_crown_conservation_easements.geojson"
     vector_to_geojson(src,dst)
 
+# 7. Nova Scotia protected areas system
+def process_ns_prot_area_sys():
+    """currently in a .sħp"""
+    src=RAW_DIR/"nova_scotia"/"ns_protected_area_system"/"ENV_NS_Prot_Area_Sys_UT83.shp"
+    dst=PROCESSED_DIR/"nova_scotia"/"ns_protected_area_system.geojson"
+    vector_to_geojson(src,dst)
+
 def main():
     # process_cpcad() # already done
     # process_cpcad_delisted() # already done
@@ -106,6 +113,7 @@ def main():
     # process_federal_real_property()
     # process_alberta_metis_settlement()
     # process_saskatchewan_crown_easements()
+    process_ns_prot_area_sys()
 
 if __name__ == "__main__":
     main()
