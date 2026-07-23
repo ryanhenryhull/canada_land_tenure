@@ -22,6 +22,7 @@ export async function recursivelyDiscoverLayers(
 
     try {
       const node = await parseStacNode(normalizedUrl);
+      const category = node.properties?.region || "Uncategorized"; // Ryan note: allows for region logic
       
       // Look for assets in this node
       if (node.assets) {
@@ -59,6 +60,7 @@ export async function recursivelyDiscoverLayers(
                 id: layerId,
                 // Ryan: below is where the naming of sidebar elements is controlled.
                 name: node.title || node.id,
+                category,
                 type: "cog",
                 url: href,
                 visible: false,
@@ -87,6 +89,7 @@ export async function recursivelyDiscoverLayers(
               discovered.push({
                 id: layerId,
                 name: node.title || node.id, // Ryan: changed to allow proper naming
+                category,
                 type: "pmtiles",
                 url: href,
                 visible: false,
