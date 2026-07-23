@@ -21,7 +21,7 @@ TARGET_CRS = "EPSG:4326"
 def vector_to_geojson(src: Path, dst: Path, layer: str | None = None,
                        where: str | None = None):
     """Convert any OGR-readable vector source to GeoJSON in TARGET_CRS."""
-    cmd = ["ogr2ogr", "-f", "GeoJSON", "-overwrite", "-t_srs", TARGET_CRS]
+    cmd = ["ogr2ogr", "-f", "GeoJSON", "-t_srs", TARGET_CRS]
     if layer:
         cmd += [str(dst), str(src), layer]
     else:
@@ -110,13 +110,16 @@ def process_qc_protected_areas():
     """currently in multiple .shp"""
     src1=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"AP_REG_S.shp"
     src2=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"AP_ZON_S.shp"
-    src3=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"T_IMP_S.shp"
-    dst1=PROCESSED_DIR/"quebec"/"protected_areas"/"AP_REG_S.geojson"
-    dst2=PROCESSED_DIR/"quebec"/"protected_areas"/"AP_ZON_S.geojson"
-    dst3=PROCESSED_DIR/"quebec"/"protected_areas"/"T_IMP_S.geojson"
+    src3=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"AP_ZON_S.shp"
+    src4=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"T_IMP_S.shp"
+    dst1=PROCESSED_DIR/"quebec"/"protected_areas"/"AP_REG_S.shp",
+    dst2=PROCESSED_DIR/"quebec"/"protected_areas"/"AP_ZON_S.shp",
+    dst3=PROCESSED_DIR/"quebec"/"protected_areas"/"AP_ZON_S.shp",
+    dst4=PROCESSED_DIR/"quebec"/"protected_areas"/"T_IMP_S.shp"
     vector_to_geojson(src1,dst1)
     vector_to_geojson(src2,dst2)
     vector_to_geojson(src3,dst3)
+    vector_to_geojson(src4,dst4)
 
 
 def main():

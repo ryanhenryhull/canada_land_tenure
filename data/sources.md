@@ -1,7 +1,7 @@
 # Data Sources
 Note raw/ contains only those not already in .geojson or .tif formats
 Useful site for extracting ESRI REST: https://geodatadownloader.com/maps/create
-
+Note for multi-shp layers: convert all to geojson and make one pmtile from them. see pmtile script.
 
 # Canada-wide datasets
 

@@ -47,27 +47,75 @@ def geojson_to_pmtiles(src: Path, dst: Path, layer_name: str):
     print(f"PMTiles written: {dst} (max zoom {MAX_ZOOM}, extend={ALLOW_ZOOM_EXTEND})")
 
 
+# to make one pmtiles with many layers from separate geojsons
+def multi_geojson_to_pmtiles(sources_with_layer_names: list[tuple[Path, str]], dst: Path):
+    """Multiple geojsons -> single pmtiles archive, each as its own named vector layer."""
+    cmd = ["tippecanoe", "-o", str(dst)]
+    for src, layer_name in sources_with_layer_names:
+        cmd += ["-L", f"{layer_name}:{src}"]
+    cmd += [
+        "-z", str(MAX_ZOOM),
+        "-Z", "0",
+        "--coalesce-densest-as-needed",
+        "--simplification=10",
+        "-f",
+    ]
+    if ALLOW_ZOOM_EXTEND:
+        cmd.append("--extend-zooms-if-still-dropping")
+    subprocess.run(cmd, check=True)
+    print(f"Combined PMTiles written: {dst} (layers: {[l for _, l in sources_with_layer_names]})")
 
-def main():
+
+# Example of use of multi function
+def process_qc_protected_areas():
+
     check_tippecanoe()
-
-    # Collect specific files. name the ones you wanna process.
-    sources = [
-        PROCESSED_DIR / "nova_scotia"/ "Crown_Land_20260723.geojson",
-        PROCESSED_DIR / "nova_scotia"/ "ns_protected_area_system.geojson",
-        PROCESSED_DIR / "newfoundland_labrador"/ "Provincial_Protected_Areas.geojson"
+    
+    qc_protected_dir = PROCESSED_DIR / "quebec" / "protected_areas"
+    sources_with_layer_names = [
+        (qc_protected_dir / "AP_REG_S.geojson", "AP_REG_S"),
+        (qc_protected_dir / "AP_ZON_S.geojson", "AP_ZON_S"),
+        (qc_protected_dir / "T_IMP_S.geojson", "T_IMP_S"),
     ]
 
-    # Check for missing files
-    missing = [src for src in sources if not src.exists()]
+    missing = [src for src, _ in sources_with_layer_names if not src.exists()]
     if missing:
         print("Missing:", missing)
         return
 
-    # Process existing files
-    for src in sources:
-        dst = OUT_DIR / f"{src.stem}.pmtiles" # edit this line to change out dir.
-        geojson_to_pmtiles(src, dst, layer_name=src.stem)
+    dst = OUT_DIR / "quebec" / "protected_areas.pmtiles"
+    dst.parent.mkdir(parents=True, exist_ok=True)
+
+    multi_geojson_to_pmtiles(sources_with_layer_names, dst)
+
+
+
+
+
+def main():
+    
+    process_qc_protected_areas()
+
+    # below: for the non-multilayer method
+    #check_tippecanoe()
+
+    ## Collect specific files. name the ones you wanna process.
+    #sources = [
+    #    PROCESSED_DIR / "quebec"/ "protected_areas" / ".geojson",
+    #    PROCESSED_DIR / "quebec"/ "protected_areas" / ".geojson",
+    #]
+
+    ## Check for missing files
+    #missing = [src for src in sources if not src.exists()]
+    #if missing:
+    #    print("Missing:", missing)
+    #    return
+
+    ## Process existing files
+    #for src in sources:
+    #    dst = OUT_DIR / f"{src.stem}.pmtiles" # edit this line to change out dir.
+    #    geojson_to_pmtiles(src, dst, layer_name=src.stem)
+
 
 if __name__ == "__main__":
     main()
