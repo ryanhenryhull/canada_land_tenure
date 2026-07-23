@@ -1,7 +1,6 @@
 # Data Sources
 Note raw/ contains only those not already in .geojson or .tif formats
-
-
+Useful site for extracting ESRI REST: https://geodatadownloader.com/maps/create
 
 
 # Canada-wide datasets
@@ -56,6 +55,8 @@ Download [here](https://gis.saskatchewan.ca/arcgis/rest/services/Planning/Featur
 Download [here](https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/20)
 
 
+
+
 # Manitoba
 
 ## Treaty Land Entitlement Sites in Manitoba
@@ -69,3 +70,37 @@ Download [here](https://geoportal.gov.mb.ca/datasets/manitoba::first-nation-perm
 
 ## Community Agreements
 Download [here](https://geoportal.gov.mb.ca/datasets/manitoba::community-agreements-in-manitoba/about)
+
+
+
+
+# New Brunswick
+see https://www.gnb.ca/en/campaign/geonb/data-catalogue.html
+
+## crown lands
+Download [here](https://gis-erd-der.gnb.ca/server/rest/services/OpenData/Crown_Lands/FeatureServer?_gl=1*18micu0*_ga*NzgwMDYzOTI5LjE3ODQ3Mzg0Nzg.*_ga_F531P4D0XX*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjIwODckajYwJGwwJGgw*_ga_X5V0H8WVKQ*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjIwODckajYwJGwwJGgw) 
+
+## Nature Legacy Protected Areas:
+About: Nature Legacy protected areas are newly established protected areas and contribute to New Brunswick’s 10% target for protected land.
+Updated: Jan 2025
+Let's see if CPCAD includes it
+Download [here](https://hub.arcgis.com/datasets/d926e7acca93498da229e3b60e3718df_0/about?locale=en)
+
+## Protected Natural Areas
+About: https://www2.gnb.ca/content/gnb/en/departments/erd/forestry-conservation/content/ProtectedNaturalAreas/WhatIsAProtectedNaturalArea.html
+Download [here]()
+
+## Protected Watersheds
+About: https://www.gnb.ca/en/campaign/geonb/data-catalogue/protected-watersheds.html
+Download [here](https://www.gnb.ca/en/campaign/geonb/data-catalogue.html)
+
+## Wildlife Management Areas
+About: New Brunswick's Wildlife Refuges and Wildlife Management Areas.
+Download [here](https://gis-erd-der.gnb.ca/server/rest/services/OpenData/WildlifeRefuge/FeatureServer?_gl=1*xm5yyg*_ga*NzgwMDYzOTI5LjE3ODQ3Mzg0Nzg.*_ga_F531P4D0XX*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjI4NDUkajEyJGwwJGgw*_ga_X5V0H8WVKQ*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjI4NDUkajEyJGwwJGgw)
+
+
+
+
+
+
+
