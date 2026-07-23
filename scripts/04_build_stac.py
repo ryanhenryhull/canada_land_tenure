@@ -19,12 +19,42 @@ PROJECT_ROOT = SCRIPTS_DIR.parent
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 STAC_DIR = OUTPUTS_DIR / "stac"
 
-# Replace with your actual R2 public dev URL
 R2_BASE_URL = "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev"
 
 COG_DIR = OUTPUTS_DIR / "cogs"
 PMTILES_DIR = OUTPUTS_DIR / "pmtiles"
 
+# Maps folder slug -> display name. Add entries as you add provinces/territories.
+# Anything not listed here falls back to title-cased underscores (see humanize_region).
+REGION_DISPLAY_NAMES = {
+    "canada": "Canada",
+    "british_columbia": "British Columbia",
+    "alberta": "Alberta",
+    "saskatchewan": "Saskatchewan",
+    "manitoba": "Manitoba",
+    "ontario": "Ontario",
+    "quebec": "Quebec",
+    "new_brunswick": "New Brunswick",
+    "nova_scotia": "Nova Scotia",
+    "prince_edward_island": "Prince Edward Island",
+    "newfoundland_and_labrador": "Newfoundland and Labrador",
+    "yukon": "Yukon",
+    "northwest_territories": "Northwest Territories",
+    "nunavut": "Nunavut",
+}
+
+def humanize_region(region_slug: str) -> str:
+    if region_slug in REGION_DISPLAY_NAMES:
+        return REGION_DISPLAY_NAMES[region_slug]
+    return region_slug.replace("_", " ").replace("-", " ").title()
+
+
+def get_region_slug(file_path: Path, base_dir: Path) -> str:
+    rel = file_path.relative_to(base_dir)
+    if len(rel.parts) < 2:
+        print(f"Warning: {file_path} has no region subfolder under {base_dir}; defaulting to 'canada'")
+        return "canada"
+    return rel.parts[0]
 
 def get_cog_bbox_and_footprint(cog_path: Path):
     with rasterio.open(cog_path) as src:
@@ -61,7 +91,9 @@ def build_cog_item(cog_path: Path) -> pystac.Item:
         bbox=bbox,
         datetime=datetime.now(timezone.utc),
         properties={
-            "title": humanize_title(item_id)},
+            "title": humanize_title(item_id),
+            "region": humanize_region(region_slug),
+            }
     )
 
     item.add_asset(
@@ -76,6 +108,20 @@ def build_cog_item(cog_path: Path) -> pystac.Item:
 
     return item
 
+def build_cog_items() -> list[pystac.Item]:
+    items = []
+    cog_files = sorted(COG_DIR.rglob("*.tif"))
+
+    if not cog_files:
+        print(f"No COGs found under {COG_DIR}")
+
+    for cog_path in cog_files:
+        item = build_cog_item(cog_path)
+        items.append(item)
+        print(f"Added COG item: {item.id} (region: {item.properties['region']})")
+
+    return items
+
 
 def build_pmtiles_items() -> list[pystac.Item]:
     items = []
@@ -87,6 +133,7 @@ def build_pmtiles_items() -> list[pystac.Item]:
     for pmtiles_path in pmtiles_files:
         item_id = pmtiles_path.stem
         rel_path = pmtiles_path.relative_to(PMTILES_DIR).as_posix()
+        region_slug = get_region_slug(pmtiles_path, PMTILES_DIR)
 
         # Placeholder bbox (Canada-wide). Replace with actual per-file
         # extent via the `pmtiles` library's header reader if precise
@@ -132,15 +179,9 @@ def build_catalog() -> pystac.Catalog:
         description="Canada-wide land tenure COGs and PMTiles for Blitz the Gap",
         title="Canada Land Tenure",
     )
-
-    cog_files = sorted(COG_DIR.glob("*.tif"))
-    if not cog_files:
-        print(f"No COGs found in {COG_DIR}")
-
-    for cog_file in cog_files:
-        item = build_cog_item(cog_file)
-        catalog.add_item(item)
-        print(f"Added COG item: {item.id}")
+    
+    for cog_item in build_cog_items():
+        catalog.add_item(cog_item)
 
     for pmtiles_item in build_pmtiles_items():
         catalog.add_item(pmtiles_item)
