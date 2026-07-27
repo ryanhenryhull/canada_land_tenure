@@ -118,17 +118,58 @@ def process_qc_protected_areas():
     vector_to_geojson(src2,dst2)
     vector_to_geojson(src3,dst3)
 
+# 9. Yukon Land Parcels Polygons
+def process_yukon_parcel_polygons():
+    """ from shp """
+    src=RAW_DIR/"yukon"/"land_parcels_polygon"/"Land_Parcels_Polygon_Surveyed.shp"
+    dst=PROCESSED_DIR/"yukon"/"land_parcels_polygon"/"Land_Parcels_Polygon_Surveyed.geojson"
+    vector_to_geojson(src,dst)
+
+# 10. Canada census subdivisions polygons
+def process_canada_census_subdivisions():
+    """ from shp """
+    src=RAW_DIR/"canada"/"statscan_census_subdivision_boundaries"/"lcsd000a25a_e.shp"
+    dst=PROCESSED_DIR/"canada"/"statscan_census_subdivision_boundaries"/"census_subdivision_boundaries.geojson"
+    vector_to_geojson(src,dst)
+
+# 11. Alberta crown land reservations
+def process_alberta_crown_land_reservations():
+    """ from shp """
+    src1=RAW_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations.shp"
+    dst1=PROCESSED_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations.geojson"
+    src2=RAW_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations_Historical.shp"
+    dst2=PROCESSED_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations_Historical.geojson"
+    vector_to_geojson(src1,dst1)
+    vector_to_geojson(src2,dst2)
+
+# 12. New Brunswick protected waters
+def process_new_brunswick_protected_waters():
+    """ from myriad shp """
+
+    src1=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneA_2017.shp"
+    dst1=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneA_2017.geojson"
+
+    src2=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneAp_2017.shp"
+    dst2=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneAp_2017.geojson"
+    
+    src3=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneB.shp"
+    dst3=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneB.geojson"
+    
+    src4=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneC.shp"
+    dst4=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneC.geojson"
+
+    vector_to_geojson(src1,dst1)
+    vector_to_geojson(src2,dst2)
+    vector_to_geojson(src3,dst3)
+    vector_to_geojson(src4,dst4)
+
 
 def main():
-    # process_cpcad() # already done
-    # process_cpcad_delisted() # already done
-    # process_native_lands()
-    # process_bc_parcel_fabric()
-    # process_federal_real_property()
-    # process_alberta_metis_settlement()
-    # process_saskatchewan_crown_easements()
-    # process_ns_prot_area_sys()
-    process_qc_protected_areas()
+    process_yukon_parcel_polygons()
+    process_canada_census_subdivisions()
+    process_alberta_crown_land_reservations()
+    process_new_brunswick_protected_waters()
+
 
 if __name__ == "__main__":
     main()
