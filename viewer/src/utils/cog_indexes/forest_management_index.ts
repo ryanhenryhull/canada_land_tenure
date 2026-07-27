@@ -64,6 +64,6 @@ export const FOREST_CATEGORIES: ForestCategory[] = [
     value: 100,
     name: "Water",
     description: "Water",
-    color: "#ffffff" 
+    color: "#aadaff" 
   }
 ];
