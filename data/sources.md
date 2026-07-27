@@ -20,7 +20,9 @@ Download [here](https://open.canada.ca/data/en/dataset/d8fa9a38-c4df-442a-8319-9
 ## Federal Real Property
 Download [here](https://www.tbs-sct.gc.ca/dfrp-rbif/opendata-eng.aspx)
 
-
+## Census divisions 
+ESRI REST [here](https://geo.statcan.gc.ca/geo_wa/rest/services/2025/lcsd000a25s_e/MapServer)
+Download [here](https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-s-eng.cfm?year=25)
 
 
 # British Columbia
@@ -39,6 +41,9 @@ ESRI REST extracted to shp using https://geodatadownloader.com/maps/create
 
 ## Metis Settlement
 Download [here](https://open.canada.ca/data/en/dataset/0a469551-8e68-41b8-8a00-20d708d5d3a2)
+
+## Crown Land Reservations
+Download & info [here](https://open.alberta.ca/opendata/gda-82209a6e-a4ab-4f26-bf7f-2080c97d5878)
 
 
 
@@ -143,10 +148,30 @@ See also pdfs.
 
 # Ontario
 
+## Crown Land: Ministry Unpatented Land
+Info and download [here](https://geohub.lio.gov.on.ca/datasets/lio::crown-land-ministry-unpatented-land/about)
 
+## Crown Land: Ministry Acquisitions
+Info and download [here](https://geohub.lio.gov.on.ca/datasets/lio::crown-land-ministry-acquisitions/about)
+
+## Crown game preserves
+Info and download [here](https://geohub.lio.gov.on.ca/datasets/lio::crown-game-preserves/about)
+
+
+
+
+# Yukon
+
+## Land Parcels Polygons
+Cadastral fabric parcels of Yukon with status "Active"
+Download [here](https://open.yukon.ca/data/land-parcels-polygon-surveyed)
 
 
 # Not yet processed or pmtiled:
 New Brunswick protected waters still in myriad shp
 Alberta military stuff still in myriad shp
+Alberta crown land reservations
+census subdivisions
+Ontario, all three.
+Yukon stuff.
 use multi geojson to pmtile
