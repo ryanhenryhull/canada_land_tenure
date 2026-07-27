@@ -58,10 +58,6 @@ export default function Sidebar({
           return l;
         }));
   
-        // Zoom to bounds automatically
-        if (layer.bounds) {
-          zoomToLayer(layer);
-        }
       } catch (err) {
         console.error("Failed to parse PMTiles vector layers:", err);
       } finally {
@@ -76,14 +72,10 @@ export default function Sidebar({
         }
         return l;
       }));
-  
-      // Zoom to layer bounds if activating and bounds exist
-      if (!layer.visible && layer.bounds) {
-        zoomToLayer(layer);
-      }
     }
   };
   // Zoom to layer bounds on the map
+  // Currently removed this from use given bounds not set properly anyway.
   const zoomToLayer = (layer: GeospatialLayer) => {
     if (!mapInstance) return;
 
