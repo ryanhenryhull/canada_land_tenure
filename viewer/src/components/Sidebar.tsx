@@ -100,6 +100,11 @@ export default function Sidebar({
     setLayers(prev => prev.map(l => l.id === layerId ? { ...l, opacity } : l));
   };
 
+
+
+
+  {/* reincorporate this if you actually put cog-specific elements later on
+
   const handleCogSettingChange = (layerId: string, updates: Partial<NonNullable<GeospatialLayer["cogSettings"]>>) => {
     setLayers(prev => prev.map(l => {
       if (l.id === layerId && l.cogSettings) {
@@ -111,7 +116,11 @@ export default function Sidebar({
       return l;
     }));
   };
+  */}
 
+
+
+  
   const handleVectorColorChange = (layerId: string, subLayerId: string, color: string) => {
     setLayers(prev => prev.map(l => {
       if (l.id === layerId && l.pmtilesSettings?.vectorLayers) {
@@ -373,155 +382,7 @@ export default function Sidebar({
                             </div>
 
                             {/* Custom Settings for COG */}
-                            {layer.type === "cog" && layer.cogSettings && (
-                              <div className="space-y-2 pt-2 border-t border-slate-900">
-                                <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Raster Settings</span>
-                                
-                                {/* Forest Index Selector */}
-                                <div className="flex items-center justify-between gap-2">
-                                  <span className="text-slate-400 font-medium">Forest Index</span>
-                                  <select 
-                                    value={layer.cogSettings.activeForestIndexId || ""}
-                                    onChange={(e) => {
-                                      const idxId = e.target.value || undefined;
-                                      const indexDef = FOREST_INDEXES.find(f => f.id === idxId);
-                                      handleCogSettingChange(layer.id, {
-                                        activeForestIndexId: idxId,
-                                        minVal: indexDef ? indexDef.defaultMin : 0,
-                                        maxVal: indexDef ? indexDef.defaultMax : 255,
-                                      });
-                                    }}
-                                    className="text-xs border border-slate-800 rounded px-1.5 py-1 bg-slate-900 text-slate-300 focus:outline-none focus:border-blue-500"
-                                  >
-                                    <option value="">None (Standard Bands)</option>
-                                    {FOREST_INDEXES.map(f => (
-                                      <option key={f.id} value={f.id}>{f.name}</option>
-                                    ))}
-                                  </select>
-                                </div>
-
-                                <div className="flex items-center justify-between gap-2">
-                                  <span className="text-slate-400 font-medium">Colormap</span>
-                                  <select 
-                                    value={layer.cogSettings.colormapName || "viridis"}
-                                    onChange={(e) => handleCogSettingChange(layer.id, { colormapName: e.target.value })}
-                                    className="text-xs border border-slate-800 rounded px-1.5 py-1 bg-slate-900 text-slate-300 focus:outline-none focus:border-blue-500"
-                                  >
-                                    <option value="forest_management">Forest Management</option>
-                                    <option value="viridis">Viridis (Continuous)</option>
-                                    <option value="terrain">Terrain (Continuous)</option>
-                                    <option value="magma">Magma (Continuous)</option>
-                                    <option value="elevation">Elevation (Continuous)</option>
-                                    <option value="greyscale">Greyscale (Continuous)</option>
-                                  </select>
-                                </div>
-
-                                <div className="space-y-1">
-                                  <div className="flex justify-between text-[9px] font-medium text-slate-400">
-                                    <span>Stretch Min</span>
-                                    <span>{layer.cogSettings.minVal}</span>
-                                  </div>
-                                  <input 
-                                    type="range"
-                                    min={layer.cogSettings.activeForestIndexId ? -1 : 0}
-                                    max={layer.cogSettings.activeForestIndexId ? 1 : 1000}
-                                    step={layer.cogSettings.activeForestIndexId ? 0.05 : 1}
-                                    value={layer.cogSettings.minVal}
-                                    onChange={(e) => handleCogSettingChange(layer.id, { minVal: parseFloat(e.target.value) })}
-                                    className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                                  />
-                                </div>
-
-                                <div className="space-y-1">
-                                  <div className="flex justify-between text-[9px] font-medium text-slate-400">
-                                    <span>Stretch Max</span>
-                                    <span>{layer.cogSettings.maxVal}</span>
-                                  </div>
-                                  <input 
-                                    type="range"
-                                    min={layer.cogSettings.activeForestIndexId ? -1 : 100}
-                                    max={layer.cogSettings.activeForestIndexId ? 1 : 5000}
-                                    step={layer.cogSettings.activeForestIndexId ? 0.05 : 5}
-                                    value={layer.cogSettings.maxVal}
-                                    onChange={(e) => handleCogSettingChange(layer.id, { maxVal: parseFloat(e.target.value) })}
-                                    className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                                  />
-                                </div>
-
-                                {/* Collapsible Band Mapping Config */}
-                                {layer.cogSettings.activeForestIndexId && (
-                                  <div className="bg-slate-950/40 p-2 rounded border border-slate-900 space-y-2 mt-2">
-                                    <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Band Mapping (1-Based)</span>
-                                    <div className="grid grid-cols-2 gap-2 text-[10px]">
-                                      <div className="flex items-center justify-between gap-1">
-                                        <span className="text-slate-400">Red Band</span>
-                                        <input 
-                                          type="number"
-                                          min="1"
-                                          max="20"
-                                          value={layer.cogSettings.bandMapping?.red || 1}
-                                          onChange={(e) => {
-                                            const red = parseInt(e.target.value) || 1;
-                                            handleCogSettingChange(layer.id, {
-                                              bandMapping: { ...layer.cogSettings!.bandMapping!, red }
-                                            });
-                                          }}
-                                          className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
-                                        />
-                                      </div>
-                                      <div className="flex items-center justify-between gap-1">
-                                        <span className="text-slate-400">NIR Band</span>
-                                        <input 
-                                          type="number"
-                                          min="1"
-                                          max="20"
-                                          value={layer.cogSettings.bandMapping?.nir || 4}
-                                          onChange={(e) => {
-                                            const nir = parseInt(e.target.value) || 4;
-                                            handleCogSettingChange(layer.id, {
-                                              bandMapping: { ...layer.cogSettings!.bandMapping!, nir }
-                                            });
-                                          }}
-                                          className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
-                                        />
-                                      </div>
-                                      <div className="flex items-center justify-between gap-1">
-                                        <span className="text-slate-400">Blue Band</span>
-                                        <input 
-                                          type="number"
-                                          min="1"
-                                          max="20"
-                                          value={layer.cogSettings.bandMapping?.blue || 3}
-                                          onChange={(e) => {
-                                            const blue = parseInt(e.target.value) || 3;
-                                            handleCogSettingChange(layer.id, {
-                                              bandMapping: { ...layer.cogSettings!.bandMapping!, blue }
-                                            });
-                                          }}
-                                          className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
-                                        />
-                                      </div>
-                                      <div className="flex items-center justify-between gap-1">
-                                        <span className="text-slate-400">SWIR Band</span>
-                                        <input 
-                                          type="number"
-                                          min="1"
-                                          max="20"
-                                          value={layer.cogSettings.bandMapping?.swir || 5}
-                                          onChange={(e) => {
-                                            const swir = parseInt(e.target.value) || 5;
-                                            handleCogSettingChange(layer.id, {
-                                              bandMapping: { ...layer.cogSettings!.bandMapping!, swir }
-                                            });
-                                          }}
-                                          className="w-10 text-center border border-slate-800 rounded bg-slate-900 text-slate-200 py-0.5"
-                                        />
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                            {/* removed this section, was not necessary.  */}
 
                             {/* Custom Settings for PMTiles */}
                             {layer.type === "pmtiles" && layer.pmtilesSettings?.vectorLayers && layer.pmtilesSettings.vectorLayers.length > 0 && (
