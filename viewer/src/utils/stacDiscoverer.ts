@@ -111,8 +111,8 @@ export async function recursivelyDiscoverLayers(
         const childUrls = node.children.map(c => c.href);
         // Let's run traversals in parallel/concurrently to make it extremely responsive and fast
         await Promise.all(
-          childUrls.slice(0, 15).map(async (childUrl) => {
-            if (requestCount < maxRequests) {
+          childUrls.map(async (childUrl) => {
+            if (requestCount < maxRequests) { // maxrequests is 80 I believe. hence if exceed 80 items need to work around.
               await traverse(childUrl);
             }
           })
