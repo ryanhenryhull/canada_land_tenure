@@ -22,7 +22,7 @@ export default function Sidebar({
   const [infoExpandedId, setInfoExpandedId] = useState<string | null>(null);
   const [loadingMetadataId, setLoadingMetadataId] = useState<string | null>(null);
 
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Canada"]));
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set()); // empty set so that default is closed upon site opening
  
   // category system for regions inside sidebar
   const toggleCategory = (category: string) => {
