@@ -395,7 +395,8 @@ export default function Sidebar({
                         
                             <div className="space-y-1 pt-1 border-t border-slate-900">
                               <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Source Data</span>
-                        
+
+                              <a> {/* I think this <a> was missing */}
                                 href={layer.sourceUrl}
                                 target="_blank"
                                 rel="noreferrer"
