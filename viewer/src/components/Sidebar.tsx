@@ -286,13 +286,12 @@ export default function Sidebar({
                             }`}
                           >
 
-                        {/* here down all the same as before adding in categories. just with extra closing braces. */}
                         {/* Layer Item Row */}
                         <div className="p-3 flex items-center justify-between space-x-2">
                           <div className="flex items-center space-x-3 min-w-0 flex-1">
                             {/* Checkbox */}
                             <label className="relative flex items-center cursor-pointer select-none">
-                              <input 
+                              <input
                                 type="checkbox"
                                 checked={layer.visible}
                                 disabled={isLoadingMetadata}
@@ -304,25 +303,22 @@ export default function Sidebar({
                                 {!layer.visible && <div className="w-1.5 h-1.5 rounded-full bg-transparent" />}
                               </div>
                             </label>
-
                             {/* Text Label */}
                             <div className="min-w-0 flex-1" onClick={() => toggleLayerVisibility(layer)}>
                               <span className="text-xs font-medium text-slate-200 block truncate cursor-pointer hover:text-white" title={layer.name}>
                                 {layer.name}
                               </span>
                               <span className="text-[9px] text-slate-500 font-mono block truncate">
-                                {layer.type.toUpperCase()} {/*• {layer.url.split("/").pop()} */}
+                                {layer.type.toUpperCase()}
                               </span>
                             </div>
                           </div>
-
                           {/* Action buttons */}
                           <div className="flex items-center space-x-1">
                             {isLoadingMetadata && (
                               <div className="w-4 h-4 rounded-full border-2 border-t-transparent border-blue-500 animate-spin mr-1" />
                             )}
-
-                            <button 
+                            <button
                               onClick={() => setInfoExpandedId(isInfoActive ? null : layer.id)}
                               className={`p-1.5 rounded-lg cursor-pointer transition-colors ${
                                 isInfoActive ? "text-blue-400 bg-slate-800" : "text-slate-400 hover:text-white hover:bg-slate-800"
@@ -333,21 +329,17 @@ export default function Sidebar({
                             </button>
                           </div>
                         </div>
-
-                        {/* Integrated Legend Panel - Only visible when layer is active */}
-                        {layer.visible && renderLegend(layer)}
-
-                        {/* Small Info Box */}
-                        {isInfoActive && (
-                          <div className="p-3 bg-slate-950 border-t border-slate-850 space-y-3 rounded-b-xl text-slate-300 text-[11px] animate-fadeIn">
-                            
-                            {/* 1. Layer Opacity Slider (Moved here as requested) */}
-                            <div className="space-y-1 pb-2 border-b border-slate-900">
+                        
+                        {/* Layer Controls - Opacity + Sub-layer colors - visible whenever layer is active */}
+                        {layer.visible && (
+                          <div className="px-3 pb-3 space-y-2">
+                            {/* Opacity Slider */}
+                            <div className="space-y-1">
                               <div className="flex justify-between text-[9px] font-bold text-slate-500 tracking-wider uppercase">
-                                <span>Layer Opacity</span>
+                                <span>Opacity</span>
                                 <span className="text-blue-400">{Math.round(layer.opacity * 100)}%</span>
                               </div>
-                              <input 
+                              <input
                                 type="range"
                                 min="0"
                                 max="1"
@@ -357,54 +349,73 @@ export default function Sidebar({
                                 className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
                               />
                             </div>
+                        
+                            {/* Vector Sub-layer Colors */}
+                            {layer.type === "pmtiles" && layer.pmtilesSettings?.vectorLayers && layer.pmtilesSettings.vectorLayers.length > 0 && (
+                              <div className="space-y-1">
+                                {layer.pmtilesSettings.vectorLayers.map(vl => (
+                                  <div key={vl.id} className="flex items-center justify-between bg-slate-900/40 p-1.5 rounded border border-slate-850">
+                                    <span className="font-mono text-[9px] text-slate-400 truncate">{vl.sourceLayer}</span>
+                                    <input
+                                      type="color"
+                                      value={vl.color}
+                                      onChange={(e) => handleVectorColorChange(layer.id, vl.id, e.target.value)}
+                                      className="w-4 h-4 rounded cursor-pointer border border-slate-850 p-0 bg-transparent"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        
+                        {/* Integrated Legend Panel - Only visible when layer is active */}
+                        {layer.visible && renderLegend(layer)}
 
+
+
+
+                        {/* Small Info Box */}
+                        {isInfoActive && (
+                          <div className="p-3 bg-slate-950 border-t border-slate-850 space-y-3 rounded-b-xl text-slate-300 text-[11px] animate-fadeIn">
+                        
                             <div className="space-y-1">
                               <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Description</span>
                               <p className="text-slate-400 leading-relaxed font-sans max-h-24 overflow-y-auto pr-1">
                                 {layer.description || "No description provided."}
                               </p>
                             </div>
-
+                        
                             <div className="space-y-1 pt-1 border-t border-slate-900">
-                              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Cloud Data URL</span>
-                              <div className="flex items-center justify-between gap-2 bg-slate-900/60 p-1.5 rounded border border-slate-850 text-[10px] font-mono text-slate-400 overflow-x-auto">
-                                <span className="truncate flex-1 select-all">{layer.url}</span>
-                                <a 
-                                  href={layer.url} 
-                                  target="_blank" 
-                                  rel="noreferrer" 
-                                  className="text-blue-400 hover:text-blue-300 flex-shrink-0"
-                                  title="Open in new tab"
-                                >
-                                  <ExternalLink className="h-3 w-3" />
-                                </a>
-                              </div>
+                              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Citation</span>
+                              <p className="text-slate-400 leading-relaxed font-sans max-h-20 overflow-y-auto pr-1">
+                                {layer.citation || "No citation provided."}
+                              </p>
                             </div>
-
-                            {/* Custom Settings for COG */}
-                            {/* removed this section, was not necessary.  */}
-
-                            {/* Custom Settings for PMTiles */}
-                            {layer.type === "pmtiles" && layer.pmtilesSettings?.vectorLayers && layer.pmtilesSettings.vectorLayers.length > 0 && (
-                              <div className="space-y-2 pt-2 border-t border-slate-900">
-                                <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Vector Sub-layers</span>
-                                <div className="max-h-32 overflow-y-auto space-y-1 pr-1">
-                                  {layer.pmtilesSettings.vectorLayers.map(vl => (
-                                    <div key={vl.id} className="flex items-center justify-between bg-slate-900/40 p-1.5 rounded border border-slate-850">
-                                      <span className="font-mono text-[9px] text-slate-400 truncate">{vl.sourceLayer}</span>
-                                      <input 
-                                        type="color"
-                                        value={vl.color}
-                                        onChange={(e) => handleVectorColorChange(layer.id, vl.id, e.target.value)}
-                                        className="w-4 h-4 rounded cursor-pointer border border-slate-850 p-0 bg-transparent"
-                                      />
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
+                        
+                            <div className="space-y-1 pt-1 border-t border-slate-900">
+                              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Source Data</span>
+                        
+                                href={layer.sourceUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-[10px] font-mono truncate"
+                                title="Open original data source"
+                              >
+                                <ExternalLink className="h-3 w-3 flex-shrink-0" />
+                                <span className="truncate">{layer.sourceUrl || "No source link provided"}</span>
+                              </a>
+                            </div>
+                        
                           </div>
                         )}
+
+
+
+
+
+
+
                   </div>
                 );
               })}
