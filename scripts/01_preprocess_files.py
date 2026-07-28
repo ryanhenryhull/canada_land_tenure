@@ -15,12 +15,11 @@ PROCESSED_DIR = PROJECT_ROOT/"data"/"processed"
 TARGET_CRS = "EPSG:4326"
 
 
-
-
 # Function to create geojsons
 def vector_to_geojson(src: Path, dst: Path, layer: str | None = None,
                        where: str | None = None):
     """Convert any OGR-readable vector source to GeoJSON in TARGET_CRS."""
+    dst.parent.mkdir(parents=True, exist_ok=True) # will create dir if not exist.
     cmd = ["ogr2ogr", "-f", "GeoJSON", "-overwrite", "-t_srs", TARGET_CRS]
     if layer:
         cmd += [str(dst), str(src), layer]
@@ -30,6 +29,7 @@ def vector_to_geojson(src: Path, dst: Path, layer: str | None = None,
         cmd += ["-where", where]
     subprocess.run(cmd, check=True)
     print(f"Wrote {dst}")
+
 
 # Function to create tiffs
 def raster_to_tiff(src: Path, dst: Path, resample: str = "near"):
