@@ -4,6 +4,7 @@ import path from 'path';
 import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
+  base: '/cloud_native_canada_land_tenure/', // EXACT GITHUB REPO NAME 
   return {
     plugins: [react(), tailwindcss()],
     resolve: {

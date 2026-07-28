@@ -168,10 +168,4 @@ Download [here](https://open.yukon.ca/data/land-parcels-polygon-surveyed)
 
 
 # Not yet processed or pmtiled:
-New Brunswick protected waters still in myriad shp
 Alberta military stuff still in myriad shp
-Alberta crown land reservations
-census subdivisions
-Ontario, all three.
-Yukon stuff.
-use multi geojson to pmtile

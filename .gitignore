@@ -230,9 +230,11 @@ __marimo__/
 # data 
 data/raw/*
 data/processed/*
+data/NCC_Compiled_Tenure_Data_Sources/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/raw/sources.md
+
 
 # outputs
 outputs/cogs/*

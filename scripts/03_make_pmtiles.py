@@ -65,6 +65,11 @@ def multi_geojson_to_pmtiles(sources_with_layer_names: list[tuple[Path, str]], d
     subprocess.run(cmd, check=True)
     print(f"Combined PMTiles written: {dst} (layers: {[l for _, l in sources_with_layer_names]})")
 
+
+
+
+
+
 # Edit these with files to process
 def process_separate_geojsons():
     """ Uses geojson_to_pmtiles(src: Path, dst: Path, layer_name: str) to process specified geojsons, 
@@ -74,8 +79,8 @@ def process_separate_geojsons():
     
     # Collect specific files. name the ones you wanna process.
     sources = [
-        PROCESSED_DIR / "quebec"/ "protected_areas" / ".geojson",
-        PROCESSED_DIR / "quebec"/ "protected_areas" / ".geojson",
+        PROCESSED_DIR / "canada"/ "statscan_census_subdivision_boundaries" / "census_subdivision_boundaries.geojson",
+        PROCESSED_DIR / "yukon"/ "land_parcels_polygons" / "Land_Parcels_Polygon_Surveyed.geojson",
     ]
     
     # Check for missing files
@@ -90,16 +95,19 @@ def process_separate_geojsons():
         geojson_to_pmtiles(src, dst, layer_name=src.stem)
 
 
+
+
+
+
 # Edit these with files to process
 def process_related_geojsons():
     """ Uses multi_geojson_to_pmtiles(list of sources, dst) to process specified geojsons. """
     check_tippecanoe()
     
-    SRC_DIR = PROCESSED_DIR / "quebec" / "protected_areas"
+    SRC_DIR = PROCESSED_DIR / "alberta" / "crown_land_reservations"
     sources_with_layer_names = [
-        (qc_protected_dir / "AP_REG_S.geojson", "AP_REG_S"),
-        (qc_protected_dir / "AP_ZON_S.geojson", "AP_ZON_S"),
-        (qc_protected_dir / "T_IMP_S.geojson", "T_IMP_S"),
+        (SRC_DIR/"CrownLandReservations.geojson") 
+        (SRC_DIR/"CrownLandReservations_Historical.geojson")
     ]
 
     missing = [src for src, _ in sources_with_layer_names if not src.exists()]
@@ -107,7 +115,7 @@ def process_related_geojsons():
         print("Missing:", missing)
         return
 
-    dst = OUT_DIR / "quebec" / "protected_areas.pmtiles"
+    dst = OUT_DIR / "alberta" / "crown_land_reservations.pmtiles"
     dst.parent.mkdir(parents=True, exist_ok=True)
 
     multi_geojson_to_pmtiles(sources_with_layer_names, dst)
@@ -116,8 +124,8 @@ def process_related_geojsons():
 
 def main():
     
-    # process_separate_geojsons()
-    # process_related_geojsons()
+    process_separate_geojsons()
+    process_related_geojsons()
 
 if __name__ == "__main__":
     main()
