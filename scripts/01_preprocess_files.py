@@ -121,8 +121,8 @@ def process_qc_protected_areas():
 # 9. Yukon Land Parcels Polygons
 def process_yukon_parcel_polygons():
     """ from shp """
-    src=RAW_DIR/"yukon"/"land_parcels_polygon"/"Land_Parcels_Polygon_Surveyed.shp"
-    dst=PROCESSED_DIR/"yukon"/"land_parcels_polygon"/"Land_Parcels_Polygon_Surveyed.geojson"
+    src=RAW_DIR/"yukon"/"land_parcels_polygons"/"Land_Parcels_Polygon_Surveyed.shp"
+    dst=PROCESSED_DIR/"yukon"/"land_parcels_polygons"/"Land_Parcels_Polygon_Surveyed.geojson"
     vector_to_geojson(src,dst)
 
 # 10. Canada census subdivisions polygons
