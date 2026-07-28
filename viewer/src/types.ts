@@ -8,6 +8,8 @@ export interface GeospatialLayer {
   visible: boolean;
   opacity: number;
   description?: string;
+  citation?: string;
+  sourceUrl?: string;
   category?: string;
   bounds?: [number, number, number, number]; // [minLng, minLat, maxLng, maxLat]
   // COG specific settings
