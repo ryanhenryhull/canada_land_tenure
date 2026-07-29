@@ -34,6 +34,7 @@ export interface GeospatialLayer {
       type: 'fill' | 'line' | 'circle' | 'symbol';
       sourceLayer: string;
       color: string;
+      visible: boolean;
     }>;
   };
 }

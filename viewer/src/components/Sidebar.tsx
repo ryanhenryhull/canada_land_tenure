@@ -118,7 +118,21 @@ export default function Sidebar({
   };
   */}
 
-
+  {/* New, for changing visibility of sublayers */}
+  const handleVectorVisibilityToggle = (layerId: string, subLayerId: string) => {
+    setLayers(prev => prev.map(l => {
+      if (l.id === layerId && l.pmtilesSettings?.vectorLayers) {
+        const updatedV = l.pmtilesSettings.vectorLayers.map(v =>
+          v.id === subLayerId ? { ...v, visible: !v.visible } : v
+        );
+        return {
+          ...l,
+          pmtilesSettings: { vectorLayers: updatedV }
+        };
+      }
+      return l;
+    }));
+  };
 
   
   const handleVectorColorChange = (layerId: string, subLayerId: string, color: string) => {
@@ -168,28 +182,7 @@ export default function Sidebar({
       );
     }
 
-    if (layer.type === "pmtiles" && layer.pmtilesSettings?.vectorLayers) {
-      const subLayers = layer.pmtilesSettings.vectorLayers;
-      if (subLayers.length === 0) return null;
 
-      return (
-        <div className="px-3 pb-3 pt-1 border-t border-slate-850/50 bg-slate-950/20 space-y-1.5">
-          <span className="text-[10px] font-semibold text-slate-300 block">Vector Layers</span>
-          <div className="grid grid-cols-2 gap-1.5 max-h-24 overflow-y-auto pr-1 animate-fadeIn">
-            {subLayers.map(vl => (
-              <div key={vl.id} className="flex items-center space-x-1.5 text-[9px] text-slate-400 truncate">
-                <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: vl.color }} />
-                <span className="truncate" title={vl.sourceLayer}>{vl.sourceLayer}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    return null;
-  };
-  
   // ryan: I think this goes here
   const groupedLayers = layers.reduce<Record<string, GeospatialLayer[]>>((acc, layer) => {
     const cat = layer.category || "Uncategorized";
@@ -350,22 +343,37 @@ export default function Sidebar({
                               />
                             </div>
                         
-                            {/* Vector Sub-layer Colors */}
+                            {/* Vector Sub-layer Colors */} {/* note also we add in here the visibility toggle */}
                             {layer.type === "pmtiles" && layer.pmtilesSettings?.vectorLayers && layer.pmtilesSettings.vectorLayers.length > 0 && (
                               <div className="space-y-1">
                                 {layer.pmtilesSettings.vectorLayers.map(vl => (
                                   <div key={vl.id} className="flex items-center justify-between bg-slate-900/40 p-1.5 rounded border border-slate-850">
                                     <span className="font-mono text-[9px] text-slate-400 truncate">{vl.sourceLayer}</span>
-                                    <input
-                                      type="color"
-                                      value={vl.color}
-                                      onChange={(e) => handleVectorColorChange(layer.id, vl.id, e.target.value)}
-                                      className="w-4 h-4 rounded cursor-pointer border border-slate-850 p-0 bg-transparent"
-                                    />
+                                    <div className="flex items-center space-x-1.5 flex-shrink-0">
+                                      <label className="relative flex items-center cursor-pointer select-none">
+                                        <input
+                                          type="checkbox"
+                                          checked={vl.visible}
+                                          onChange={() => handleVectorVisibilityToggle(layer.id, vl.id)}
+                                          className="sr-only peer"
+                                        />
+                                        <div className="w-3.5 h-3.5 bg-slate-800 border border-slate-700 peer-checked:bg-blue-600 peer-checked:border-blue-500 rounded flex items-center justify-center transition-all">
+                                          {vl.visible && <Eye className="h-2.5 w-2.5 text-white" />}
+                                        </div>
+                                      </label>
+                                      <input
+                                        type="color"
+                                        value={vl.color}
+                                        onChange={(e) => handleVectorColorChange(layer.id, vl.id, e.target.value)}
+                                        className="w-4 h-4 rounded cursor-pointer border border-slate-850 p-0 bg-transparent"
+                                      />
+                                    </div>
                                   </div>
                                 ))}
                               </div>
                             )}
+
+
                           </div>
                         )}
                         
