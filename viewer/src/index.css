@@ -77,3 +77,9 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
+
+{/* for a wider popup for features of polygons */}
+.custom-maplibre-popup .maplibregl-popup-content {
+  max-width: 420px;
+  width: max-content;
+}

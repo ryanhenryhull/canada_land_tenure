@@ -232,7 +232,7 @@ export default function MapViewer({
         : `<div class="text-gray-400 italic text-xs">No attributes</div>`;
 
       const content = `
-        <div class="p-2 font-sans max-w-xs max-h-48 overflow-y-auto">
+        <div class="p-2 font-sans max-w-sm max-h-64 overflow-y-auto">
           <div class="font-bold text-xs text-blue-600 mb-1">
             Layer: ${selectedFeature.sourceLayer}
           </div>
