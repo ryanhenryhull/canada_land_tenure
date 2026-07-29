@@ -360,9 +360,10 @@ export default function MapViewer({
   };
 
   // PMTiles Vector Layer Synchronization
+  //// changes made below to allow sublayer visibility toggling.
+
   const syncPmtilesLayer = async (map: maplibregl.Map, layer: GeospatialLayer) => {
     const sourceId = `source-${layer.id}`;
-    const visibility = layer.visible ? "visible" : "none";
 
     if (!map.getSource(sourceId)) {
       map.addSource(sourceId, {
@@ -373,6 +374,10 @@ export default function MapViewer({
 
     layer.pmtilesSettings?.vectorLayers?.forEach((vStyle) => {
       const layerId = `layer-${layer.id}-${vStyle.id}`;
+      const visibility = (layer.visible && vStyle.visible !== false) ? "visible" : "none";
+
+
+      ////
 
       if (!map.getLayer(layerId)) {
         if (vStyle.type === "fill") {

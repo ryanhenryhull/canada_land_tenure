@@ -51,7 +51,7 @@ export default function Sidebar({
               ...l,
               visible: true,
               pmtilesSettings: {
-                vectorLayers: styleLayers
+                vectorLayers: styleLayers.map(vl => ({ ...vl, visible: true })) // Should force visible as default// Should force visible as default// Should force visible as default// Should force visible as default// Should force visible as default// Should force visible as default// Should force visible as default// Should force visible as default.
               }
             };
           }
