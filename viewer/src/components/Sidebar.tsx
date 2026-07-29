@@ -181,6 +181,8 @@ export default function Sidebar({
         </div>
       );
     }
+        return null;
+  };
 
 
   // ryan: I think this goes here
