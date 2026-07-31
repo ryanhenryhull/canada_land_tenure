@@ -3,8 +3,6 @@
 # Goal: from initial source files, populate data/processed with tifs and geojsons, ready to be cloud optimized and pmtiled.
 
 
-
-
 import subprocess
 from pathlib import Path
 
@@ -16,6 +14,8 @@ TARGET_CRS = "EPSG:4326"
 
 
 # Function to create geojsons
+# note this will also work for kmls, but may only transform the first layer within the kml. it can read the zipped kmz.
+# use ogrinfo path/to/file.kml to see those layers
 def vector_to_geojson(src: Path, dst: Path, layer: str | None = None,
                        where: str | None = None):
     """Convert any OGR-readable vector source to GeoJSON in TARGET_CRS."""
@@ -163,13 +163,105 @@ def process_new_brunswick_protected_waters():
     vector_to_geojson(src3,dst3)
     vector_to_geojson(src4,dst4)
 
+# 13. quebec crown land leases
+def process_quebec_baux():
+    """ From many shp"""
+    src1=RAW_DIR/"quebec"/"crown_land_leases"/"Baux_p.shp"
+    dst1=PROCESSED_DIR/"quebec"/"crown_land_leases"/"Baux_p.geojson"
+
+    src2=RAW_DIR/"quebec"/"crown_land_leases"/"Baux_s.shp"
+    dst2=PROCESSED_DIR/"quebec"/"crown_land_leases"/"Baux_s.geojson"
+
+    vector_to_geojson(src1,dst1)
+    vector_to_geojson(src2,dst2)
+
+# 14. Cadastral data of Canada - this fails the kmz only holds links
+def process_canada_cadastral_data():
+    """ From kml """
+    src=RAW_DIR/"canada"/"cadastral_data"/"Canada Lands.kmz"
+    dst=PROCESSED_DIR/"canada"/"cadastral_data"/"Canada Lands.geojson"
+    vector_to_geojson(src,dst)
+
+# 15. National park boundaries of Canada
+def process_canada_national_parks():
+    """ From shp """
+    src=RAW_DIR/"canada"/"national_parks_park_reserves"/"CLAB_CA_2026-06-01.shp"
+    dst=PROCESSED_DIR/"canada"/"national_parks_park_reserves"/"National_Parks_and_Park_Reserves.geojson"
+    vector_to_geojson(src,dst)
+
+# 16. Cadastral data for all the provinces
+def process_cadastral_data():
+    """ From many .gdb one for each province. """
+   
+
+
+
+
+
+
+
+
+
+
+# Let's make one common framework
+
+# input layers to process
+    """
+    (RAW_DIR / "" / "" / ".shp",
+     PROCESSED_DIR / "" / "" / ".geojson"),
+    """
+LAYERS = [
+
+    (RAW_DIR / "british_columbia" / "cadastral_data" / "BC.gdb",
+     PROCESSED_DIR / "british_columbia" / "cadastral_data" / "BC_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "alberta" / "cadastral_data" / "AB.gdb",
+     PROCESSED_DIR / "alberta" / "cadastral_data" / "AB_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "saskatchewan" / "cadastral_data" / "SK.gdb",
+     PROCESSED_DIR / "saskatchewan" / "cadastral_data" / "SK_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "manitoba" / "cadastral_data" / "MB.gdb",
+     PROCESSED_DIR / "manitoba" / "cadastral_data" / "MB_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "ontario" / "cadastral_data" / "ON.gdb",
+     PROCESSED_DIR / "ontario" / "cadastral_data" / "ON_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "quebec" / "cadastral_data" / "QC.gdb",
+     PROCESSED_DIR / "quebec" / "cadastral_data" / "QC_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "new_brunswick" / "cadastral_data" / "NB.gdb",
+     PROCESSED_DIR / "new_brunswick" / "cadastral_data" / "NB_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "prince_edward_island" / "cadastral_data" / "PE.gdb",
+     PROCESSED_DIR / "prince_edward_island" / "cadastral_data" / "PE_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "nova_scotia" / "cadastral_data" / "NS.gdb",
+     PROCESSED_DIR / "nova_scotia" / "cadastral_data" / "NS_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "newfoundland_labrador" / "cadastral_data" / "NL.gdb",
+     PROCESSED_DIR / "newfoundland_labrador" / "cadastral_data" / "NL_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "yukon" / "cadastral_data" / "YT.gdb",
+     PROCESSED_DIR / "yukon" / "cadastral_data" / "YT_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "northwest_territories" / "cadastral_data" / "NT.gdb",
+     PROCESSED_DIR / "northwest_territories" / "cadastral_data" / "NT_cadastral_polygons.geojson"),
+
+    (RAW_DIR / "nunavut" / "cadastral_data" / "NU.gdb",
+     PROCESSED_DIR / "nunavut" / "cadastral_data" / "NU_cadastral_polygons.geojson")
+]
+
+def process_layers():
+    for src, dst in LAYERS:
+        print(f"{src.name} -> {dst.name}")
+        try:
+            vector_to_geojson(src, dst)
+        except Exception as e:
+            print(f"  FAILED: {e}")
 
 def main():
-    process_yukon_parcel_polygons()
-    process_canada_census_subdivisions()
-    process_alberta_crown_land_reservations()
-    process_new_brunswick_protected_waters()
-
+    process_layers()
 
 if __name__ == "__main__":
     main()

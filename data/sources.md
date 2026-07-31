@@ -9,6 +9,10 @@ Note for multi-shp layers: convert all to geojson and make one pmtile from them.
 Visualization [here](https://app.geo.ca/en-ca/map-browser/record/6c343726-1e92-451a-876a-76e17d398a1c)
 Download [here](https://data-donnees.az.ec.gc.ca/data/species/protectrestore/canadian-protected-conserved-areas-database/Databases?lang=en)
 
+## Canada national parks and national park reserves legislative boundaries
+Info and download [here](https://open.canada.ca/data/en/dataset/9e1507cd-f25c-4c64-995b-6563bf9d65bd)
+Last updated Jul 22 2022
+
 ## Indigenous Land (AL_TA_CA_SHP_eng):
 Visualization [here](https://search.open.canada.ca/openmap/522b07b9-78e2-4819-b736-ad9208eb1067)
 Download [here](https://open.canada.ca/data/en/dataset/522b07b9-78e2-4819-b736-ad9208eb1067/resource/f95298fe-ad6d-4274-8cfc-eafe7059386a) (got to resource -> shp_eng -> AL_TA_CA_SHP_eng.zip)
@@ -24,6 +28,10 @@ Download [here](https://www.tbs-sct.gc.ca/dfrp-rbif/opendata-eng.aspx)
 ESRI REST [here](https://geo.statcan.gc.ca/geo_wa/rest/services/2025/lcsd000a25s_e/MapServer)
 Download [here](https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-s-eng.cfm?year=25)
 
+## Cadastral data
+gdbs for each province are from [here](https://natural-resources.canada.ca/maps-tools-publications/maps/boundaries-land-surveys/tools-applications-canada-lands-surveys#c1)
+combined into one through
+ogrmerge.py -o merged_canada_lands.gpkg province1.gdb province2.gdb ... -single -nln canada_lands
 
 # British Columbia
 
@@ -167,5 +175,8 @@ Cadastral fabric parcels of Yukon with status "Active"
 Download [here](https://open.yukon.ca/data/land-parcels-polygon-surveyed)
 
 
+
+
 # Not yet processed or pmtiled:
 Alberta military stuff still in myriad shp
+Canada national park and park reserve boundaries.

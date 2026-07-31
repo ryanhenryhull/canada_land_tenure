@@ -2,7 +2,7 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "federal_real_property_a",
+  "id": "crown_land_reservations",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -37,9 +37,9 @@
     83.1
   ],
   "properties": {
-    "title": "federal real property a",
-    "region": "Canada",
-    "datetime": "2026-07-29T19:56:42.584283Z"
+    "title": "crown land reservations",
+    "region": "Alberta",
+    "datetime": "2026-07-29T19:56:42.582983Z"
   },
   "links": [
     {
@@ -57,7 +57,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/canada/federal_real_property_a.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/alberta/crown_land_reservations.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [

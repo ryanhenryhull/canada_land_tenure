@@ -1,0 +1,241 @@
+[
+    {
+        "location": "Canada",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "British Columbia",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+
+    {
+        "location": "Alberta",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Saskatchewan",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Manitoba",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Ontario",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Quebec",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "New Brunswick",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Nova Scotia",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Prince Edward Island",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Newfoundland Labrador",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Yukon",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Northwest Territories",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    },
+    {
+        "location": "Nunavut",
+        "layers": [
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            },
+            {
+              "layer_name": "blah",
+              "citation":"the",
+              "description":"is",
+              "download_link":"u"
+            }
+        ]
+    }
+]

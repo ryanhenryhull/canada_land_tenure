@@ -79,8 +79,7 @@ def process_separate_geojsons():
     
     # Collect specific files. name the ones you wanna process.
     sources = [
-        PROCESSED_DIR / "canada"/ "statscan_census_subdivision_boundaries" / "census_subdivision_boundaries.geojson",
-        PROCESSED_DIR / "yukon"/ "land_parcels_polygons" / "Land_Parcels_Polygon_Surveyed.geojson",
+        PROCESSED_DIR / "canada"/ "national_parks_park_reserves"/ "National_Parks_and_Park_Reserves.geojson"
     ]
     
     # Check for missing files
@@ -104,10 +103,13 @@ def process_related_geojsons():
     """ Uses multi_geojson_to_pmtiles(list of sources, dst) to process specified geojsons. """
     check_tippecanoe()
     
-    SRC_DIR = PROCESSED_DIR / "alberta" / "crown_land_reservations"
+    SRC_DIR = PROCESSED_DIR / "new_brunswick" / "geonb_pw-bvp_shp"
+
     sources_with_layer_names = [
-        (SRC_DIR/"CrownLandReservations.geojson") 
-        (SRC_DIR/"CrownLandReservations_Historical.geojson")
+        (SRC_DIR / "Watersheds_ZoneA_2017.geojson", "Watersheds_ZoneA_2017"), # keep this weird structure
+        (SRC_DIR / "Watersheds_ZoneB.geojson", "Watersheds_ZoneB"), 
+        (SRC_DIR / "Watersheds_ZoneAp_2017.geojson", "Watersheds_ZoneAp_2017"), 
+        (SRC_DIR / "Watersheds_ZoneC.geojson", "Watersheds_ZoneC"), 
     ]
 
     missing = [src for src, _ in sources_with_layer_names if not src.exists()]
@@ -115,7 +117,7 @@ def process_related_geojsons():
         print("Missing:", missing)
         return
 
-    dst = OUT_DIR / "alberta" / "crown_land_reservations.pmtiles"
+    dst = OUT_DIR / "new_brunswick" / "protected_watersheds.pmtiles"
     dst.parent.mkdir(parents=True, exist_ok=True)
 
     multi_geojson_to_pmtiles(sources_with_layer_names, dst)
@@ -125,7 +127,7 @@ def process_related_geojsons():
 def main():
     
     process_separate_geojsons()
-    process_related_geojsons()
+    # process_related_geojsons()
 
 if __name__ == "__main__":
     main()

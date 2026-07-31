@@ -2,7 +2,7 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "federal_real_property_a",
+  "id": "Crown_land_ministry_acquisitions",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -37,9 +37,9 @@
     83.1
   ],
   "properties": {
-    "title": "federal real property a",
-    "region": "Canada",
-    "datetime": "2026-07-29T19:56:42.584283Z"
+    "title": "Crown land%3A ministry acquisitions",
+    "region": "Ontario",
+    "datetime": "2026-07-29T19:56:42.586871Z"
   },
   "links": [
     {
@@ -57,7 +57,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/canada/federal_real_property_a.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/ontario/Crown_land_ministry_acquisitions.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [

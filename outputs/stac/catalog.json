@@ -17,12 +17,27 @@
     },
     {
       "rel": "item",
+      "href": "./Canada Lands/Canada Lands.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./alberta_metis_settlement/alberta_metis_settlement.json",
       "type": "application/geo+json"
     },
     {
       "rel": "item",
+      "href": "./crown_land_reservations/crown_land_reservations.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./BC_Parcel_Fabric_Poly/BC_Parcel_Fabric_Poly.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./National_Parks_and_Park_Reserves/National_Parks_and_Park_Reserves.json",
       "type": "application/geo+json"
     },
     {
@@ -38,6 +53,11 @@
     {
       "rel": "item",
       "href": "./aboriginal_lands_canada_legislative_boundaries/aboriginal_lands_canada_legislative_boundaries.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./census_subdivision_boundaries/census_subdivision_boundaries.json",
       "type": "application/geo+json"
     },
     {
@@ -92,6 +112,11 @@
     },
     {
       "rel": "item",
+      "href": "./protected_watersheds/protected_watersheds.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./Provincial_Protected_Areas/Provincial_Protected_Areas.json",
       "type": "application/geo+json"
     },
@@ -103,6 +128,26 @@
     {
       "rel": "item",
       "href": "./ns_protected_area_system/ns_protected_area_system.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Crown_Game_Preserves/Crown_Game_Preserves.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Crown_land_ministry_acquisitions/Crown_land_ministry_acquisitions.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Crown_land_ministry_unpatented_land/Crown_land_ministry_unpatented_land.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./crown_land_leases/crown_land_leases.json",
       "type": "application/geo+json"
     },
     {
@@ -123,6 +168,11 @@
     {
       "rel": "item",
       "href": "./saskatchewan_protected_conserved_network/saskatchewan_protected_conserved_network.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Land_Parcels_Polygon_Surveyed/Land_Parcels_Polygon_Surveyed.json",
       "type": "application/geo+json"
     }
   ],
