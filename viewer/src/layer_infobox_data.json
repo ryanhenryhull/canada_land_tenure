@@ -3,16 +3,58 @@
         "location": "Canada",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Canada Lands",
+              "citation": "Natural Resources Canada. (2026). Canada Lands [Data set]. Government of Canada. Retrieved 29 July 2026 from https://natural-resources.canada.ca/maps-tools-publications/maps/boundaries-land-surveys/tools-applications-canada-lands-surveys",
+              "description": "Cross-Canada cadastral data",
+              "download_link": "https://natural-resources.canada.ca/maps-tools-publications/maps/boundaries-land-surveys/tools-applications-canada-lands-surveys"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "National_Parks_and_Park_Reserves",
+              "citation": "Natural Resources Canada. (2022). National Parks and National Park Reserves of Canada Legislative Boundaries [Data set]. Government of Canada. Retrieved 29 July 2026 from https://open.canada.ca/data/en/dataset/9e1507cd-f25c-4c64-995b-6563bf9d65bd",
+              "description": "Legislative boundaries of Canada national parks and national park reserves",
+              "download_link": "https://open.canada.ca/data/en/dataset/9e1507cd-f25c-4c64-995b-6563bf9d65bd"
+            },
+            {
+              "layer_name": "ProtectedConservedAreaDelisted_2025",
+              "citation": "Environment and Climate Change Canada. (2025). Canadian Protected and Conserved Areas Database (CPCAD) [Data set]. Government of Canada. Retrieved 14 July 2026 from https://www.canada.ca/en/environment-climate-change/services/national-wildlife-areas/protected-conserved-areas-database.html",
+              "description": "Areas whose protected or conserved status has been terminated and removed from CPCAD.",
+              "download_link": "https://data-donnees.az.ec.gc.ca/data/species/protectrestore/canadian-protected-conserved-areas-database/Databases?lang=en"
+            },
+            {
+              "layer_name": "ProtectedConservedArea_2025",
+              "citation": "Environment and Climate Change Canada. (2025). Canadian Protected and Conserved Areas Database (CPCAD) [Data set]. Government of Canada. Retrieved 14 July 2026 from https://www.canada.ca/en/environment-climate-change/services/national-wildlife-areas/protected-conserved-areas-database.html",
+              "description": "Protected and conserved areas of Canada under CPCAD (Canadian Protected and Conserved Areas Database), managed by Environment and Climate Change Canada.",
+              "download_link": "https://data-donnees.az.ec.gc.ca/data/species/protectrestore/canadian-protected-conserved-areas-database/Databases?lang=en"
+            },
+            {
+              "layer_name": "aboriginal_lands_canada_legislative_boundaries",
+              "citation": "Natural Resources Canada. (2024). Aboriginal Lands of Canada Legislative Boundaries [Data set]. Government of Canada. Retrieved 14 July 2026 from https://open.canada.ca/data/en/dataset/522b07b9-78e2-4819-b736-ad9208eb1067",
+              "description": "Legislative boundaries of Indian Reserves, Land Claim Settlement Lands, and Indian Lands as per the AL_TA_CA_SHP_eng layer available at the download link. May not include all other forms of indigenous land such as metis settlement land, community agreements, or treaty land entitlement sites.",
+              "download_link": "https://open.canada.ca/data/en/dataset/522b07b9-78e2-4819-b736-ad9208eb1067/resource/f95298fe-ad6d-4274-8cfc-eafe7059386a"
+            },
+            {
+              "layer_name": "census_subdivision_boundaries",
+              "citation": "Statistics Canada. (2025). Census Subdivision Boundary Files, Census Year 2025 [Data set]. Government of Canada. Retrieved 27 July 2026 from https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-s-eng.cfm?year=25",
+              "description": "Intercensal Census Subdivision (CSD) boundaries",
+              "download_link": "https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-s-eng.cfm?year=25"
+            },
+            {
+              "layer_name": "federal_real_property_a",
+              "citation": "Real Property and Materiel Policy Directorate of the Canada Treasury Board Secretariat. (2026). Directory of Federal Real Property (DFRP) [Data set]. Government of Canada. Retrieved 20 July 2026 from https://www.tbs-sct.gc.ca/dfrp-rbif/opendata-eng.aspx",
+              "description": "Real property holdings of the Government of Canada (area features)",
+              "download_link": "https://www.tbs-sct.gc.ca/dfrp-rbif/opendata-eng.aspx"
+            },
+            {
+              "layer_name": "federal_real_property_p",
+              "citation": "Real Property and Materiel Policy Directorate of the Canada Treasury Board Secretariat. (2026). Directory of Federal Real Property (DFRP) [Data set]. Government of Canada. Retrieved [Date retrieved] from https://www.tbs-sct.gc.ca/dfrp-rbif/opendata-eng.aspx",
+              "description": "Real property holdings of the Government of Canada (point features)",
+              "download_link": "https://www.tbs-sct.gc.ca/dfrp-rbif/opendata-eng.aspx"
+            },
+            {
+              "layer_name": "Canada_MFv2020",
+              "citation": "Canadian Council of Forest Ministers. (2020). Map of Forest Management in Canada, 2020 Version [Data set]. Government of Canada. Retrieved 16 July 2026 from https://open.canada.ca/data/en/dataset/d8fa9a38-c4df-442a-8319-9bbcbdc29060",
+              "description": "2020 Canada-wide tenure classification",
+              "download_link": "https://open.canada.ca/data/en/dataset/d8fa9a38-c4df-442a-8319-9bbcbdc29060"
             }
         ]
     },
@@ -20,34 +62,27 @@
         "location": "British Columbia",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            },
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "BC_Parcel_Fabric_Poly",
+              "citation": "Province of British Columbia. (2016). ParcelMap BC Parcel Fabric [Data set]. Government of British Columbia Data Catalogue. Retrieved 29 July 2026 from https://catalogue.data.gov.bc.ca/dataset/4cf233c2-f020-4f7a-9b87-1923252fbc24",
+              "description": "Property boundaries as per the Titled and Crown land parcels of BC.",
+              "download_link": "https://catalogue.data.gov.bc.ca/dataset/4cf233c2-f020-4f7a-9b87-1923252fbc24"
             }
         ]
     },
-
     {
         "location": "Alberta",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "alberta_metis_settlement",
+              "citation": "Government of Alberta. (n.d.). Metis Settlement [Data set]. Government of Alberta. Retrieved 20 July 2026 from https://geodiscover.alberta.ca/geoportal/rest/metadata/item/530a3fabaec84d50927b937dadd6a1ba/html#spatialRepresentationInfo",
+              "description": "Metis Settlement Lands of Alberta",
+              "download_link": "https://open.canada.ca/data/en/dataset/0a469551-8e68-41b8-8a00-20d708d5d3a2"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "crown_land_reservations",
+              "citation": "Government of Alberta. (2026). Crown Land Reservations [Data set]. Government of Alberta. Retrieved 27 July 2026 from https://open.alberta.ca/opendata/gda-82209a6e-a4ab-4f26-bf7f-2080c97d5878",
+              "description": "See https://www.alberta.ca/land-use-reservation-program",
+              "download_link": "https://open.alberta.ca/opendata/gda-82209a6e-a4ab-4f26-bf7f-2080c97d5878"
             }
         ]
     },
@@ -55,16 +90,22 @@
         "location": "Saskatchewan",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "saskatchewan_conservation_easements",
+              "citation": "Government of Saskatchewan. (2026). Conservation Easements [Data set]. Government of Saskatchewan. Retrieved 22 July 2026 from https://open.canada.ca/data/en/dataset/1dfadd4a-52ec-5dbf-ce9f-fe3d94e17e7d",
+              "description": "Conservation Easements on private land.",
+              "download_link": "https://open.canada.ca/data/en/dataset/1dfadd4a-52ec-5dbf-ce9f-fe3d94e17e7d/resource/b3c3991b-51c4-48a9-9bff-ba15b9f093b2"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "saskatchewan_crown_conservation_easements",
+              "citation": "Government of Saskatchewan. (2026). Crown Conservation Easements [Data set]. Government of Saskatchewan. Retrieved 22 July 2026 from https://open.canada.ca/data/en/dataset/e90c1dbb-408a-5a61-047a-fba97c104eed",
+              "description": "Per https://open.canada.ca/data/en/dataset/e90c1dbb-408a-5a61-047a-fba97c104eed, Crown Conservation Easements are meant to protect wildlife habitat and ecological values on private titled lands in the Province. Crown Conservation Easements are registered as a condition of sale, on all Crown Wildlife Habitat Protection Act lands that are assessed as having Moderate ecological values.",
+              "download_link": "https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/19"
+            },
+            {
+              "layer_name": "saskatchewan_protected_conserved_network",
+              "citation": "Government of Saskatchewan. (n.d.). Protected and Conserved Areas Network [Data set]. Government of Saskatchewan. Retrieved [Date retrieved] from https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/20",
+              "description": "Protected and Conserved Areas Network of Saskatchewan. See https://www.saskatchewan.ca/business/agriculture-natural-resources-and-industry/land-management/protected-and-conserved-areas-network.",
+              "download_link": "https://gis.saskatchewan.ca/arcgis/rest/services/Planning/FeatureServer/20"
             }
         ]
     },
@@ -72,16 +113,28 @@
         "location": "Manitoba",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "manitoba_treaty_land_entitlement_sites",
+              "citation": "Government of Manitoba. (2026). Treaty Land Entitlement Sites in Manitoba [Data set]. Data MB. Retrieved 21 July 2026 from https://geoportal.gov.mb.ca/datasets/manitoba::treaty-land-entitlement-sites-in-manitoba/about",
+              "description": "Treaty Land Entitlement Sites in Manitoba",
+              "download_link": "https://geoportal.gov.mb.ca/datasets/manitoba::treaty-land-entitlement-sites-in-manitoba/about"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "manitoba_first_nation_non_TLE_agreements",
+              "citation": "Government of Manitoba. ([Year]). First Nation Non Treaty Land Entitlement Agreements in Manitoba [Data set]. Data MB. Retrieved 21 July 2026 from https://geoportal.gov.mb.ca/datasets/manitoba::first-nation-non-tle-agreements-mb/about",
+              "description": "Per link, 'Crown land parcels contained within formal flood compensation and other settlement agreements with specified First Nations (does not include Treaty Land Entitlement sites). The Crown lands are intended for transfer to the Government of Canada to be set apart as Reserve land.'",
+              "download_link": "https://geoportal.gov.mb.ca/datasets/manitoba::first-nation-non-tle-agreements-mb/about"
+            },
+            {
+              "layer_name": "manitoba_first_nation_permit_fee_simple_lands",
+              "citation": "Government of Manitoba. (2024). First Nation Permit Fee Simple Lands in Manitoba [Data set]. Data MB. Retrieved 21 July 2026 from https://geoportal.gov.mb.ca/datasets/manitoba::first-nation-permit-fee-simple-lands-in-manitoba/about",
+              "description": "Per link, 'Crown land parcels contained within formal flood compensation and other settlement agreements with specified First Nations (does not include Treaty Land Entitlement sites). The Crown lands are not intended for transfer to Government of Canada to be set apart as Reserve land.'",
+              "download_link": "https://geoportal.gov.mb.ca/datasets/manitoba::first-nation-permit-fee-simple-lands-in-manitoba/about"
+            },
+            {
+              "layer_name": "manitoba_community_agreements",
+              "citation": "Government of Manitoba. (2025). Community Agreements in Manitoba [Data set]. Data MB. Retrieved 21 July 2026 from https://geoportal.gov.mb.ca/datasets/manitoba::community-agreements-in-manitoba/about",
+              "description": "Per link, 'Crown land parcels contained within flood compensation/settlement agreements with certain Northern Affairs communities, not including First Nations.'",
+              "download_link": "https://geoportal.gov.mb.ca/datasets/manitoba::community-agreements-in-manitoba/about"
             }
         ]
     },
@@ -89,16 +142,22 @@
         "location": "Ontario",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Crown_land_ministry_unpatented_land",
+              "citation": "Government of Ontario. ([Year]). Crown Land: Ministry Unpatented Land [Data set]. Land Information Ontario (LIO). Retrieved [Date retrieved] from https://geohub.lio.gov.on.ca/datasets/lio::crown-land-ministry-unpatented-land/about",
+              "description": "Crown Land: Ministry Unpatented Land",
+              "download_link": "https://geohub.lio.gov.on.ca/datasets/lio::crown-land-ministry-unpatented-land/about"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Crown_land_ministry_acquisitions",
+              "citation": "Government of Ontario. (2026). Crown Land: Ministry Acquisitions [Data set]. Ontario GeoHub. Retrieved 27 July 2026 from https://geohub.lio.gov.on.ca/datasets/lio::crown-land-ministry-acquisitions/about",
+              "description": "Crown-acquired lands managed by Ontario's Ministry of Natural Resources",
+              "download_link": "https://geohub.lio.gov.on.ca/datasets/lio::crown-land-ministry-acquisitions/about"
+            },
+            {
+              "layer_name": "Crown_Game_Preserves",
+              "citation": "Government of Ontario. (2023). Crown Game Preserves [Data set]. Ontario GeoHub. Retrieved 27 July 2026 from https://geohub.lio.gov.on.ca/datasets/lio::crown-game-preserves/about",
+              "description": "Lands not necessarily on crown land where hunting is prohibited.",
+              "download_link": "https://geohub.lio.gov.on.ca/datasets/lio::crown-game-preserves/about"
             }
         ]
     },
@@ -106,16 +165,16 @@
         "location": "Quebec",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "crown_land_leases",
+              "citation": "Gouvernement du Québec. (2026) Couche des droits fonciers (baux) [Data set]. Données Québec. Retrieved 23 July 2026 from https://www.donneesquebec.ca/recherche/dataset/couche-des-droits-fonciers-baux",
+              "description": "Centroid points or polygons of Crown land leases (baux des droits fonciers).",
+              "download_link": "https://www.donneesquebec.ca/recherche/dataset/couche-des-droits-fonciers-baux"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "protected_areas",
+              "citation": "Gouvernement du Québec. (2026). Registre des aires protégées et des AMCE au Québec [Data set]. Données Québec. Retrieved 23 July 2026 from https://www.donneesquebec.ca/recherche/dataset/aires-protegees-au-quebec",
+              "description": "Registre des aires protégées et des AMCE au Québec - Protected Areas and OECMs",
+              "download_link": "https://www.donneesquebec.ca/recherche/dataset/aires-protegees-au-quebec"
             }
         ]
     },
@@ -123,16 +182,34 @@
         "location": "New Brunswick",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Crown Lands",
+              "citation": "Government of New Brunswick. (2025). Crown Lands [Data set]. GeoNB. Retrieved 23 July 2026 from https://hub.arcgis.com/datasets/2da5a1d9cf694803b7fb045db92368e4_0/about?locale=en",
+              "description": "Crown Lands of New Brunswick, including those under Department of Natural Resources and Energy Development management.",
+              "download_link": "https://gis-erd-der.gnb.ca/server/rest/services/OpenData/Crown_Lands/FeatureServer?_gl=1*18micu0*_ga*NzgwMDYzOTI5LjE3ODQ3Mzg0Nzg.*_ga_F531P4D0XX*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjIwODckajYwJGwwJGgw*_ga_X5V0H8WVKQ*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjIwODckajYwJGwwJGgw"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Nature_Legacy_Protected_Areas",
+              "citation": "Government of New Brunswick. (2025). Nature Legacy Protected Areas [Data set]. GeoNB. Retrieved 23 July 2026 from https://hub.arcgis.com/datasets/d926e7acca93498da229e3b60e3718df_0/about?locale=en",
+              "description": "Protected Areas created under the New Brunswick Nature Legacy initiative (see https://www2.gnb.ca/content/gnb/en/departments/erd/promo/nature_legacy.html)",
+              "download_link": "https://hub.arcgis.com/datasets/d926e7acca93498da229e3b60e3718df_0/about?locale=en"
+            },
+            {
+              "layer_name": "Protected_Natural_Areas",
+              "citation": "Government of New Brunswick. (2024). Protected Natural Areas [Data set]. GeoNB. Retrieved 23 July 2026 from https://gnb.socrata.com/GeoNB/Protected-Natural-Areas-Zones-naturelles-prot-g-es/bv9d-7nra/about_data",
+              "description": "Area protected under the Protected Natural Areas Act. See https://www2.gnb.ca/content/gnb/en/departments/erd/forestry-conservation/content/ProtectedNaturalAreas/WhatIsAProtectedNaturalArea.html",
+              "download_link": "https://gnb.socrata.com/GeoNB/Protected-Natural-Areas-Zones-naturelles-prot-g-es/bv9d-7nra/about_data"
+            },
+            {
+              "layer_name": "protected_watersheds",
+              "citation": "Government of New Brunswick. (2017). Protected Watersheds [Data set]. GeoNB. Retrieved 29 July from https://www.gnb.ca/en/campaign/geonb/data-catalogue.html",
+              "description": "See https://www2.gnb.ca/content/gnb/en/departments/elg/environment/content/land_waste/content/reference_manual/watershed_protection.html",
+              "download_link": "https://www.gnb.ca/en/campaign/geonb/data-catalogue.html"
+            },
+            {
+              "layer_name": "WildlifeRefuge - Wildlife Refuges",
+              "citation": "Government of New Brunswick. (n.d.). Wildlife Refuges and Wildlife Management Areas [Data set]. GeoNB. Retrieved 23 July 2026 from https://gis-erd-der.gnb.ca/server/rest/services/OpenData/WildlifeRefuge/FeatureServer",
+              "description": "Wildlife Management Areas and Wildlife Refuges of New Brunswick. Note the WMS site erroneously claims the layer shows Wildlife Management Zones. See https://gnb.socrata.com/GeoNB/Wildlife-Refuges-R-serve-de-la-faune/xppv-etnw/about_data",
+              "download_link": "https://gis-erd-der.gnb.ca/server/rest/services/OpenData/WildlifeRefuge/FeatureServer?_gl=1*xm5yyg*_ga*NzgwMDYzOTI5LjE3ODQ3Mzg0Nzg.*_ga_F531P4D0XX*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjI4NDUkajEyJGwwJGgw*_ga_X5V0H8WVKQ*czE3ODQ4MjE5OTEkbzMkZzEkdDE3ODQ4MjI4NDUkajEyJGwwJGgw"
             }
         ]
     },
@@ -140,50 +217,31 @@
         "location": "Nova Scotia",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Crown_Land_20260723",
+              "citation": "Nova Scotia Department of Natural Resources. (2026). Crown Land [Data set]. Nova Scotia Open Data Portal. Retrieved 23 July from https://data.novascotia.ca/Lands-Forests-and-Wildlife/Crown-Land/3nka-59nz/about_data",
+              "description": "Crown lands of Nova Scotia.",
+              "download_link": "https://data.novascotia.ca/Lands-Forests-and-Wildlife/Crown-Land/3nka-59nz/about_data"
             },
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "ns_protected_area_system",
+              "citation": "Service Nova Scotia. (2024). Nova Scotia Protected Area System [Data set]. Reproduced and distributed with the permission of the Department of Service Nova Scotia. Retrieved 23 July 2026 from https://nsgi.novascotia.ca/gdd/",
+              "description": "Nova Scotia Protected Area System. See https://open.canada.ca/data/en/dataset/21a1cbdc-7a9d-cdf0-d272-6dbb965e97dc.",
+              "download_link": "https://nsgi.novascotia.ca/gdd/"
             }
         ]
     },
     {
         "location": "Prince Edward Island",
-        "layers": [
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            },
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            }
-        ]
+        "layers": []
     },
     {
         "location": "Newfoundland Labrador",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            },
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Provincial_Protected_Areas",
+              "citation": "Government of Newfoundland and Labrador. (2020). Provincial Protected Areas [Data set]. Department of Forestry, Agriculture and Lands GeoHub. Retrieved 23 July 2026 from https://geohub-gnl.hub.arcgis.com/datasets/GNL::provincial-protected-areas/explore",
+              "description": "Provincial protected areas per https://www.gov.nl.ca/eccc/apa/panl/nl/",
+              "download_link": "https://geohub-gnl.hub.arcgis.com/datasets/GNL::provincial-protected-areas/explore?location=48.408845%2C-53.724060%2C9"
             }
         ]
     },
@@ -191,51 +249,19 @@
         "location": "Yukon",
         "layers": [
             {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            },
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
+              "layer_name": "Land_Parcels_Polygon_Surveyed",
+              "citation": "Government of Yukon. (2023). Land Parcels Polygon (Surveyed) [Data set]. GeoYukon. Retrieved 26 July 2026 from https://open.yukon.ca/data/land-parcels-polygon-surveyed",
+              "description": "Per link, 'Surveyed Land Parcel are real property object that represents the spatial extent of a lot or parcel of land against which rights and interests may be registered. Land Parcel with a parcel status of Active form the current cadastral fabric.'",
+              "download_link": "https://open.yukon.ca/data/land-parcels-polygon-surveyed"
             }
         ]
     },
     {
         "location": "Northwest Territories",
-        "layers": [
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            },
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            }
-        ]
+        "layers": []
     },
     {
         "location": "Nunavut",
-        "layers": [
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            },
-            {
-              "layer_name": "blah",
-              "citation":"the",
-              "description":"is",
-              "download_link":"u"
-            }
-        ]
+        "layers": []
     }
 ]
