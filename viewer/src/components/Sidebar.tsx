@@ -7,6 +7,9 @@ import { FOREST_INDEXES } from "../utils/cog_indexes/forest_management";
 import { FOREST_CATEGORIES } from "../utils/cog_indexes/forest_management_index";
 import { getPmtilesVectorLayers } from "../utils/pmtilesMetadata";
 
+import { getLayerInfobox } from "../utils/layerInfobox";
+
+
 interface SidebarProps {
   layers: GeospatialLayer[];
   setLayers: React.Dispatch<React.SetStateAction<GeospatialLayer[]>>;
@@ -386,42 +389,42 @@ export default function Sidebar({
 
 
                         {/* Small Info Box */}
-                        {isInfoActive && (
-                          <div className="p-3 bg-slate-950 border-t border-slate-850 space-y-3 rounded-b-xl text-slate-300 text-[11px] animate-fadeIn">
+                        {isInfoActive && (() => {
+                          const infobox = getLayerInfobox(layer.name);
+                          const description = infobox?.description || layer.description || "No description provided.";
+                          const citation = infobox?.citation || layer.citation || "No citation provided.";
+                          const sourceUrl = infobox?.download_link || layer.sourceUrl;
                         
-                            <div className="space-y-1">
-                              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Description</span>
-                              <p className="text-slate-400 leading-relaxed font-sans max-h-24 overflow-y-auto pr-1">
-                                {layer.description || "No description provided."}
-                              </p>
+                          return (
+                            <div className="p-3 bg-slate-950 border-t border-slate-850 space-y-3 rounded-b-xl text-slate-300 text-[11px] animate-fadeIn">
+                              <div className="space-y-1">
+                                <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Description</span>
+                                <p className="text-slate-400 leading-relaxed font-sans max-h-24 overflow-y-auto pr-1">
+                                  {description}
+                                </p>
+                              </div>
+                              <div className="space-y-1 pt-1 border-t border-slate-900">
+                                <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Citation</span>
+                                <p className="text-slate-400 leading-relaxed font-sans max-h-20 overflow-y-auto pr-1">
+                                  {citation}
+                                </p>
+                              </div>
+                              <div className="space-y-1 pt-1 border-t border-slate-900">
+                                <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Source Data</span>
+                                
+                                  href={sourceUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-[10px] font-mono truncate"
+                                  title="Open original data source"
+                                >
+                                  <ExternalLink className="h-3 w-3 flex-shrink-0" />
+                                  <span className="truncate">{sourceUrl || "No source link provided"}</span>
+                                </a>
+                              </div>
                             </div>
-                        
-                            <div className="space-y-1 pt-1 border-t border-slate-900">
-                              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Citation</span>
-                              <p className="text-slate-400 leading-relaxed font-sans max-h-20 overflow-y-auto pr-1">
-                                {layer.citation || "No citation provided."}
-                              </p>
-                            </div>
-                        
-                            <div className="space-y-1 pt-1 border-t border-slate-900">
-                              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Source Data</span>
-
-                              <a 
-                                href={layer.sourceUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-[10px] font-mono truncate"
-                                title="Open original data source"
-                              >
-                                <ExternalLink className="h-3 w-3 flex-shrink-0" />
-                                <span className="truncate">{layer.sourceUrl || "No source link provided"}</span>
-                              </a>
-                            </div>
-                        
-                          </div>
-                        )}
-
-
+                          );
+                        })()}
 
 
                   </div>
