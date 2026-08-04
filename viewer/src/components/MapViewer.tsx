@@ -62,7 +62,8 @@ export default function MapViewer({
       zoom: 3.5,
       maxZoom: 19,
       pitchWithRotate: true,
-      dragRotate: true
+      dragRotate: true,
+      projection: 'globe' // set to globe view, easy maplibre support.
     });
 
     mapRef.current = map;
