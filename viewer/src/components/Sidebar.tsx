@@ -412,6 +412,8 @@ export default function Sidebar({
                               <div className="space-y-1 pt-1 border-t border-slate-900">
                                 <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase block">Source Data</span>
                                 
+                                <a
+                                
                                   href={sourceUrl}
                                   target="_blank"
                                   rel="noreferrer"
