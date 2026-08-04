@@ -63,7 +63,7 @@ export default function MapViewer({
       maxZoom: 19,
       pitchWithRotate: true,
       dragRotate: true,
-      projection: { type: 'globe' } // set to globe view, easy maplibre support.
+      //projection: { type: 'globe' } // set to globe view, easy maplibre support.
     });
 
     mapRef.current = map;
@@ -81,7 +81,7 @@ export default function MapViewer({
     deckOverlayRef.current = overlay;
 
     map.on("style.load", () => {
-      map.setProjection({ type: 'globe' });
+      //map.setProjection({ type: 'globe' });
       setIsStyleLoaded(true);
     }); 
 
