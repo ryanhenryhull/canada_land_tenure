@@ -43,168 +43,6 @@ def raster_to_tiff(src: Path, dst: Path, resample: str = "near"):
 
 
 
-
-# 1. CPCAD
-# note that there is a comments attribute table in the .gdb that will be lost here.
-
-def process_cpcad():
-    """ CPCAD protected areas dataset comes in a .gdb"""
-    src = RAW_DIR / "canada"/ "cpcad" / "ProtectedConservedArea_2025.gdb"
-    dst = PROCESSED_DIR / "canada"/ "ProtectedConservedArea_2025.geojson"
-    vector_to_geojson(src, dst, layer="ProtectedConservedArea_2025")
-
-def process_cpcad_delisted():
-    """ CPCAD delisted protected areas dataset from .gdb"""
-    src = RAW_DIR / "canada"/ "cpcad" / "ProtectedConservedArea_2025.gdb"
-    dst = PROCESSED_DIR / "canada"/ "ProtectedConservedAreaDelisted_2025.geojson"
-    vector_to_geojson(src, dst, layer="ProtectedConservedAreaDelisted_2025")
-
-
-# 2. Native lands 
-def process_native_lands():
-    """Indigenous/Native lands, currently in a .shp"""
-    src = RAW_DIR / "canada"/ "AL_TA_CA_SHP_eng" / "AL_TA_CA_2_185_eng.shp"
-    dst = PROCESSED_DIR / "canada"/ "aboriginal_lands_canada_legislative_boundaries.geojson"
-    vector_to_geojson(src, dst)
-
-# 3. BC Parcel Fabric of titled and crown land parcels. This thing is massive.
-def process_bc_parcel_fabric(): 
-    """currently in a .gdb"""
-    src=RAW_DIR / "british_columbia" / "pmbc_parcel_fabric_poly_svw.gdb" # Layer: PMBC_PARCEL_FABRIC_POLY_SVW (Multi Polygon)
-    dst=PROCESSED_DIR/ "british_columbia" / "BC_Parcel_Fabric_Poly.geojson"
-    vector_to_geojson(src,dst)
-
-# 4. Federal Real Property
-def process_federal_real_property():
-    """ currently in a .shp"""
-    src1=RAW_DIR/ "canada"/ "federal_real_property"/"Property_FGP_20260720135946_799_a.shp"
-    src2=RAW_DIR/ "canada"/ "federal_real_property"/"Property_FGP_20260720135946_799_p.shp"
-    dst1=PROCESSED_DIR/ "canada"/ "federal_real_property_a.geojson"
-    dst2=PROCESSED_DIR/ "canada"/ "federal_real_property_p.geojson"
-    vector_to_geojson(src1,dst1)
-    vector_to_geojson(src2,dst2)
-
-# 5. Alberta Metis Settlement
-def process_alberta_metis_settlement():
-    """currently in a .shp"""
-    src=RAW_DIR/"alberta"/"alberta_metis_settlement"/"Municipal metis settlement public - Métis Settlement.shp"
-    dst=PROCESSED_DIR/"alberta"/"alberta_metis_settlement.geojson"
-    vector_to_geojson(src,dst)
-
-# 6. Saskatchewan crown easements
-def process_saskatchewan_crown_easements():
-    """currently in a .shp"""
-    src=RAW_DIR/"saskatchewan"/"saskatchewan_crown_conservation_easements"/"Planning - Crown Conservation Easements.shp"
-    dst=PROCESSED_DIR/"saskatchewan"/"saskatchewan_crown_conservation_easements.geojson"
-    vector_to_geojson(src,dst)
-
-# 7. Nova Scotia protected areas system
-def process_ns_prot_area_sys():
-    """currently in a .sħp"""
-    src=RAW_DIR/"nova_scotia"/"ns_protected_area_system"/"ENV_NS_Prot_Area_Sys_UT83.shp"
-    dst=PROCESSED_DIR/"nova_scotia"/"ns_protected_area_system.geojson"
-    vector_to_geojson(src,dst)
-
-# 8. Quebec protected areas 
-def process_qc_protected_areas():
-    """currently in multiple .shp"""
-    src1=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"AP_REG_S.shp"
-    src2=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"AP_ZON_S.shp"
-    src3=RAW_DIR/"quebec"/"protected_areas"/"registre_aires_prot"/"T_IMP_S.shp"
-    dst1=PROCESSED_DIR/"quebec"/"protected_areas"/"AP_REG_S.geojson"
-    dst2=PROCESSED_DIR/"quebec"/"protected_areas"/"AP_ZON_S.geojson"
-    dst3=PROCESSED_DIR/"quebec"/"protected_areas"/"T_IMP_S.geojson"
-    vector_to_geojson(src1,dst1)
-    vector_to_geojson(src2,dst2)
-    vector_to_geojson(src3,dst3)
-
-# 9. Yukon Land Parcels Polygons
-def process_yukon_parcel_polygons():
-    """ from shp """
-    src=RAW_DIR/"yukon"/"land_parcels_polygons"/"Land_Parcels_Polygon_Surveyed.shp"
-    dst=PROCESSED_DIR/"yukon"/"land_parcels_polygons"/"Land_Parcels_Polygon_Surveyed.geojson"
-    vector_to_geojson(src,dst)
-
-# 10. Canada census subdivisions polygons
-def process_canada_census_subdivisions():
-    """ from shp """
-    src=RAW_DIR/"canada"/"statscan_census_subdivision_boundaries"/"lcsd000a25a_e.shp"
-    dst=PROCESSED_DIR/"canada"/"statscan_census_subdivision_boundaries"/"census_subdivision_boundaries.geojson"
-    vector_to_geojson(src,dst)
-
-# 11. Alberta crown land reservations
-def process_alberta_crown_land_reservations():
-    """ from shp """
-    src1=RAW_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations.shp"
-    dst1=PROCESSED_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations.geojson"
-    src2=RAW_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations_Historical.shp"
-    dst2=PROCESSED_DIR/"alberta"/"crown_land_reservations"/"CrownLandReservations_Historical.geojson"
-    vector_to_geojson(src1,dst1)
-    vector_to_geojson(src2,dst2)
-
-# 12. New Brunswick protected waters
-def process_new_brunswick_protected_waters():
-    """ from myriad shp """
-
-    src1=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneA_2017.shp"
-    dst1=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneA_2017.geojson"
-
-    src2=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneAp_2017.shp"
-    dst2=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneAp_2017.geojson"
-    
-    src3=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneB.shp"
-    dst3=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneB.geojson"
-    
-    src4=RAW_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneC.shp"
-    dst4=PROCESSED_DIR/"new_brunswick"/"geonb_pw-bvp_shp"/"Watersheds_ZoneC.geojson"
-
-    vector_to_geojson(src1,dst1)
-    vector_to_geojson(src2,dst2)
-    vector_to_geojson(src3,dst3)
-    vector_to_geojson(src4,dst4)
-
-# 13. quebec crown land leases
-def process_quebec_baux():
-    """ From many shp"""
-    src1=RAW_DIR/"quebec"/"crown_land_leases"/"Baux_p.shp"
-    dst1=PROCESSED_DIR/"quebec"/"crown_land_leases"/"Baux_p.geojson"
-
-    src2=RAW_DIR/"quebec"/"crown_land_leases"/"Baux_s.shp"
-    dst2=PROCESSED_DIR/"quebec"/"crown_land_leases"/"Baux_s.geojson"
-
-    vector_to_geojson(src1,dst1)
-    vector_to_geojson(src2,dst2)
-
-# 14. Cadastral data of Canada - this fails the kmz only holds links
-def process_canada_cadastral_data():
-    """ From kml """
-    src=RAW_DIR/"canada"/"cadastral_data"/"Canada Lands.kmz"
-    dst=PROCESSED_DIR/"canada"/"cadastral_data"/"Canada Lands.geojson"
-    vector_to_geojson(src,dst)
-
-# 15. National park boundaries of Canada
-def process_canada_national_parks():
-    """ From shp """
-    src=RAW_DIR/"canada"/"national_parks_park_reserves"/"CLAB_CA_2026-06-01.shp"
-    dst=PROCESSED_DIR/"canada"/"national_parks_park_reserves"/"National_Parks_and_Park_Reserves.geojson"
-    vector_to_geojson(src,dst)
-
-# 16. Cadastral data for all the provinces
-def process_cadastral_data():
-    """ From many .gdb one for each province. """
-   
-
-
-
-
-
-
-
-
-
-
-# Let's make one common framework
-
 # input layers to process
     """
     (RAW_DIR / "" / "" / ".shp",
@@ -212,44 +50,18 @@ def process_cadastral_data():
     """
 LAYERS = [
 
-    (RAW_DIR / "british_columbia" / "cadastral_data" / "BC.gdb",
-     PROCESSED_DIR / "british_columbia" / "cadastral_data" / "BC_cadastral_polygons.geojson"),
+    (RAW_DIR / "canada" / "CanVec_Hydrographic_Features/canvec_1M_CA_Hydro/" / "permanent_snow_and_ice_2.shp",
+     PROCESSED_DIR / "canada" / "CanVec_Hydrographic_Features" / "permanent_snow_and_ice_2.geojson"),
 
-    (RAW_DIR / "alberta" / "cadastral_data" / "AB.gdb",
-     PROCESSED_DIR / "alberta" / "cadastral_data" / "AB_cadastral_polygons.geojson"),
+    (RAW_DIR / "canada" / "CanVec_Hydrographic_Features/canvec_1M_CA_Hydro/" / "water_linear_flow_1.shp",
+     PROCESSED_DIR / "canada" / "CanVec_Hydrographic_Features" / "water_linear_flow_1.geojson"),
 
-    (RAW_DIR / "saskatchewan" / "cadastral_data" / "SK.gdb",
-     PROCESSED_DIR / "saskatchewan" / "cadastral_data" / "SK_cadastral_polygons.geojson"),
+    (RAW_DIR / "canada" / "CanVec_Hydrographic_Features/canvec_1M_CA_Hydro/" / "waterbody_2.shp",
+     PROCESSED_DIR / "canada" / "CanVec_Hydrographic_Features" / "waterbody_2.geojson"),
 
-    (RAW_DIR / "manitoba" / "cadastral_data" / "MB.gdb",
-     PROCESSED_DIR / "manitoba" / "cadastral_data" / "MB_cadastral_polygons.geojson"),
+    (RAW_DIR / "canada" / "CanVec_Hydrographic_Features/canvec_1M_CA_Hydro/" / "watercourse_1.shp",
+     PROCESSED_DIR / "canada" / "CanVec_Hydrographic_Features" / "watercourse_1.geojson"),
 
-    (RAW_DIR / "ontario" / "cadastral_data" / "ON.gdb",
-     PROCESSED_DIR / "ontario" / "cadastral_data" / "ON_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "quebec" / "cadastral_data" / "QC.gdb",
-     PROCESSED_DIR / "quebec" / "cadastral_data" / "QC_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "new_brunswick" / "cadastral_data" / "NB.gdb",
-     PROCESSED_DIR / "new_brunswick" / "cadastral_data" / "NB_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "prince_edward_island" / "cadastral_data" / "PE.gdb",
-     PROCESSED_DIR / "prince_edward_island" / "cadastral_data" / "PE_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "nova_scotia" / "cadastral_data" / "NS.gdb",
-     PROCESSED_DIR / "nova_scotia" / "cadastral_data" / "NS_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "newfoundland_labrador" / "cadastral_data" / "NL.gdb",
-     PROCESSED_DIR / "newfoundland_labrador" / "cadastral_data" / "NL_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "yukon" / "cadastral_data" / "YT.gdb",
-     PROCESSED_DIR / "yukon" / "cadastral_data" / "YT_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "northwest_territories" / "cadastral_data" / "NT.gdb",
-     PROCESSED_DIR / "northwest_territories" / "cadastral_data" / "NT_cadastral_polygons.geojson"),
-
-    (RAW_DIR / "nunavut" / "cadastral_data" / "NU.gdb",
-     PROCESSED_DIR / "nunavut" / "cadastral_data" / "NU_cadastral_polygons.geojson")
 ]
 
 def process_layers():

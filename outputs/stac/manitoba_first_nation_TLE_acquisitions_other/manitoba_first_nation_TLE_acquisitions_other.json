@@ -2,7 +2,7 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "alberta_metis_settlement",
+  "id": "manitoba_first_nation_TLE_acquisitions_other",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
@@ -37,9 +37,9 @@
     83.1
   ],
   "properties": {
-    "title": "alberta metis settlement",
-    "region": "Alberta",
-    "datetime": "2026-08-05T15:56:26.356246Z"
+    "title": "manitoba first nation TLE acquisitions other",
+    "region": "Canada",
+    "datetime": "2026-08-05T15:56:26.359772Z"
   },
   "links": [
     {
@@ -57,7 +57,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/alberta/alberta_metis_settlement.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/manitoba_first_nation_TLE_acquisitions_other.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [

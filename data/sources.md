@@ -33,6 +33,10 @@ gdbs for each province are from [here](https://natural-resources.canada.ca/maps-
 combined into one through
 ogrmerge.py -o merged_canada_lands.gpkg province1.gdb province2.gdb ... -single -nln canada_lands
 
+## Water per CanVec
+see [here](https://open.canada.ca/data/en/dataset/9d96e8c9-22fe-4ad2-b5e8-94a6991b744b)
+
+
 # British Columbia
 
 ## BC Parcel Fabric layer

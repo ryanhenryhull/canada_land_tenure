@@ -17,11 +17,6 @@
     },
     {
       "rel": "item",
-      "href": "./Canada Lands/Canada Lands.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
       "href": "./alberta_metis_settlement/alberta_metis_settlement.json",
       "type": "application/geo+json"
     },
@@ -33,6 +28,11 @@
     {
       "rel": "item",
       "href": "./BC_Parcel_Fabric_Poly/BC_Parcel_Fabric_Poly.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./Canada Lands/Canada Lands.json",
       "type": "application/geo+json"
     },
     {
@@ -88,6 +88,11 @@
     {
       "rel": "item",
       "href": "./manitoba_treaty_land_entitlement_sites/manitoba_treaty_land_entitlement_sites.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./manitoba_first_nation_TLE_acquisitions_other/manitoba_first_nation_TLE_acquisitions_other.json",
       "type": "application/geo+json"
     },
     {
