@@ -57,7 +57,7 @@
   ],
   "assets": {
     "pmtiles": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/manitoba_first_nation_TLE_acquisitions_other.pmtiles",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/pmtiles/manitoba/manitoba_first_nation_TLE_acquisitions_other.pmtiles",
       "type": "application/vnd.pmtiles",
       "title": "PMTiles vector tiles",
       "roles": [
