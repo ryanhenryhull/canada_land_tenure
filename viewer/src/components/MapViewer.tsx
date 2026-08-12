@@ -474,7 +474,7 @@ export default function MapViewer({
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
   
       {/* About button - styled to match MapLibre native controls */}
-      <div className="absolute bottom-3 left-3 z-10">
+      <div className="absolute bottom-3 left-3 z-50">
         {isAboutOpen && (
             <div className="mb-2 w-72 bg-white rounded-md shadow-md border border-black/10 p-3 text-xs text-slate-700 leading-relaxed">
             <div className="flex items-center justify-between mb-1.5">
@@ -502,6 +502,7 @@ export default function MapViewer({
         <button
           onClick={() => setIsAboutOpen(!isAboutOpen)}
           className="bg-white hover:bg-slate-50 rounded-md shadow-md border border-black/10 px-3 py-1.5 text-xs font-medium text-slate-700 cursor-pointer"
+          style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}
           title="About this map"
         >
           About
