@@ -472,11 +472,16 @@ export default function MapViewer({
   return (
       <div id="map-container" className="w-full h-full relative bg-slate-100">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
-  
+ 
+     
+
       {/* About button - styled to match MapLibre native controls */}
       <div className="absolute bottom-25 right-3 z-50">
-        {isAboutOpen && (
-            <div className="mb-2 w-72 bg-white rounded-md shadow-md border border-black/10 p-3 text-xs text-slate-700 leading-relaxed">
+        {isAboutOpen ? (
+          <div
+            className="w-72 bg-white rounded-md shadow-md border border-black/10 p-3 text-xs text-slate-700 leading-relaxed"
+            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}
+          >
             <div className="flex items-center justify-between mb-1.5">
               <span className="font-semibold text-slate-900">About</span>
               <button
@@ -487,27 +492,25 @@ export default function MapViewer({
                 ✕
               </button>
             </div>
-          
-            <p className="mb-2">
-              This viewer gathers provincial and national datasets related to land tenure across Canada. It is non-authoritative and non-comprehensive.
-              Indigenous land datasets do not include traditional and ancestral territories, which can be found on Native-Land.ca 
-            </p>
-          
-            <p className="mb-2">
-              For comments and input, please reach ryan.hull@mail.mcgill.ca
+            <p>
+              This map visualizes land tenure and biodiversity data across Canada,
+              developed by the Quantitative Biodiversity Lab at McGill University
+              as part of the Blitz the Gap project.
             </p>
           </div>
+        ) : (
+          <button
+            onClick={() => setIsAboutOpen(true)}
+            className="bg-white hover:bg-slate-50 rounded-md shadow-md border border-black/10 px-3 py-1.5 text-xs font-medium text-slate-700 cursor-pointer"
+            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}
+            title="About this map"
+          >
+            About
+          </button>
         )}
-  
-        <button
-          onClick={() => setIsAboutOpen(!isAboutOpen)}
-          className="bg-white hover:bg-slate-50 rounded-md shadow-md border border-black/10 px-3 py-1.5 text-xs font-medium text-slate-700 cursor-pointer"
-          style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}
-          title="About this map"
-        >
-          About
-        </button>
       </div>
-    </div>
+
+
+
     );
 }
