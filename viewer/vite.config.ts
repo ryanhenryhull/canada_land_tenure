@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: '/cloud_native_canada_land_tenure/', // EXACT GITHUB REPO NAME
+    base: '/canada_land_tenure/', // put the exact repo name here. 
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
