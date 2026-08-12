@@ -493,9 +493,11 @@ export default function MapViewer({
               </button>
             </div>
             <p>
-              This map visualizes land tenure and biodiversity data across Canada,
-              developed by the Quantitative Biodiversity Lab at McGill University
-              as part of the Blitz the Gap project.
+                This viewer gathers provincial and national datasets related to land tenure across Canada. It is non-authoritative and non-comprehensive.
+                Indigenous land datasets do not include traditional and ancestral territories, which can be found on Native-Land.ca 
+            </p>
+            <p>
+                For comments and input, please reach ryan.hull@mail.mcgill.ca
             </p>
           </div>
         ) : (
@@ -503,7 +505,7 @@ export default function MapViewer({
             onClick={() => setIsAboutOpen(true)}
             className="bg-white hover:bg-slate-50 rounded-md shadow-md border border-black/10 px-3 py-1.5 text-xs font-medium text-slate-700 cursor-pointer"
             style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}
-            title="About this map"
+            title="About"
           >
             About
           </button>
