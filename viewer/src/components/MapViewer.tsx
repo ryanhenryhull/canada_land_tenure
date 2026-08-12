@@ -35,6 +35,11 @@ export default function MapViewer({
   const mapRef = useRef<maplibregl.Map | null>(null);
   const layersRef = useRef<GeospatialLayer[]>(layers);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
+
+  // for about section
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+
+
   const popupRef = useRef<maplibregl.Popup | null>(null);
 
   const deckOverlayRef = useRef<MapboxOverlay | null>(null);
@@ -465,8 +470,39 @@ export default function MapViewer({
   };
 
   return (
-    <div id="map-container" className="w-full h-full relative bg-slate-100">
+      <div id="map-container" className="w-full h-full relative bg-slate-100">
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
+  
+      {/* About button - styled to match MapLibre native controls */}
+      <div className="absolute bottom-6 right-4 z-10">
+        {isAboutOpen && (
+          <div className="mb-2 w-72 bg-white rounded-md shadow-md border border-black/10 p-3 text-xs text-slate-700 leading-relaxed">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="font-semibold text-slate-900">About</span>
+              <button
+                onClick={() => setIsAboutOpen(false)}
+                className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                title="Close"
+              >
+                ✕
+              </button>
+            </div>
+            <p>
+              This map visualizes land tenure and biodiversity data across Canada,
+              developed by the Quantitative Biodiversity Lab at McGill University
+              as part of the Blitz the Gap project.
+            </p>
+          </div>
+        )}
+  
+        <button
+          onClick={() => setIsAboutOpen(!isAboutOpen)}
+          className="bg-white hover:bg-slate-50 rounded-md shadow-md border border-black/10 px-3 py-1.5 text-xs font-medium text-slate-700 cursor-pointer"
+          title="About this map"
+        >
+          About
+        </button>
+      </div>
     </div>
-  );
+    );
 }
