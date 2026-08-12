@@ -474,7 +474,7 @@ export default function MapViewer({
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
   
       {/* About button - styled to match MapLibre native controls */}
-      <div className="absolute bottom-3 left-3 z-50">
+      <div className="absolute bottom-25 right-3 z-50">
         {isAboutOpen && (
             <div className="mb-2 w-72 bg-white rounded-md shadow-md border border-black/10 p-3 text-xs text-slate-700 leading-relaxed">
             <div className="flex items-center justify-between mb-1.5">
