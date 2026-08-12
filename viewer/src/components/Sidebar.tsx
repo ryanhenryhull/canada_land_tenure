@@ -306,9 +306,6 @@ export default function Sidebar({
                               <span className="text-xs font-medium text-slate-200 block truncate cursor-pointer hover:text-white" title={layer.name}>
                                 {layer.name}
                               </span>
-                              <span className="text-[9px] text-slate-500 font-mono block truncate">
-                                {layer.type.toUpperCase()}
-                              </span>
                             </div>
                           </div>
                           {/* Action buttons */}
