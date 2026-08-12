@@ -474,9 +474,9 @@ export default function MapViewer({
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
   
       {/* About button - styled to match MapLibre native controls */}
-      <div className="absolute bottom-6 right-4 z-10">
+      <div className="absolute bottom-3 left-3 z-10">
         {isAboutOpen && (
-          <div className="mb-2 w-72 bg-white rounded-md shadow-md border border-black/10 p-3 text-xs text-slate-700 leading-relaxed">
+            <div className="mb-2 w-72 bg-white rounded-md shadow-md border border-black/10 p-3 text-xs text-slate-700 leading-relaxed">
             <div className="flex items-center justify-between mb-1.5">
               <span className="font-semibold text-slate-900">About</span>
               <button
@@ -487,10 +487,14 @@ export default function MapViewer({
                 ✕
               </button>
             </div>
-            <p>
-              This map visualizes land tenure and biodiversity data across Canada,
-              developed by the Quantitative Biodiversity Lab at McGill University
-              as part of the Blitz the Gap project.
+          
+            <p className="mb-2">
+              This viewer gathers provincial and national datasets related to land tenure across Canada. It is non-authoritative and non-comprehensive.
+              Indigenous land datasets do not include traditional and ancestral territories, which can be found on Native-Land.ca 
+            </p>
+          
+            <p className="mb-2">
+              For comments and input, please reach ryan.hull@mail.mcgill.ca
             </p>
           </div>
         )}
