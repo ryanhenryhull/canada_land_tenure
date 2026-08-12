@@ -1,6 +1,10 @@
 import { GeospatialLayer } from "../types";
 import { parseStacNode, resolveUrl } from "./stacParser";
 
+
+import { EXCLUDED_LAYERS } from "./excludedLayers"; // manually entered layers from stac we do not wish to see in viewer.
+
+
 // Robust recursive STAC discovery function
 export async function recursivelyDiscoverLayers(
   url: string,
@@ -22,6 +26,11 @@ export async function recursivelyDiscoverLayers(
 
     try {
       const node = await parseStacNode(normalizedUrl);
+
+      if (node.id && EXCLUDED_LAYERS.includes(node.id)) {
+        return; // exclude item from viewer. 
+      }
+
       const category = node.properties?.region || "Uncategorized"; // Ryan note: allows for region logic
       
       // Look for assets in this node
