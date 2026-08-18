@@ -260,5 +260,7 @@ service-account*.json
 
 
 
-# node stuff
+# node stuff and R
 node_modules/*
+.Rproj.user
+*.Rproj
