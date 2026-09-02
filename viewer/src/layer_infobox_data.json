@@ -173,7 +173,7 @@
             {
               "layer_name": "protected_areas",
               "citation": "Gouvernement du Québec. (2026). Registre des aires protégées et des AMCE au Québec [Data set]. Données Québec. Retrieved 23 July 2026 from https://www.donneesquebec.ca/recherche/dataset/aires-protegees-au-quebec",
-              "description": "Registre des aires protégées et des AMCE au Québec - Protected Areas and OECMs",
+              "description": "Registre des aires protégées et des AMCE au Québec - Protected Areas and OECMs. AP_REG_S: Aires protégées du registre. AP_ZON_S: Zones. T_IMP_S: Territoires importants.",
               "download_link": "https://www.donneesquebec.ca/recherche/dataset/aires-protegees-au-quebec"
             }
         ]
