@@ -266,3 +266,5 @@ node_modules/*
 *.Rproj
 .RData
 .Rhistory
+*.tif
+*.aux.xml
