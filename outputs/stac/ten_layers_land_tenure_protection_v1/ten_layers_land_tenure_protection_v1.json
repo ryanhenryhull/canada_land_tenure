@@ -2,44 +2,44 @@
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [],
-  "id": "Canada_MFv2020",
+  "id": "ten_layers_land_tenure_protection_v1",
   "geometry": {
     "type": "Polygon",
     "coordinates": [
       [
         [
-          -172.96875,
+          -177.1875,
           34.30714385628805
         ],
         [
-          -172.96875,
+          -177.1875,
           84.67351256610523
         ],
         [
-          -12.65624999999999,
+          -8.437500000000004,
           84.67351256610523
         ],
         [
-          -12.65624999999999,
+          -8.437500000000004,
           34.30714385628805
         ],
         [
-          -172.96875,
+          -177.1875,
           34.30714385628805
         ]
       ]
     ]
   },
   "bbox": [
-    -172.96875,
+    -177.1875,
     34.30714385628805,
-    -12.65624999999999,
+    -8.437500000000004,
     84.67351256610523
   ],
   "properties": {
-    "title": "Canada MFv2020",
+    "title": "ten layers land tenure protection v1",
     "region": "Canada",
-    "datetime": "2026-09-04T17:39:17.830727Z"
+    "datetime": "2026-09-04T17:39:17.855789Z"
   },
   "links": [
     {
@@ -57,7 +57,7 @@
   ],
   "assets": {
     "cog": {
-      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/cogs/canada/Canada_MFv2020.tif",
+      "href": "https://pub-5ac3c27e0001486290fb4f649e61b4a8.r2.dev/cogs/canada/ten_layers_land_tenure_protection_v1.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "title": "Cloud-Optimized GeoTIFF",
       "roles": [

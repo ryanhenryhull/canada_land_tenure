@@ -77,6 +77,11 @@
     },
     {
       "rel": "item",
+      "href": "./manitoba_first_nation_TLE_acquisitions_other/manitoba_first_nation_TLE_acquisitions_other.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./manitoba_first_nation_non_TLE_agreements/manitoba_first_nation_non_TLE_agreements.json",
       "type": "application/geo+json"
     },
@@ -88,11 +93,6 @@
     {
       "rel": "item",
       "href": "./manitoba_treaty_land_entitlement_sites/manitoba_treaty_land_entitlement_sites.json",
-      "type": "application/geo+json"
-    },
-    {
-      "rel": "item",
-      "href": "./manitoba_first_nation_TLE_acquisitions_other/manitoba_first_nation_TLE_acquisitions_other.json",
       "type": "application/geo+json"
     },
     {
