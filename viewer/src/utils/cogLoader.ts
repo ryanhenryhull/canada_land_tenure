@@ -1,7 +1,9 @@
 import { fromUrl, GeoTIFF, GeoTIFFImage } from "geotiff";
 import proj4 from "proj4";
-import { computeIndexValue } from "./cog_indexes/forest_management";
-import { getForestColor } from "./cog_indexes/forest_management_colormap";
+
+// with new versatile nonfilespecific approach
+import { COG_CONFIGS } from "./cog_indexes/cog_configs";
+
 
 // Dynamic Proj4 projection generator for common coordinate systems (UTM, Web Mercator, WGS84)
 export function getProj4String(epsgCode: number): string | null {

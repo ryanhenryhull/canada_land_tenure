@@ -18,7 +18,7 @@ export interface GeospatialLayer {
     minVal: number;
     maxVal: number;
     colormapName?: string;
-    activeForestIndexId?: string; // If set, calculate and display this forest index instead
+    cogConfigId?: string; // Ryan edit to fit the verstile generic form pipeline of cog legend loading.
     bandMapping?: {
       red: number;
       green: number;
@@ -74,4 +74,21 @@ export interface StacCatalogNode {
   type: 'catalog' | 'collection' | 'item';
   url: string;
   childrenLinks: Array<{ rel: string; href: string; title?: string; type?: string }>;
+}
+
+
+
+
+// edits for versatile cog legend loading approahc.
+export interface CogCategory {
+  value: number;
+  name: string;
+  description: string;
+  color: string;
+}
+
+export interface CogConfig {
+  name: string;
+  categories: CogCategory[];
+  colorMap: Record<number, [number, number, number]>;
 }

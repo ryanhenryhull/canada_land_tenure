@@ -1,83 +1,85 @@
-export interface ForestIndex {
-  id: string;
-  name: string;
-  formula: string;
-  description: string;
-  requiredBands: string[];
-  defaultMin: number;
-  defaultMax: number;
+import type { CogConfig, CogCategory } from "./types";
+
+function hexToRgb(hex: string): [number, number, number] {
+  const h = hex.replace("#", "");
+
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+
+  return [r, g, b];
 }
 
-export const FOREST_INDEXES: ForestIndex[] = [
+export const FOREST_CATEGORIES: CogCategory[] = [
   {
-    id: "ndvi",
-    name: "NDVI (Vegetation Density)",
-    formula: "(NIR - Red) / (NIR + Red)",
-    description: "Normalized Difference Vegetation Index. Highly sensitive to green forest canopies and active chlorophyll absorption.",
-    requiredBands: ["NIR", "Red"],
-    defaultMin: 0.0,
-    defaultMax: 0.8,
+    value: 11,
+    name: "Long-term Tenure",
+    description: "Lands with long term volume- or area-based Crown timber dispositions",
+    color: "#709c90"
   },
   {
-    id: "ndwi",
-    name: "NDWI (Canopy Moisture)",
-    formula: "(NIR - SWIR) / (NIR + SWIR)",
-    description: "Normalized Difference Water Index. Excellent for measuring liquid water content and canopy moisture stress in forests.",
-    requiredBands: ["NIR", "SWIR"],
-    defaultMin: -0.2,
-    defaultMax: 0.6,
+    value: 12,
+    name: "Short-term Tenure",
+    description: "Lands with short term volume- or area-based Crown timber dispositions",
+    color: "#aecfb9"
   },
   {
-    id: "evi",
-    name: "EVI (Enhanced Vegetation)",
-    formula: "2.5 * ((NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1))",
-    description: "Enhanced Vegetation Index. Provides better sensitivity in high-biomass, dense forest regions with atmospheric correction.",
-    requiredBands: ["NIR", "Red", "Blue"],
-    defaultMin: 0.1,
-    defaultMax: 0.9,
+    value: 13,
+    name: "Other",
+    description: "Lands with no current Crown timber dispositions",
+    color: "#ebead0"
   },
   {
-    id: "nbr",
-    name: "NBR (Burn Severity)",
-    formula: "(NIR - SWIR) / (NIR + SWIR)",
-    description: "Normalized Burn Ratio. Used extensively in forestry to delineate fire burn scars and monitor vegetative regeneration.",
-    requiredBands: ["NIR", "SWIR"],
-    defaultMin: -0.3,
-    defaultMax: 0.5,
+    value: 20,
+    name: "Protected",
+    description: "Lands legal protection status (IUCN MFIA, IB, II, III, IV, V or VI equivalent)",
+    color: "#abbd38"
+  },
+  {
+    value: 31,
+    name: "Federal Reserve",
+    description: "Lands held in reserve by the Federal government for military or other purposes",
+    color: "#6166c6"
+  },
+  {
+    value: 32,
+    name: "Indian Reserve",
+    description: "Lands held in reserve by the Federal government under the Indian Act",
+    color: "#86510f"
+  },
+  {
+    value: 33,
+    name: "Restricted",
+    description: "Lands reserved or designated restricted use by provincial or territorial government",
+    color: "#d2e14a"
+  },
+  {
+    value: 40,
+    name: "Treaty/Settlement",
+    description: "Aboriginal Lands",
+    color: "#c07a08"
+  },
+  {
+    value: 50,
+    name: "Private",
+    description: "Privately-owned lands",
+    color: "#46605a"
+  },
+  {
+    value: 100,
+    name: "Water",
+    description: "Water",
+    color: "#aadaff"
   }
 ];
 
-// Helper to compute a specific index pixel-by-pixel
-export function computeIndexValue(
-  indexId: string,
-  pixelIdx: number,
-  getBandVal: (bandNum: number) => number,
-  mapping: { red: number; green: number; blue: number; nir: number; swir: number }
-): number {
-  const r = getBandVal(mapping.red);
-  const g = getBandVal(mapping.green);
-  const b = getBandVal(mapping.blue);
-  const nir = getBandVal(mapping.nir);
-  const swir = getBandVal(mapping.swir);
+export const FOREST_COLOR_MAP: Record<number, [number, number, number]> =
+  Object.fromEntries(
+    FOREST_CATEGORIES.map(cat => [cat.value, hexToRgb(cat.color)])
+  );
 
-  switch (indexId) {
-    case "ndvi": {
-      const denom = nir + r;
-      return denom === 0 ? 0 : (nir - r) / denom;
-    }
-    case "ndwi": {
-      const denom = nir + swir;
-      return denom === 0 ? 0 : (nir - swir) / denom;
-    }
-    case "evi": {
-      const denom = nir + 6 * r - 7.5 * b + 1;
-      return denom === 0 ? 0 : 2.5 * ((nir - r) / denom);
-    }
-    case "nbr": {
-      const denom = nir + swir;
-      return denom === 0 ? 0 : (nir - swir) / denom;
-    }
-    default:
-      return r; // Default fallback to Red band
-  }
-}
+export const FOREST_CONFIG: CogConfig = {
+  name: "Forest Management in Canada, 2020",
+  categories: FOREST_CATEGORIES,
+  colorMap: FOREST_COLOR_MAP
+};

@@ -3,10 +3,12 @@ import { Layers, ChevronLeft, ChevronDown, Info, Eye, ExternalLink } from "lucid
 import { GeospatialLayer } from "../types";
 import { ClientCog } from "../utils/cogLoader";
 import maplibregl from "maplibre-gl";
-import { FOREST_INDEXES } from "../utils/cog_indexes/forest_management";
-import { FOREST_CATEGORIES } from "../utils/cog_indexes/forest_management_index";
-import { getPmtilesVectorLayers } from "../utils/pmtilesMetadata";
 
+// with new cog legend loading method: all cog legend info is imported in one item, so bam then no file-specific code is needed.
+import { COG_CONFIGS } from "../utils/cog_indexes/cog_configs";
+
+
+import { getPmtilesVectorLayers } from "../utils/pmtilesMetadata";
 import { getLayerInfobox } from "../utils/layerInfobox";
 
 
@@ -153,39 +155,62 @@ export default function Sidebar({
     }));
   };
 
+
+
+
+  
+
+  // new renderLegend employs non hardcoded, non filespecific loading of cog index (see readme in utils/cog_indexes)
   const renderLegend = (layer: GeospatialLayer) => {
     if (!layer.visible) return null;
-
-    if (layer.type === "cog" && layer.cogSettings) {
-      const activeIndexId = layer.cogSettings.activeForestIndexId;
-      const activeIndex = FOREST_INDEXES.find(idx => idx.id === activeIndexId);
-
-      return (
-        <div className="px-3 pb-3 pt-1.5 border-t border-slate-850/50 bg-slate-950/20 space-y-2 animate-fadeIn">
-          <div className="flex justify-between items-center text-[10px]">
-            <span className="font-semibold text-slate-300">
-              {activeIndex ? `${activeIndex.name} (Forest Management)` : "Forest Management Legend"}
-            </span>
-          </div>
-          <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
-            {FOREST_CATEGORIES.map(cat => (
-              <div key={cat.value} className="flex items-start space-x-2 text-[10px] text-slate-400 leading-tight animate-fadeIn">
-                <span 
-                  className="w-2.5 h-2.5 rounded-sm flex-shrink-0 mt-0.5 border border-white/10" 
-                  style={{ backgroundColor: cat.color }} 
-                />
-                <div className="flex flex-col">
-                  <span className="font-medium text-slate-300">{cat.value}: {cat.name}</span>
-                  <span className="text-[9px] text-slate-500">{cat.description}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
+  
+    if (layer.type !== "cog" || !layer.cogSettings?.cogConfigId) {
+      return null;
     }
-        return null;
+  
+    const config = COG_CONFIGS[layer.cogSettings.cogConfigId];
+  
+    if (!config) {
+      return null;
+    }
+  
+    return (
+      <div className="px-3 pb-3 pt-1.5 border-t border-slate-850/50 bg-slate-950/20 space-y-2 animate-fadeIn">
+        <div className="flex justify-between items-center text-[10px]">
+          <span className="font-semibold text-slate-300">
+            {config.name}
+          </span>
+        </div>
+  
+        <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
+          {config.categories.map(cat => (
+            <div
+              key={cat.value}
+              className="flex items-start space-x-2 text-[10px] text-slate-400 leading-tight animate-fadeIn"
+            >
+              <span
+                className="w-2.5 h-2.5 rounded-sm flex-shrink-0 mt-0.5 border border-white/10"
+                style={{ backgroundColor: cat.color }}
+              />
+  
+              <div className="flex flex-col">
+                <span className="font-medium text-slate-300">
+                  {cat.value}: {cat.name}
+                </span>
+  
+                <span className="text-[9px] text-slate-500">
+                  {cat.description}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
+
+
+
 
 
   // ryan: I think this goes here
