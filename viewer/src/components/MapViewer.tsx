@@ -324,12 +324,15 @@ export default function MapViewer({
 
     // Create unique cache keys for viewport (rounded for precision stability) and cogSettings
     const viewportKey = viewport.map(c => c.toFixed(5)).join(",");
+
+    // with edits to allow new flexible legend rendering across them cogs 
     const settingsKey = JSON.stringify({
       colormapName: layer.cogSettings?.colormapName,
       minVal: layer.cogSettings?.minVal,
       maxVal: layer.cogSettings?.maxVal,
       bands: layer.cogSettings?.bands,
       activeForestIndexId: layer.cogSettings?.activeForestIndexId,
+      cogConfigId: layer.cogSettings?.cogConfigId, // the addition
       bandMapping: layer.cogSettings?.bandMapping
     });
 
@@ -349,6 +352,7 @@ export default function MapViewer({
       maxVal: layer.cogSettings?.maxVal,
       bands: layer.cogSettings?.bands,
       activeForestIndexId: layer.cogSettings?.activeForestIndexId,
+      cogConfigId: layer.cogSettings?.cogConfigId, // similarly required addition.
       bandMapping: layer.cogSettings?.bandMapping
     });
 

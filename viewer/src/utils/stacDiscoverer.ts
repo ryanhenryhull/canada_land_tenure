@@ -63,8 +63,18 @@ export async function recursivelyDiscoverLayers(
           if (isTiff) {
             const layerId = `stac-cog-${node.id}-${key}`;
             if (!discovered.some(l => l.id === layerId)) {
+
+
+
+              // Ryan edit to incl tenure  
               const isForestManagement = lowerHref.includes("canada_mf") || lowerHref.includes("forest_management") || node.id.toLowerCase().includes("canada_mf");
+              const isTenure = lowerHref.includes("tenure") || node.id.toLowerCase().includes("tenure");   // matches ..._land_tenure_protection_v1.tif
               
+              const cogConfigId = isForestManagement ? "forest_management"
+                                : isTenure           ? "land_tenure_protection_v1"
+                                : undefined;
+             
+
               discovered.push({
                 id: layerId,
                 // Ryan: below is where the naming of sidebar elements is controlled.
@@ -80,7 +90,8 @@ export async function recursivelyDiscoverLayers(
                   bands: [1],
                   minVal: isForestManagement ? 11 : 0,
                   maxVal: isForestManagement ? 100 : 255,
-                  colormapName: isForestManagement ? "forest_management" : "viridis",
+                  colormapName: isForestManagement ? "forest_management" : "viridis", // should become obsolete (?)
+                  cogConfigId,
                   bandMapping: {
                     red: 1,
                     green: 2,

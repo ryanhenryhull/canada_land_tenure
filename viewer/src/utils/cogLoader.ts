@@ -3,7 +3,7 @@ import proj4 from "proj4";
 
 // with new versatile nonfilespecific approach
 import { COG_CONFIGS } from "./cog_indexes/cog_configs";
-
+import { getCategoryColor } from "./cog_indexes/cog_configs";
 
 // Dynamic Proj4 projection generator for common coordinate systems (UTM, Web Mercator, WGS84)
 export function getProj4String(epsgCode: number): string | null {
@@ -172,6 +172,7 @@ export class ClientCog {
       maxVal?: number;
       bands?: number[];
       activeForestIndexId?: string;
+      cogConfigId?: string; // added to allow new legend rendering approach.
       bandMapping?: {
         red: number;
         green: number;
@@ -402,8 +403,8 @@ export class ClientCog {
           if (isNaN(val)) {
             isNoData = true;
           } else {
-            if (options.colormapName === "forest_management") {
-              const rgb = getForestColor(val);
+            if (options.cogConfigId) {
+              const rgb = getCategoryColor(options.cogConfigId, val);
               r = rgb[0];
               g = rgb[1];
               b = rgb[2];
@@ -423,11 +424,11 @@ export class ClientCog {
 
             if (noDataValue !== null && (valR === noDataValue || isNaN(valR))) {
               isNoData = true;
-            } else if (options.colormapName === "forest_management" && Math.round(valR) === 0) {
+            } else if (options.cogConfigId === "forest_management" && Math.round(valR) === 0) {
               isNoData = true;
             } else {
-              if (options.colormapName === "forest_management") {
-                const rgb = getForestColor(valR);
+              if (options.cogConfigId) {
+                const rgb = getCategoryColor(options.cogConfigId, valR);
                 r = rgb[0];
                 g = rgb[1];
                 b = rgb[2];
@@ -450,11 +451,11 @@ export class ClientCog {
 
             if (noDataValue !== null && (valR === noDataValue || isNaN(valR))) {
               isNoData = true;
-            } else if (options.colormapName === "forest_management" && Math.round(valR) === 0) {
+            } else if (options.cogConfigId === "forest_management" && Math.round(valR) === 0) {
               isNoData = true;
             } else {
-              if (options.colormapName === "forest_management") {
-                const rgb = getForestColor(valR);
+              if (options.cogConfigId) {
+                const rgb = getCategoryColor(options.cogConfigId, valR);
                 r = rgb[0];
                 g = rgb[1];
                 b = rgb[2];
