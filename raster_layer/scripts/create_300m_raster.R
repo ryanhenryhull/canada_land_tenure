@@ -183,15 +183,14 @@ CATEGORIES_V1 <- c(
   public = 6L
 )
 
-
 # colors by category name 
 tenure_colors <- c(
-  water      = "#4575B4",
-  protected  = "#2A9D5B",
-  indigenous = "#D98C3F",
-  private    = "#8C8C8C",
-  other      = "#8E5A9E",
-  public     = "#D8C58A"
+  water      = "#4575b4",
+  protected  = "#1a9850",
+  indigenous = "#e6741f",   
+  private    = "#bdbdbd",  
+  other      = "#984ea3",
+  public     = "#fee08b"  
 )
 
 # extract needed categories from forest management layer as separate layers.
