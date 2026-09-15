@@ -243,11 +243,8 @@ coltab(tenure_300m_v1) <- data.frame(
 )
 
 # write out as geotiff
-writeRaster(tenure_300m_v1, "raster_layer/outputs/ten_layers_land_tenure_protection_v1.tif",
+writeRaster(tenure_300m_v1, "raster_layer/outputs/ten_layers_land_tenure_protection_v1_tmp.tif",
             overwrite = TRUE, datatype = "INT1U") # INT1U for 0-255, ie to  keep this light
-
-
-
 
 
 # 7:
