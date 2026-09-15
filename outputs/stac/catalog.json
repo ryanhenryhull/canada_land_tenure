@@ -17,6 +17,16 @@
     },
     {
       "rel": "item",
+      "href": "./ten_layers_land_tenure_protection_v1/ten_layers_land_tenure_protection_v1.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
+      "href": "./ten_layers_land_tenure_protection_v1/ten_layers_land_tenure_protection_v1.json",
+      "type": "application/geo+json"
+    },
+    {
+      "rel": "item",
       "href": "./alberta_metis_settlement/alberta_metis_settlement.json",
       "type": "application/geo+json"
     },

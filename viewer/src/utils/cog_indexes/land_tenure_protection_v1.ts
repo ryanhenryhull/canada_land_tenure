@@ -12,7 +12,7 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 export const TENURE_CATEGORIES: CogCategory[] = [
-   {
+  {
     value: 1,
     name: "Water",
     description: "Water",
@@ -28,13 +28,13 @@ export const TENURE_CATEGORIES: CogCategory[] = [
     value: 3,
     name: "Indigenous Land",
     description: "Aboriginal lands, Metis settlements, and other First Nation tenure/treaty land entitlement sources",
-    color: "#d73027"
+    color: "#e6741f"
   },
   {
     value: 4,
     name: "Private Land",
     description: "Privately-owned lands",
-    color: "#fee08b"
+    color: "#bdbdbd"
   },
   {
     value: 5,
@@ -46,9 +46,11 @@ export const TENURE_CATEGORIES: CogCategory[] = [
     value: 6,
     name: "Public Land",
     description: "Remaining Crown land not otherwise classified",
-    color: "#bdbdbd"
-  } 
+    color: "#fee08b"
+  }
 ];
+
+
 
 export const TENURE_COLOR_MAP: Record<number, [number, number, number]> =
   Object.fromEntries(

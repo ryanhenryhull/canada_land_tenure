@@ -328,7 +328,7 @@ coltab(tenure_300m_v2) <- data.frame(
   col   = tenure_colors_v2[names(CATEGORIES_V2)]
 )
 
-writeRaster(tenure_300m_v2, "raster_layer/outputs/ten_layers_land_tenure_projection_v2.tif",
+writeRaster(tenure_300m_v2, "raster_layer/outputs/ten_layers_land_tenure_protection_v2.tif",
             overwrite = TRUE, datatype = "INT1U") 
 
 
