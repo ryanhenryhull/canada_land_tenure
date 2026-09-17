@@ -23,12 +23,17 @@ library(foreign)
 CRS <- "EPSG:3978"
 RESOLUTION <- 300
 
+
+# create rasterize function based on terra's but specific to our aim 
+# it will essentially combine a list of vectors into one binary raster
+# reduce performs the combination of the multiple sources
+# rasterize uses touches=true to hopefully eliminate edge effects. any cell touching vector will be filled
 rasterize_presence <- function(sf_list, template) {
   sf_list <- Filter(Negate(is.null), sf_list)
   if (length(sf_list) == 0) return(NULL)
   layer_rasters <- lapply(sf_list, function(layer) {
     layer_proj <- st_transform(layer, CRS)
-    rasterize(vect(layer_proj), template, field = 1, background = NA)
+    rasterize(vect(layer_proj), template, field = 1, background = NA, touches = TRUE) 
   })
   Reduce(terra::cover, layer_rasters)
 }
@@ -296,7 +301,7 @@ other   <- ifel(forest_management_reproj %in% c(forest_management_lookup["federa
 
 public <- ifel(!is.na(forest_management_reproj), CATEGORIES_V2["public"], NA)
 
-protected_cpcad  <- rasterize_presence(list(cpcad), template)  * CATEGORIES_V2["protected_cpcad"] 
+protected_cpcad  <- rasterize_presence(list(cpcad), template)  * CATEGORIES_V2["protected_cpcad"]  
 protected_other <- rasterize_presence(protected_layers_no_cpcad, template) * CATEGORIES_V2["protected_other"]
 indigenous_legislative_boundaries <- rasterize_presence(list(aboriginal_land_canada), template) * CATEGORIES_V2["indigenous_legislative_boundaries"]
 indigenous_other <- rasterize_presence(indigenous_layers_no_AL_TA, template) * CATEGORIES_V2["indigenous_other"]
